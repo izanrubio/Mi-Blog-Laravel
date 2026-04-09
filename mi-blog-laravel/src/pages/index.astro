@@ -1,49 +1,446 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
-import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 9);
+
+const categories = [
+	{ name: 'Instalación', icon: '⚙️', desc: 'Guías paso a paso para instalar y configurar Laravel en cualquier entorno.' },
+	{ name: 'Errores', icon: '🐛', desc: 'Soluciones a los errores más comunes que encuentras al desarrollar con Laravel.' },
+	{ name: 'Conceptos', icon: '📚', desc: 'Explicaciones claras de los conceptos clave del framework Laravel.' },
+	{ name: 'Comparativas', icon: '⚔️', desc: 'Comparamos herramientas y enfoques para que elijas el mejor para tu proyecto.' },
+	{ name: 'Optimización', icon: '🚀', desc: 'Técnicas y buenas prácticas para que tu app Laravel vuele.' },
+];
 ---
 
 <!doctype html>
-<html lang="en">
+<html lang="es">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
+
+		<!-- Hero -->
+		<section class="hero">
+			<div class="hero-inner">
+				<div class="hero-badge">Blog técnico en español</div>
+				<h1>Aprende <span class="accent">Laravel</span> en tu idioma</h1>
+				<p class="hero-desc">
+					Tutoriales prácticos, soluciones a errores frecuentes y guías completas
+					sobre Laravel, escritas en español para desarrolladores PHP de habla hispana.
+				</p>
+				<div class="hero-cta">
+					<a href="/blog" class="btn-primary">Ver todos los artículos</a>
+					<a href="/about" class="btn-secondary">Sobre este blog</a>
+				</div>
+				<div class="hero-stats">
+					<div class="stat"><strong>50+</strong> artículos</div>
+					<div class="stat-sep">·</div>
+					<div class="stat"><strong>100%</strong> en español</div>
+					<div class="stat-sep">·</div>
+					<div class="stat"><strong>Laravel 11</strong> actualizado</div>
+				</div>
+			</div>
+		</section>
+
+		<!-- Categories -->
+		<section class="categories-section">
+			<div class="section-inner">
+				<h2 class="section-title">Categorías</h2>
+				<div class="categories-grid">
+					{categories.map(cat => (
+						<div class="category-card">
+							<span class="cat-icon">{cat.icon}</span>
+							<h3>{cat.name}</h3>
+							<p>{cat.desc}</p>
+						</div>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- Latest posts -->
+		<section class="posts-section">
+			<div class="section-inner">
+				<div class="section-header">
+					<h2 class="section-title">Artículos recientes</h2>
+					<a href="/blog" class="see-all">Ver todos →</a>
+				</div>
+				<div class="posts-grid">
+					{posts.map((post, i) => (
+						<article class={`post-card ${i === 0 ? 'post-card--featured' : ''}`}>
+							<a href={`/blog/${post.id}/`} class="post-link">
+								<div class="post-meta">
+									<time datetime={post.data.pubDate.toISOString()}>
+										<FormattedDate date={post.data.pubDate} />
+									</time>
+									{post.data.tags && post.data.tags.length > 0 && (
+										<span class="post-tag">{post.data.tags[0]}</span>
+									)}
+								</div>
+								<h3 class="post-title">{post.data.title}</h3>
+								<p class="post-desc">{post.data.description}</p>
+								<span class="read-more">Leer artículo →</span>
+							</a>
+						</article>
+					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- CTA Banner -->
+		<section class="cta-section">
+			<div class="cta-inner">
+				<h2>¿Estás atascado con un error de Laravel?</h2>
+				<p>Tenemos guías detalladas para los errores más comunes. Encuentra tu solución rápido.</p>
+				<a href="/blog" class="btn-white">Buscar solución →</a>
+			</div>
+		</section>
+
 		<Footer />
 	</body>
 </html>
+
+<style>
+	/* Hero */
+	.hero {
+		background: linear-gradient(135deg, #fff 0%, #fff5f5 100%);
+		border-bottom: 1px solid #ffe0de;
+		padding: 5em 1.5em 4em;
+	}
+
+	.hero-inner {
+		max-width: 720px;
+		margin: 0 auto;
+		text-align: center;
+	}
+
+	.hero-badge {
+		display: inline-block;
+		background: rgba(255, 45, 32, 0.1);
+		color: #FF2D20;
+		padding: 0.3em 1em;
+		border-radius: 99px;
+		font-size: 0.8em;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		margin-bottom: 1.25em;
+		border: 1px solid rgba(255, 45, 32, 0.2);
+	}
+
+	.hero h1 {
+		font-size: clamp(2em, 5vw, 3em);
+		line-height: 1.15;
+		margin-bottom: 0.5em;
+		color: #111827;
+	}
+
+	.accent { color: #FF2D20; }
+
+	.hero-desc {
+		font-size: 1.125em;
+		color: #6b7280;
+		line-height: 1.7;
+		margin-bottom: 2em;
+		max-width: 560px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+	.hero-cta {
+		display: flex;
+		gap: 1em;
+		justify-content: center;
+		flex-wrap: wrap;
+		margin-bottom: 2.5em;
+	}
+
+	.btn-primary {
+		background: #FF2D20;
+		color: white;
+		padding: 0.75em 1.75em;
+		border-radius: 8px;
+		font-weight: 700;
+		text-decoration: none;
+		transition: background 0.2s, transform 0.15s;
+		font-size: 0.95em;
+	}
+
+	.btn-primary:hover {
+		background: #CC2419;
+		transform: translateY(-1px);
+		text-decoration: none;
+		color: white;
+	}
+
+	.btn-secondary {
+		background: white;
+		color: #374151;
+		padding: 0.75em 1.75em;
+		border-radius: 8px;
+		font-weight: 600;
+		text-decoration: none;
+		border: 1px solid #e5e7eb;
+		transition: border-color 0.2s, transform 0.15s;
+		font-size: 0.95em;
+	}
+
+	.btn-secondary:hover {
+		border-color: #FF2D20;
+		color: #FF2D20;
+		transform: translateY(-1px);
+		text-decoration: none;
+	}
+
+	.hero-stats {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		gap: 0.75em;
+		font-size: 0.875em;
+		color: #9ca3af;
+	}
+
+	.stat strong { color: #374151; }
+	.stat-sep { color: #d1d5db; }
+
+	/* Sections */
+	.section-inner {
+		max-width: 1100px;
+		margin: 0 auto;
+		padding: 0 1.5em;
+	}
+
+	.section-title {
+		font-size: 1.5em;
+		color: #111827;
+		margin-bottom: 1.5em;
+		margin-top: 0;
+	}
+
+	.section-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+		margin-bottom: 1.5em;
+	}
+
+	.section-header .section-title {
+		margin-bottom: 0;
+	}
+
+	.see-all {
+		font-size: 0.9em;
+		color: #FF2D20;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.see-all:hover { text-decoration: underline; }
+
+	/* Categories */
+	.categories-section {
+		padding: 4em 0;
+		background: #f9fafb;
+		border-bottom: 1px solid #f3f4f6;
+	}
+
+	.categories-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+		gap: 1em;
+	}
+
+	.category-card {
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 10px;
+		padding: 1.5em;
+		transition: border-color 0.2s, box-shadow 0.2s;
+	}
+
+	.category-card:hover {
+		border-color: #FF2D20;
+		box-shadow: 0 4px 12px rgba(255,45,32,0.08);
+	}
+
+	.cat-icon {
+		font-size: 1.75em;
+		display: block;
+		margin-bottom: 0.5em;
+	}
+
+	.category-card h3 {
+		font-size: 1em;
+		color: #111827;
+		margin: 0 0 0.4em;
+	}
+
+	.category-card p {
+		font-size: 0.8em;
+		color: #6b7280;
+		margin: 0;
+		line-height: 1.5;
+	}
+
+	/* Posts grid */
+	.posts-section {
+		padding: 4em 0;
+	}
+
+	.posts-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1.25em;
+	}
+
+	.post-card {
+		border: 1px solid #e5e7eb;
+		border-radius: 10px;
+		background: white;
+		transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+		overflow: hidden;
+	}
+
+	.post-card:hover {
+		border-color: #FF2D20;
+		box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+		transform: translateY(-2px);
+	}
+
+	.post-card--featured {
+		grid-column: span 3;
+		display: grid;
+		grid-template-columns: 1fr;
+	}
+
+	.post-link {
+		display: block;
+		padding: 1.5em;
+		text-decoration: none;
+		color: inherit;
+		height: 100%;
+	}
+
+	.post-link:hover { text-decoration: none; }
+
+	.post-meta {
+		display: flex;
+		align-items: center;
+		gap: 0.75em;
+		margin-bottom: 0.75em;
+	}
+
+	.post-meta time {
+		font-size: 0.8em;
+		color: #9ca3af;
+	}
+
+	.post-tag {
+		font-size: 0.7em;
+		background: rgba(255, 45, 32, 0.1);
+		color: #CC2419;
+		padding: 2px 8px;
+		border-radius: 99px;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.04em;
+		border: 1px solid rgba(255, 45, 32, 0.2);
+	}
+
+	.post-title {
+		font-size: 1.05em;
+		color: #111827;
+		margin: 0 0 0.5em;
+		line-height: 1.35;
+		font-weight: 700;
+	}
+
+	.post-card--featured .post-title {
+		font-size: 1.4em;
+	}
+
+	.post-desc {
+		font-size: 0.875em;
+		color: #6b7280;
+		margin: 0 0 1em;
+		line-height: 1.6;
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.read-more {
+		font-size: 0.85em;
+		color: #FF2D20;
+		font-weight: 600;
+	}
+
+	/* CTA */
+	.cta-section {
+		background: #FF2D20;
+		padding: 4em 1.5em;
+		text-align: center;
+	}
+
+	.cta-inner {
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.cta-inner h2 {
+		color: white;
+		font-size: 1.75em;
+		margin-bottom: 0.5em;
+	}
+
+	.cta-inner p {
+		color: rgba(255,255,255,0.85);
+		font-size: 1em;
+		margin-bottom: 1.5em;
+	}
+
+	.btn-white {
+		display: inline-block;
+		background: white;
+		color: #FF2D20;
+		padding: 0.75em 2em;
+		border-radius: 8px;
+		font-weight: 700;
+		text-decoration: none;
+		transition: transform 0.15s, box-shadow 0.15s;
+	}
+
+	.btn-white:hover {
+		transform: translateY(-2px);
+		box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+		text-decoration: none;
+		color: #FF2D20;
+	}
+
+	@media (max-width: 900px) {
+		.posts-grid {
+			grid-template-columns: repeat(2, 1fr);
+		}
+		.post-card--featured {
+			grid-column: span 2;
+		}
+	}
+
+	@media (max-width: 600px) {
+		.hero { padding: 3em 1em 2.5em; }
+		.posts-grid { grid-template-columns: 1fr; }
+		.post-card--featured { grid-column: span 1; }
+		.categories-grid { grid-template-columns: repeat(2, 1fr); }
+		.hero-cta { flex-direction: column; align-items: center; }
+	}
+</style>
