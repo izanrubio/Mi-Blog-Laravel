@@ -1,7 +1,7 @@
 ---
 title: 'Cómo funcionan los Middlewares en Laravel — Guía completa'
 description: 'Aprende cómo crear y usar Middlewares en Laravel: tipos de middleware, cómo registrarlos en Laravel 11, middleware de grupos y parámetros de middleware.'
-pubDate: '2024-03-17'
+pubDate: '2026-04-09'
 tags: ['laravel', 'middleware', 'conceptos', 'http']
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'Configurar el archivo .env desde cero en Laravel'
 description: 'Aprende a configurar el archivo .env de Laravel: base de datos, correo, caché, colas y variables de entorno personalizadas explicadas con ejemplos.'
-pubDate: '2024-01-16'
+pubDate: '2026-04-09'
 tags: ['laravel', 'configuracion', 'env']
 ---
 

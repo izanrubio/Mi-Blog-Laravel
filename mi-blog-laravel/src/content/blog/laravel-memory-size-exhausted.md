@@ -1,7 +1,7 @@
 ---
 title: 'PHP Fatal error: Allowed memory size exhausted en Laravel'
 description: 'Soluciona el error de memoria agotada en Laravel: aumenta el memory_limit de PHP, optimiza queries N+1 con eager loading y usa chunking para datos grandes.'
-pubDate: '2024-03-03'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'rendimiento', 'php']
 ---
 

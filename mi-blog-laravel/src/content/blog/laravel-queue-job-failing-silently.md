@@ -1,7 +1,7 @@
 ---
 title: 'Queue job failing silently en Laravel — Cómo debuggear'
 description: 'Aprende a debuggear jobs de cola que fallan silenciosamente en Laravel: failed_jobs table, QUEUE_FAILED_DRIVER, logging, retry y manejo de excepciones.'
-pubDate: '2024-03-05'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'queues', 'debug']
 ---
 

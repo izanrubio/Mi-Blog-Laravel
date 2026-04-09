@@ -1,7 +1,7 @@
 ---
 title: 'Target class does not exist en Laravel — Solución completa'
 description: 'Error Target class does not exist en Laravel: cómo solucionarlo en rutas, middlewares y service providers. Causas y soluciones con ejemplos.'
-pubDate: '2024-02-09'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'rutas', 'middleware']
 ---
 

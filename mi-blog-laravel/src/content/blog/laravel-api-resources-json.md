@@ -1,7 +1,7 @@
 ---
 title: 'API Resources en Laravel — Cómo formatear respuestas JSON'
 description: 'Aprende a usar API Resources en Laravel para transformar tus modelos Eloquent en respuestas JSON limpias y consistentes con campos personalizados y colecciones.'
-pubDate: '2024-03-31'
+pubDate: '2026-04-09'
 tags: ['laravel', 'api', 'resources', 'json']
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'Repository Pattern en Laravel — ¿Vale la pena usarlo?'
 description: 'Análisis honesto del Repository Pattern en Laravel: cuándo tiene sentido usarlo, cómo implementarlo correctamente y cuándo Eloquent directo es suficiente.'
-pubDate: '2024-03-29'
+pubDate: '2026-04-09'
 tags: ['laravel', 'repositorios', 'patrones', 'arquitectura']
 ---
 

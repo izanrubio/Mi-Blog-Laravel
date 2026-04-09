@@ -1,7 +1,7 @@
 ---
 title: 'Livewire vs Inertia.js en Laravel — Cuál elegir para tu proyecto'
 description: 'Compara Livewire y Inertia.js para aplicaciones Laravel: diferencias técnicas, curva de aprendizaje, rendimiento y cuándo elegir cada opción según tu proyecto.'
-pubDate: '2024-04-04'
+pubDate: '2026-04-09'
 tags: ['laravel', 'livewire', 'inertia', 'frontend', 'comparativa']
 ---
 

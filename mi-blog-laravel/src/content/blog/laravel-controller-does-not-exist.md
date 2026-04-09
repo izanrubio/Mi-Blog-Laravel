@@ -1,7 +1,7 @@
 ---
 title: 'Class App\\Http\\Controllers\\X does not exist en Laravel'
 description: 'Soluciona el error Class Controller does not exist en Laravel: namespaces incorrectos, archivos mal ubicados y rutas apuntando a controladores que no existen.'
-pubDate: '2024-02-25'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'controladores', 'rutas']
 ---
 

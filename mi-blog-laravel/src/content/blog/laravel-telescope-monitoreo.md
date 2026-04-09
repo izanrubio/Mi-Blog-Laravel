@@ -1,7 +1,7 @@
 ---
 title: 'Laravel Telescope — Monitorea tu aplicación en desarrollo'
 description: 'Instala y usa Laravel Telescope para depurar tu app: monitorea requests, queries, jobs, logs y excepciones en tiempo real con una interfaz visual elegante.'
-pubDate: '2024-04-16'
+pubDate: '2026-04-09'
 tags: ['laravel', 'telescope', 'debug', 'herramientas', 'desarrollo']
 ---
 

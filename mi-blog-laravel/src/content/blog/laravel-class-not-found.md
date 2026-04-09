@@ -1,7 +1,7 @@
 ---
 title: 'Class not found en Laravel — Cómo solucionarlo'
 description: 'Error Class not found en Laravel: causas más frecuentes y cómo solucionarlo con composer dump-autoload, namespaces y estructura de directorios correcta.'
-pubDate: '2024-02-01'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'autoload', 'composer']
 ---
 

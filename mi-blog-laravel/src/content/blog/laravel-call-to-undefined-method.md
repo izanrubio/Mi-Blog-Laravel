@@ -1,7 +1,7 @@
 ---
 title: 'Call to undefined method en Laravel — Errores de Eloquent'
 description: 'Soluciona el error Call to undefined method en Laravel: diferencia entre Query Builder y Collection, métodos Eloquent frecuentemente confundidos.'
-pubDate: '2024-02-11'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'eloquent', 'orm']
 ---
 

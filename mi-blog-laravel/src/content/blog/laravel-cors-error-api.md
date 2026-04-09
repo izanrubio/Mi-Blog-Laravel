@@ -1,7 +1,7 @@
 ---
 title: 'CORS error en Laravel API — Cómo solucionarlo correctamente'
 description: 'Soluciona los errores CORS en tu API Laravel. Configura el middleware CORS en Laravel 11 para permitir peticiones desde tu frontend correctamente.'
-pubDate: '2024-02-07'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'cors', 'api']
 ---
 

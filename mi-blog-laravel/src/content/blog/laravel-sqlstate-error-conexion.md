@@ -1,7 +1,7 @@
 ---
 title: 'SQLSTATE error de conexión a base de datos en Laravel'
 description: 'Soluciona el error SQLSTATE[HY000] en Laravel: credenciales incorrectas, servicio MySQL apagado, host incorrecto y otros problemas de conexión.'
-pubDate: '2024-02-03'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'base-de-datos', 'mysql']
 ---
 

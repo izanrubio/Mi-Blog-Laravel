@@ -1,7 +1,7 @@
 ---
 title: 'No application encryption key has been specified en Laravel'
 description: 'Error No encryption key en Laravel: cómo generar la APP_KEY con php artisan key:generate y configurarla correctamente en producción y desarrollo.'
-pubDate: '2024-02-23'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'configuracion', 'seguridad']
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'TokenMismatchException — Error de CSRF en Laravel'
 description: 'Soluciona el TokenMismatchException en Laravel: sesión expirada, formularios sin @csrf, peticiones AJAX sin el token y configuración de cookies.'
-pubDate: '2024-02-19'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'csrf', 'sesion']
 ---
 

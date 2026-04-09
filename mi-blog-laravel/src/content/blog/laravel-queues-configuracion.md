@@ -1,7 +1,7 @@
 ---
 title: 'Configurar colas (queues) en Laravel desde cero'
 description: 'Aprende a configurar las colas de trabajo en Laravel con database, Redis y otros drivers. Incluye workers, failed jobs y supervisord en producción.'
-pubDate: '2024-01-26'
+pubDate: '2026-04-09'
 tags: ['laravel', 'queues', 'colas', 'configuracion']
 ---
 

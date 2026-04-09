@@ -1,7 +1,7 @@
 ---
 title: 'Cómo usar Policies y Gates para autorización en Laravel'
 description: 'Aprende a implementar autorización en Laravel con Policies y Gates: diferencias, cuándo usar cada uno y cómo integrarlos en controladores y Blade.'
-pubDate: '2024-03-21'
+pubDate: '2026-04-09'
 tags: ['laravel', 'autorizacion', 'policies', 'gates', 'seguridad']
 ---
 

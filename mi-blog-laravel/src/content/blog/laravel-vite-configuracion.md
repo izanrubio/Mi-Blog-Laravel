@@ -1,7 +1,7 @@
 ---
 title: 'Laravel + Vite: configuración completa para tu proyecto'
 description: 'Configura Vite en Laravel 11 correctamente: assets, CSS, JavaScript, HMR en desarrollo y build para producción. Guía completa con ejemplos.'
-pubDate: '2024-01-18'
+pubDate: '2026-04-09'
 tags: ['laravel', 'vite', 'configuracion', 'frontend']
 ---
 

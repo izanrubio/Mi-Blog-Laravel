@@ -1,7 +1,7 @@
 ---
 title: 'Laravel vs Symfony — Cuándo usar cada framework PHP'
 description: 'Compara Laravel y Symfony: filosofía, ecosistema, curva de aprendizaje, rendimiento y casos de uso. Elige el framework PHP correcto para tu proyecto.'
-pubDate: '2024-04-10'
+pubDate: '2026-04-09'
 tags: ['laravel', 'symfony', 'php', 'comparativa', 'frameworks']
 ---
 

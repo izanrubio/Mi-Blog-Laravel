@@ -1,7 +1,7 @@
 ---
 title: 'Laravel 10 vs Laravel 11 — Qué cambió y qué debes saber'
 description: 'Compara Laravel 10 y Laravel 11: nuevas funcionalidades, cambios de estructura, deprecated features y cómo migrar tu proyecto a Laravel 11 correctamente.'
-pubDate: '2024-04-02'
+pubDate: '2026-04-09'
 tags: ['laravel', 'laravel-11', 'actualizacion', 'comparativa']
 ---
 

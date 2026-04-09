@@ -1,7 +1,7 @@
 ---
 title: 'Laravel Sanctum — Error 401 Unauthenticated en la API'
 description: 'Soluciona el error 401 Unauthenticated con Laravel Sanctum: tokens incorrectos, middleware auth:sanctum, CORS y configuración del guard de API.'
-pubDate: '2024-02-27'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'sanctum', 'api', 'autenticacion']
 ---
 

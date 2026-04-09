@@ -1,7 +1,7 @@
 ---
 title: 'Failed to open stream: No such file or directory en Laravel'
 description: 'Soluciona el error Failed to open stream en Laravel: archivos no encontrados, storage paths incorrectos, config caché desactualizado y autoload.'
-pubDate: '2024-03-07'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'archivos', 'storage']
 ---
 

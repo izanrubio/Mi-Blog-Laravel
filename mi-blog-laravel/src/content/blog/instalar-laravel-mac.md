@@ -1,7 +1,7 @@
 ---
 title: 'Cómo instalar Laravel en Mac con Homebrew'
 description: 'Instala Laravel en macOS usando Homebrew, PHP y Composer. La forma más rápida y limpia de empezar a desarrollar con Laravel en Mac.'
-pubDate: '2024-01-12'
+pubDate: '2026-04-09'
 tags: ['laravel', 'instalacion', 'mac']
 ---
 

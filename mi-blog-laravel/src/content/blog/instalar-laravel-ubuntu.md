@@ -1,7 +1,7 @@
 ---
 title: 'Cómo instalar Laravel en Ubuntu y Linux'
 description: 'Instala Laravel en Ubuntu 22.04 o cualquier distro Linux. Guía con apt, PHP 8.2, Composer y configuración del proyecto desde cero.'
-pubDate: '2024-01-14'
+pubDate: '2026-04-09'
 tags: ['laravel', 'instalacion', 'ubuntu', 'linux']
 ---
 

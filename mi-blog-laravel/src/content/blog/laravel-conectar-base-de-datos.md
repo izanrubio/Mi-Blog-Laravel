@@ -1,7 +1,7 @@
 ---
 title: 'Cómo conectar Laravel a MySQL, PostgreSQL y SQLite'
 description: 'Conecta Laravel a diferentes bases de datos: MySQL, PostgreSQL y SQLite. Configuración del .env, drivers y solución de errores de conexión frecuentes.'
-pubDate: '2024-01-24'
+pubDate: '2026-04-09'
 tags: ['laravel', 'base-de-datos', 'mysql', 'postgresql', 'sqlite']
 ---
 

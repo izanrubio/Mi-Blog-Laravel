@@ -1,7 +1,7 @@
 ---
 title: 'Cómo usar caché en Laravel para mejorar el rendimiento'
 description: 'Implementa caché en Laravel con Redis o Memcached: Cache facade, cache de queries, remember(), forever() y estrategias de invalidación correctas.'
-pubDate: '2024-04-14'
+pubDate: '2026-04-09'
 tags: ['laravel', 'cache', 'rendimiento', 'redis', 'optimizacion']
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'Cómo leer y entender el log de Laravel (laravel.log)'
 description: 'Aprende a leer el archivo laravel.log: niveles de log, estructura de stack trace, cómo interpretar errores y configurar los logs en Laravel correctamente.'
-pubDate: '2024-03-11'
+pubDate: '2026-04-09'
 tags: ['laravel', 'debug', 'logs', 'herramientas']
 ---
 

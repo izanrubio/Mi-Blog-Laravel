@@ -1,7 +1,7 @@
 ---
 title: 'Cómo instalar Laravel 11 en Windows paso a paso'
 description: 'Guía completa para instalar Laravel 11 en Windows usando Composer y PHP. Cubre requisitos, configuración del PATH y primer proyecto.'
-pubDate: '2024-01-10'
+pubDate: '2026-04-09'
 tags: ['laravel', 'instalacion', 'windows']
 ---
 

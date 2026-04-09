@@ -1,7 +1,7 @@
 ---
 title: 'Buenas prácticas de seguridad en Laravel — Guía completa'
 description: 'Protege tu aplicación Laravel: SQL injection, XSS, CSRF, autenticación segura, variables de entorno, headers de seguridad y las mejores prácticas de 2024.'
-pubDate: '2024-04-20'
+pubDate: '2026-04-09'
 tags: ['laravel', 'seguridad', 'buenas-practicas', 'produccion']
 ---
 

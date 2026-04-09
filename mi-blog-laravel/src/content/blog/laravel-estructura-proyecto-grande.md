@@ -1,7 +1,7 @@
 ---
 title: 'Cómo estructurar un proyecto Laravel grande correctamente'
 description: 'Aprende a organizar un proyecto Laravel a medida que crece: módulos, Actions, Services, DTOs y convenciones para mantener el código mantenible y escalable.'
-pubDate: '2024-03-27'
+pubDate: '2026-04-09'
 tags: ['laravel', 'arquitectura', 'estructura', 'buenas-practicas']
 ---
 

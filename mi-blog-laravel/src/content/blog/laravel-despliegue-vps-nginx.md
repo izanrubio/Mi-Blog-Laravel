@@ -1,7 +1,7 @@
 ---
 title: 'Cómo desplegar Laravel en un VPS con Nginx'
 description: 'Despliega tu aplicación Laravel en un VPS Ubuntu con Nginx, PHP-FPM, MySQL y SSL gratis con Certbot. Guía completa para producción.'
-pubDate: '2024-01-28'
+pubDate: '2026-04-09'
 tags: ['laravel', 'deploy', 'nginx', 'vps', 'produccion']
 ---
 

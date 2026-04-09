@@ -1,7 +1,7 @@
 ---
 title: 'Too many redirects en Laravel con HTTPS — Cómo solucionarlo'
 description: 'Soluciona el error Too many redirects en Laravel cuando usas HTTPS: configuración de HTTPS forzado, proxies, TRUSTED_PROXIES y variables de entorno.'
-pubDate: '2024-03-01'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'https', 'configuracion']
 ---
 

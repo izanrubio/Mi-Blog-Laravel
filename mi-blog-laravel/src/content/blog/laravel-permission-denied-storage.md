@@ -1,7 +1,7 @@
 ---
 title: 'Permission denied en storage y bootstrap/cache en Laravel'
 description: 'Soluciona el error Permission denied en Laravel: configura correctamente los permisos de storage/ y bootstrap/cache/ en Linux, Mac y Docker.'
-pubDate: '2024-02-15'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'permisos', 'storage']
 ---
 

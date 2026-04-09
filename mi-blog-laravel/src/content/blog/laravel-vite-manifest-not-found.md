@@ -1,7 +1,7 @@
 ---
 title: 'Laravel Vite manifest not found — Cómo solucionarlo'
 description: 'Error Vite manifest not found en Laravel: qué lo causa y cómo solucionarlo ejecutando npm run build o npm run dev antes de servir la aplicación.'
-pubDate: '2024-02-17'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'vite', 'frontend']
 ---
 

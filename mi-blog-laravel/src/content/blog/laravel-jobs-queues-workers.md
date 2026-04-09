@@ -1,7 +1,7 @@
 ---
 title: 'Jobs, Queues y Workers en Laravel — Guía completa'
 description: 'Aprende a usar Jobs, Queues y Workers en Laravel: crea tu primer job, configura colas con database y Redis, y ejecuta workers en desarrollo y producción.'
-pubDate: '2024-03-23'
+pubDate: '2026-04-09'
 tags: ['laravel', 'jobs', 'queues', 'workers', 'async']
 ---
 

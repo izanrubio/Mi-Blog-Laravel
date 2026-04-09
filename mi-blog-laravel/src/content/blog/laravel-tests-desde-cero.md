@@ -1,7 +1,7 @@
 ---
 title: 'Cómo escribir tests en Laravel desde cero con PHPUnit'
 description: 'Empieza a escribir tests en Laravel: tests de feature, unitarios, database testing con RefreshDatabase, factories y cómo testear APIs REST correctamente.'
-pubDate: '2024-04-18'
+pubDate: '2026-04-09'
 tags: ['laravel', 'testing', 'phpunit', 'tdd', 'calidad']
 ---
 

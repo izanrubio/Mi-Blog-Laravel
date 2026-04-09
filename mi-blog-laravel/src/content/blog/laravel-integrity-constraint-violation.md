@@ -1,7 +1,7 @@
 ---
 title: 'Integrity constraint violation en migraciones de Laravel'
 description: 'Soluciona el error Integrity constraint violation en Laravel: claves foráneas, valores NULL en columnas NOT NULL y problemas de orden en migraciones.'
-pubDate: '2024-02-21'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'migraciones', 'base-de-datos']
 ---
 

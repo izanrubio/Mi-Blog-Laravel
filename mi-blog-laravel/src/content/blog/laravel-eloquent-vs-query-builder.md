@@ -1,7 +1,7 @@
 ---
 title: 'Eloquent vs Query Builder en Laravel — Cuándo usar cada uno'
 description: 'Compara Eloquent ORM y Query Builder en Laravel: rendimiento, facilidad de uso, casos de uso y cuándo es mejor usar cada uno con ejemplos prácticos.'
-pubDate: '2024-03-15'
+pubDate: '2026-04-09'
 tags: ['laravel', 'eloquent', 'query-builder', 'base-de-datos']
 ---
 

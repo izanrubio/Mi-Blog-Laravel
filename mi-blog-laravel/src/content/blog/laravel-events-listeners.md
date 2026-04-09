@@ -1,7 +1,7 @@
 ---
 title: 'Events y Listeners en Laravel — Para qué sirven y cómo usarlos'
 description: 'Aprende a usar el sistema de Events y Listeners de Laravel para desacoplar tu código. Crea eventos personalizados, listeners y usa el Event Bus correctamente.'
-pubDate: '2024-03-25'
+pubDate: '2026-04-09'
 tags: ['laravel', 'eventos', 'listeners', 'arquitectura']
 ---
 

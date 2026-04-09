@@ -1,7 +1,7 @@
 ---
 title: 'Cómo optimizar queries lentas en Laravel con Eloquent'
 description: 'Aprende a detectar y optimizar queries lentas en Laravel: N+1 con eager loading, índices, select() para evitar SELECT *, chunking y Laravel Debugbar.'
-pubDate: '2024-04-12'
+pubDate: '2026-04-09'
 tags: ['laravel', 'rendimiento', 'optimizacion', 'eloquent', 'queries']
 ---
 

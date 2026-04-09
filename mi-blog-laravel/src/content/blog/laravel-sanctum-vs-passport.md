@@ -1,7 +1,7 @@
 ---
 title: 'Laravel Sanctum vs Passport — Diferencias reales para tu API'
 description: 'Elige entre Laravel Sanctum y Passport para autenticación API: diferencias de OAuth2, casos de uso, complejidad y cuál es mejor para cada tipo de proyecto.'
-pubDate: '2024-04-06'
+pubDate: '2026-04-09'
 tags: ['laravel', 'sanctum', 'passport', 'api', 'autenticacion', 'comparativa']
 ---
 

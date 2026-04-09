@@ -1,7 +1,7 @@
 ---
 title: 'ModelNotFoundException en Laravel — Causas y soluciones'
 description: 'Entiende y maneja el ModelNotFoundException en Laravel: diferencia entre find() y findOrFail(), route model binding y personalización de la respuesta 404.'
-pubDate: '2024-03-09'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'eloquent', 'orm']
 ---
 

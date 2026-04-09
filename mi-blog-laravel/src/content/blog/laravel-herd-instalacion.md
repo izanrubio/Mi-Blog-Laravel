@@ -1,7 +1,7 @@
 ---
 title: 'Cómo usar Laravel Herd: instalación sin Docker ni configuración'
 description: 'Laravel Herd es la forma más rápida de tener un entorno Laravel funcionando en minutos sin Docker. Instálalo en Mac o Windows y empieza a desarrollar.'
-pubDate: '2024-01-20'
+pubDate: '2026-04-09'
 tags: ['laravel', 'herd', 'instalacion', 'entorno']
 ---
 

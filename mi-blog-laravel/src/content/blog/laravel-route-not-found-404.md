@@ -1,7 +1,7 @@
 ---
 title: 'Route not found / 404 en rutas de Laravel — Cómo diagnosticar'
 description: 'Soluciona el 404 y RouteNotFoundException en Laravel: ruta mal definida, caché de rutas, métodos HTTP incorrectos y problemas de configuración del servidor.'
-pubDate: '2024-02-13'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'rutas', '404']
 ---
 

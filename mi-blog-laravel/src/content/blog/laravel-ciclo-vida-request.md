@@ -1,7 +1,7 @@
 ---
 title: 'Cómo funciona el ciclo de vida de una Request en Laravel'
 description: 'Entiende el ciclo de vida completo de una request en Laravel: desde el servidor web hasta la respuesta. Kernels, middlewares, router y controladores explicados.'
-pubDate: '2024-03-13'
+pubDate: '2026-04-09'
 tags: ['laravel', 'conceptos', 'arquitectura', 'request']
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: 'Eloquent ORM vs Doctrine — Comparativa para desarrolladores Laravel'
 description: 'Compara Eloquent ORM de Laravel con Doctrine: Active Record vs Data Mapper, rendimiento, flexibilidad y por qué Eloquent es la elección natural en Laravel.'
-pubDate: '2024-04-08'
+pubDate: '2026-04-09'
 tags: ['laravel', 'eloquent', 'doctrine', 'orm', 'comparativa']
 ---
 

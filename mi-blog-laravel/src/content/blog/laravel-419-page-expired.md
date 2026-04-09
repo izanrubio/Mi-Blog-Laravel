@@ -1,7 +1,7 @@
 ---
 title: '419 Page Expired en Laravel — Qué es y cómo arreglarlo'
 description: 'El error 419 Page Expired en Laravel es causado por el token CSRF. Aprende qué lo causa y cómo solucionarlo en formularios y peticiones AJAX.'
-pubDate: '2024-02-05'
+pubDate: '2026-04-09'
 tags: ['laravel', 'errores', 'csrf', 'seguridad']
 ---
 

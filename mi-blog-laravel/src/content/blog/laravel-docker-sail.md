@@ -1,7 +1,7 @@
 ---
 title: 'Configurar Laravel con Docker y Laravel Sail'
 description: 'Aprende a usar Laravel Sail para desarrollar con Docker. Configura MySQL, Redis y otros servicios sin instalar nada en tu máquina local.'
-pubDate: '2024-01-22'
+pubDate: '2026-04-09'
 tags: ['laravel', 'docker', 'sail', 'configuracion']
 ---
 

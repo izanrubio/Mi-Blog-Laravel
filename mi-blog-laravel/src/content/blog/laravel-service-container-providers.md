@@ -1,7 +1,7 @@
 ---
 title: 'Service Container y Service Providers en Laravel explicados'
 description: 'Entiende el Service Container y los Service Providers de Laravel: qué son, cómo funcionan, cómo crear el tuyo y para qué sirven en aplicaciones reales.'
-pubDate: '2024-03-19'
+pubDate: '2026-04-09'
 tags: ['laravel', 'service-container', 'service-providers', 'arquitectura']
 ---
 
