@@ -10,8 +10,16 @@ const posts = (await getCollection('blog')).sort(
 	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 
+// Serializar para el buscador client-side
+const searchData = posts.map(p => ({
+	id:    p.id,
+	title: p.data.title,
+	desc:  p.data.description,
+	tags:  (p.data.tags ?? []).join(' '),
+}));
+
 const pageTitle = `Blog — ${SITE_TITLE}`;
-const pageDesc = 'Todos los artículos sobre Laravel: instalación, errores comunes, guías de conceptos, comparativas y optimización. En español.';
+const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores comunes, guías de conceptos, comparativas y optimización. En español.';
 ---
 
 <!doctype html>
@@ -22,14 +30,44 @@ const pageDesc = 'Todos los artículos sobre Laravel: instalación, errores comu
 	<body>
 		<Header />
 		<main>
+
+			<!-- Cabecera + buscador -->
 			<div class="page-header">
-				<h1>Blog</h1>
-				<p>Todos los artículos sobre Laravel — <strong>{posts.length}</strong> publicaciones</p>
+				<div class="header-top">
+					<div>
+						<h1>Blog</h1>
+						<p id="result-count">
+							<strong>{posts.length}</strong> artículos sobre Laravel
+						</p>
+					</div>
+				</div>
+
+				<div class="search-wrapper">
+					<svg class="search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+						<path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"/>
+					</svg>
+					<input
+						id="search-input"
+						type="search"
+						placeholder="Buscar artículos... (ej: errores, Eloquent, CORS)"
+						autocomplete="off"
+						spellcheck="false"
+					/>
+					<button id="search-clear" class="clear-btn" aria-label="Limpiar búsqueda" hidden>
+						<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
+							<path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
+						</svg>
+					</button>
+				</div>
 			</div>
 
-			<div class="posts-list">
+			<!-- Lista de artículos -->
+			<div class="posts-list" id="posts-list">
 				{posts.map((post) => (
-					<article class="post-item">
+					<article
+						class="post-item"
+						data-id={post.id}
+					>
 						<a href={`/blog/${post.id}/`} class="post-link">
 							<div class="post-meta">
 								<time datetime={post.data.pubDate.toISOString()}>
@@ -50,8 +88,95 @@ const pageDesc = 'Todos los artículos sobre Laravel: instalación, errores comu
 					</article>
 				))}
 			</div>
+
+			<!-- Sin resultados -->
+			<div id="no-results" class="no-results" hidden>
+				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+					<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803 7.5 7.5 0 0016.803 16.803z"/>
+				</svg>
+				<p>No se encontraron artículos para "<strong id="no-results-query"></strong>"</p>
+				<span>Prueba con otras palabras: <em>eloquent, cors, migraciones, deploy…</em></span>
+			</div>
+
 		</main>
 		<Footer />
+
+		<!-- Datos para el buscador -->
+		<script is:inline define:vars={{ searchData }}>
+			const input   = document.getElementById('search-input');
+			const clearBtn = document.getElementById('search-clear');
+			const list    = document.getElementById('posts-list');
+			const noRes   = document.getElementById('no-results');
+			const noResQ  = document.getElementById('no-results-query');
+			const count   = document.getElementById('result-count');
+			const items   = list.querySelectorAll('.post-item');
+			const total   = items.length;
+
+			// Normalizar texto: quita tildes, pasa a minúsculas
+			function normalize(str) {
+				return str
+					.toLowerCase()
+					.normalize('NFD')
+					.replace(/[\u0300-\u036f]/g, '');
+			}
+
+			function search(query) {
+				const q = normalize(query.trim());
+
+				if (!q) {
+					// Mostrar todo
+					items.forEach(el => el.hidden = false);
+					noRes.hidden = true;
+					count.innerHTML = `<strong>${total}</strong> artículos sobre Laravel`;
+					clearBtn.hidden = true;
+					return;
+				}
+
+				clearBtn.hidden = false;
+
+				// Tokenizar por espacios para AND entre palabras
+				const tokens = q.split(/\s+/).filter(Boolean);
+
+				let visible = 0;
+
+				items.forEach(el => {
+					const id    = el.dataset.id;
+					const post  = searchData.find(p => p.id === id);
+					if (!post) { el.hidden = true; return; }
+
+					const haystack = normalize(`${post.title} ${post.desc} ${post.tags}`);
+					const match = tokens.every(t => haystack.includes(t));
+
+					el.hidden = !match;
+					if (match) visible++;
+				});
+
+				if (visible === 0) {
+					noRes.hidden = false;
+					noResQ.textContent = query.trim();
+					count.innerHTML = `<strong>0</strong> resultados`;
+				} else {
+					noRes.hidden = true;
+					count.innerHTML = `<strong>${visible}</strong> resultado${visible !== 1 ? 's' : ''} para "<em>${query.trim()}</em>"`;
+				}
+			}
+
+			input.addEventListener('input', () => search(input.value));
+
+			clearBtn.addEventListener('click', () => {
+				input.value = '';
+				input.focus();
+				search('');
+			});
+
+			// Soporte /?q=... (enlace directo a búsqueda)
+			const params = new URLSearchParams(location.search);
+			const initialQ = params.get('q');
+			if (initialQ) {
+				input.value = initialQ;
+				search(initialQ);
+			}
+		</script>
 	</body>
 </html>
 
@@ -59,47 +184,129 @@ const pageDesc = 'Todos los artículos sobre Laravel: instalación, errores comu
 	main {
 		max-width: 760px;
 		margin: 0 auto;
-		padding: 2.5em 1em 4em;
+		padding: 2.5em 1em 5em;
 	}
 
+	/* ── Page header ─────────────────────────────────── */
 	.page-header {
-		margin-bottom: 2.5em;
-		padding-bottom: 1.5em;
-		border-bottom: 2px solid #f3f4f6;
+		margin-bottom: 2em;
 	}
 
-	.page-header h1 {
+	.header-top {
+		margin-bottom: 1.25em;
+	}
+
+	.header-top h1 {
 		font-size: 2em;
-		margin-bottom: 0.25em;
+		margin-bottom: 0.15em;
 		color: #111827;
 	}
 
-	.page-header p {
+	.header-top p,
+	#result-count {
 		color: #6b7280;
 		margin: 0;
-		font-size: 0.95em;
+		font-size: 0.9em;
+		min-height: 1.4em;
+		transition: opacity 0.15s;
 	}
 
+	#result-count em {
+		font-style: normal;
+		color: #374151;
+	}
+
+	/* ── Search bar ──────────────────────────────────── */
+	.search-wrapper {
+		position: relative;
+		display: flex;
+		align-items: center;
+	}
+
+	.search-icon {
+		position: absolute;
+		left: 1em;
+		width: 18px;
+		height: 18px;
+		color: #9ca3af;
+		pointer-events: none;
+		flex-shrink: 0;
+	}
+
+	#search-input {
+		width: 100%;
+		padding: 0.75em 2.75em 0.75em 2.875em;
+		font-size: 0.975rem;
+		font-family: inherit;
+		border: 1.5px solid #e5e7eb;
+		border-radius: 10px;
+		background: #f9fafb;
+		color: #111827;
+		outline: none;
+		transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+		-webkit-appearance: none;
+	}
+
+	#search-input::placeholder {
+		color: #9ca3af;
+	}
+
+	#search-input:focus {
+		border-color: #FF2D20;
+		background: #fff;
+		box-shadow: 0 0 0 3px rgba(255, 45, 32, 0.08);
+	}
+
+	/* Ocultar la X nativa de Chrome/Safari en <input type="search"> */
+	#search-input::-webkit-search-cancel-button { display: none; }
+
+	.clear-btn {
+		position: absolute;
+		right: 0.75em;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 28px;
+		height: 28px;
+		padding: 0;
+		border: none;
+		background: #e5e7eb;
+		color: #6b7280;
+		border-radius: 50%;
+		cursor: pointer;
+		transition: background 0.15s, color 0.15s;
+		flex-shrink: 0;
+	}
+
+	.clear-btn:hover {
+		background: #FF2D20;
+		color: white;
+	}
+
+	/* ── Post list ───────────────────────────────────── */
 	.posts-list {
 		display: flex;
 		flex-direction: column;
-		gap: 0;
 	}
 
 	.post-item {
 		border-bottom: 1px solid #f3f4f6;
 	}
 
+	.post-item[hidden] {
+		display: none;
+	}
+
 	.post-link {
 		display: block;
-		padding: 1.75em 0;
+		padding: 1.6em 0;
 		text-decoration: none;
 		color: inherit;
-		transition: padding-left 0.2s;
+		transition: padding-left 0.15s;
 	}
 
 	.post-link:hover {
-		padding-left: 0.5em;
+		padding-left: 0.375em;
 		text-decoration: none;
 	}
 
@@ -108,7 +315,7 @@ const pageDesc = 'Todos los artículos sobre Laravel: instalación, errores comu
 		align-items: center;
 		gap: 0.75em;
 		flex-wrap: wrap;
-		margin-bottom: 0.6em;
+		margin-bottom: 0.5em;
 	}
 
 	.post-meta time {
@@ -118,29 +325,30 @@ const pageDesc = 'Todos los artículos sobre Laravel: instalación, errores comu
 
 	.tag-list {
 		display: flex;
-		gap: 0.375em;
+		gap: 0.35em;
 		flex-wrap: wrap;
 	}
 
 	.tag {
 		display: inline-block;
-		background: rgba(255, 45, 32, 0.1);
+		background: rgba(255, 45, 32, 0.08);
 		color: #CC2419;
 		padding: 2px 8px;
 		border-radius: 99px;
-		font-size: 0.7em;
-		font-weight: 600;
+		font-size: 0.68em;
+		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.05em;
-		border: 1px solid rgba(255, 45, 32, 0.2);
+		border: 1px solid rgba(255, 45, 32, 0.18);
 	}
 
 	.post-title {
-		font-size: 1.2em;
+		font-size: 1.15em;
 		color: #111827;
-		margin: 0 0 0.4em;
+		margin: 0 0 0.35em;
 		line-height: 1.35;
-		transition: color 0.2s;
+		transition: color 0.15s;
+		font-weight: 700;
 	}
 
 	.post-link:hover .post-title {
@@ -148,19 +356,49 @@ const pageDesc = 'Todos los artículos sobre Laravel: instalación, errores comu
 	}
 
 	.post-desc {
-		font-size: 0.9em;
+		font-size: 0.875em;
 		color: #6b7280;
-		margin: 0 0 0.75em;
+		margin: 0 0 0.65em;
 		line-height: 1.6;
 	}
 
 	.read-more {
-		font-size: 0.85em;
+		font-size: 0.82em;
 		color: #FF2D20;
 		font-weight: 600;
 	}
 
+	/* ── No results ──────────────────────────────────── */
+	.no-results {
+		text-align: center;
+		padding: 4em 1em;
+		color: #9ca3af;
+	}
+
+	.no-results svg {
+		width: 48px;
+		height: 48px;
+		margin: 0 auto 1em;
+		color: #d1d5db;
+	}
+
+	.no-results p {
+		font-size: 1em;
+		color: #374151;
+		margin: 0 0 0.4em;
+	}
+
+	.no-results p strong {
+		color: #FF2D20;
+	}
+
+	.no-results span {
+		font-size: 0.875em;
+		color: #9ca3af;
+	}
+
 	@media (max-width: 600px) {
 		main { padding: 1.5em 1em 3em; }
+		#search-input { font-size: 0.925rem; }
 	}
 </style>
