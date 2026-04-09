@@ -6,81 +6,422 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 
-type Props = CollectionEntry<'blog'>['data'];
+type RelatedPost = {
+	id: string;
+	data: {
+		title: string;
+		description: string;
+		pubDate: Date;
+		tags?: string[];
+	};
+};
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+type Props = CollectionEntry<'blog'>['data'] & {
+	readingTime?: number;
+	relatedPosts?: RelatedPost[];
+};
+
+const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, relatedPosts } = Astro.props;
 ---
 
-<html lang="en">
+<html lang="es">
 	<head>
 		<BaseHead title={title} description={description} />
-		<style>
-			main {
-				width: calc(100% - 2em);
-				max-width: 100%;
-				margin: 0;
-			}
-			.hero-image {
-				width: 100%;
-			}
-			.hero-image img {
-				display: block;
-				margin: 0 auto;
-				border-radius: 12px;
-				box-shadow: var(--box-shadow);
-			}
-			.prose {
-				width: 720px;
-				max-width: calc(100% - 2em);
-				margin: auto;
-				padding: 1em;
-				color: rgb(var(--gray-dark));
-			}
-			.title {
-				margin-bottom: 1em;
-				padding: 1em 0;
-				text-align: center;
-				line-height: 1;
-			}
-			.title h1 {
-				margin: 0 0 0.5em 0;
-			}
-			.date {
-				margin-bottom: 0.5em;
-				color: rgb(var(--gray));
-			}
-			.last-updated-on {
-				font-style: italic;
-			}
-		</style>
 	</head>
 
 	<body>
 		<Header />
 		<main>
-			<article>
-				<div class="hero-image">
-					{heroImage && <Image width={1020} height={510} src={heroImage} alt="" />}
-				</div>
-				<div class="prose">
-					<div class="title">
-						<div class="date">
-							<FormattedDate date={pubDate} />
-							{
-								updatedDate && (
-									<div class="last-updated-on">
-										Last updated on <FormattedDate date={updatedDate} />
-									</div>
-								)
-							}
+			<article class="article-wrapper">
+
+				<!-- Header del artículo -->
+				<header class="article-header">
+					{tags && tags.length > 0 && (
+						<div class="tag-list">
+							{tags.map(tag => (
+								<span class="tag">{tag}</span>
+							))}
 						</div>
-						<h1>{title}</h1>
-						<hr />
+					)}
+
+					<h1 class="article-title">{title}</h1>
+
+					<div class="article-meta">
+						<span class="meta-item">
+							<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+								<path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z" clip-rule="evenodd"/>
+							</svg>
+							<FormattedDate date={pubDate} />
+						</span>
+						{readingTime && (
+							<span class="meta-sep">·</span>
+							<span class="meta-item">
+								<svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16" aria-hidden="true">
+									<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
+								</svg>
+								{readingTime} min de lectura
+							</span>
+						)}
+						{updatedDate && (
+							<span class="meta-sep">·</span>
+							<span class="meta-item meta-updated">
+								Actualizado: <FormattedDate date={updatedDate} />
+							</span>
+						)}
 					</div>
+				</header>
+
+				<!-- Hero image -->
+				{heroImage && (
+					<div class="hero-image">
+						<Image width={760} height={380} src={heroImage} alt={title} />
+					</div>
+				)}
+
+				<!-- Contenido del artículo -->
+				<div class="prose">
 					<slot />
 				</div>
+
+				<!-- Tags footer -->
+				{tags && tags.length > 0 && (
+					<div class="article-tags-footer">
+						<strong>Etiquetas:</strong>
+						{tags.map(tag => (
+							<span class="tag">{tag}</span>
+						))}
+					</div>
+				)}
 			</article>
+
+			<!-- Artículos relacionados -->
+			{relatedPosts && relatedPosts.length > 0 && (
+				<aside class="related-posts">
+					<h2 class="related-title">Artículos relacionados</h2>
+					<div class="related-grid">
+						{relatedPosts.map(rp => (
+							<a href={`/blog/${rp.id}/`} class="related-card">
+								<div class="related-meta">
+									<FormattedDate date={rp.data.pubDate} />
+								</div>
+								<h3 class="related-post-title">{rp.data.title}</h3>
+								<p class="related-desc">{rp.data.description}</p>
+							</a>
+						))}
+					</div>
+				</aside>
+			)}
+
+			<!-- Back to blog -->
+			<div class="back-link">
+				<a href="/blog">← Volver al blog</a>
+			</div>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	main {
+		width: 760px;
+		max-width: calc(100% - 2em);
+		margin: 0 auto;
+		padding: 2.5em 1em 4em;
+	}
+
+	/* Article header */
+	.article-header {
+		margin-bottom: 2em;
+	}
+
+	.tag-list {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5em;
+		margin-bottom: 1em;
+	}
+
+	.tag {
+		display: inline-block;
+		background: rgba(255, 45, 32, 0.1);
+		color: #CC2419;
+		padding: 3px 10px;
+		border-radius: 99px;
+		font-size: 0.75em;
+		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		border: 1px solid rgba(255, 45, 32, 0.2);
+	}
+
+	.article-title {
+		font-size: clamp(1.75em, 4vw, 2.5em);
+		line-height: 1.2;
+		color: #111827;
+		margin: 0 0 0.75em;
+	}
+
+	.article-meta {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		color: #6b7280;
+		font-size: 0.9em;
+		flex-wrap: wrap;
+	}
+
+	.meta-item {
+		display: flex;
+		align-items: center;
+		gap: 0.35em;
+	}
+
+	.meta-item svg { flex-shrink: 0; }
+
+	.meta-sep { color: #d1d5db; }
+
+	.meta-updated { font-style: italic; }
+
+	/* Hero image */
+	.hero-image {
+		margin-bottom: 2.5em;
+		border-radius: 12px;
+		overflow: hidden;
+		box-shadow: 0 4px 24px rgba(0,0,0,0.1);
+	}
+
+	.hero-image img {
+		width: 100%;
+		height: auto;
+		border-radius: 0;
+		display: block;
+	}
+
+	/* Prose - article content */
+	.prose {
+		color: #374151;
+		line-height: 1.8;
+		font-size: 1.05em;
+	}
+
+	.prose :global(h2) {
+		font-size: 1.5em;
+		color: #111827;
+		margin: 2.5em 0 0.75em;
+		padding-bottom: 0.5em;
+		border-bottom: 2px solid #f3f4f6;
+		line-height: 1.25;
+	}
+
+	.prose :global(h3) {
+		font-size: 1.2em;
+		color: #1f2937;
+		margin: 2em 0 0.5em;
+	}
+
+	.prose :global(h4) {
+		font-size: 1.05em;
+		color: #374151;
+		margin: 1.5em 0 0.5em;
+	}
+
+	.prose :global(p) {
+		margin-bottom: 1.5em;
+	}
+
+	.prose :global(ul), .prose :global(ol) {
+		padding-left: 1.75em;
+		margin-bottom: 1.5em;
+	}
+
+	.prose :global(li) {
+		margin-bottom: 0.5em;
+	}
+
+	.prose :global(li::marker) {
+		color: #FF2D20;
+	}
+
+	.prose :global(code) {
+		background: #f3f4f6;
+		color: #CC2419;
+		padding: 2px 6px;
+		border-radius: 4px;
+		font-size: 0.875em;
+		font-family: 'Courier New', monospace;
+	}
+
+	.prose :global(pre) {
+		background: #1e1e2e;
+		color: #cdd6f4;
+		padding: 1.5em;
+		border-radius: 10px;
+		overflow-x: auto;
+		margin: 1.5em 0;
+		border-left: 4px solid #FF2D20;
+		font-size: 0.9em;
+		line-height: 1.6;
+	}
+
+	.prose :global(pre code) {
+		background: none;
+		color: inherit;
+		padding: 0;
+		border-radius: 0;
+		font-size: inherit;
+	}
+
+	.prose :global(blockquote) {
+		border-left: 4px solid #FF2D20;
+		margin: 1.5em 0;
+		padding: 0.75em 1.25em;
+		background: #fff5f5;
+		border-radius: 0 8px 8px 0;
+		font-style: italic;
+		color: #4b5563;
+	}
+
+	.prose :global(a) {
+		color: #FF2D20;
+		text-decoration: underline;
+		text-decoration-color: rgba(255,45,32,0.4);
+	}
+
+	.prose :global(a:hover) {
+		color: #CC2419;
+		text-decoration-color: #CC2419;
+	}
+
+	.prose :global(strong) {
+		color: #111827;
+		font-weight: 700;
+	}
+
+	.prose :global(hr) {
+		border: none;
+		border-top: 2px solid #f3f4f6;
+		margin: 2.5em 0;
+	}
+
+	.prose :global(table) {
+		width: 100%;
+		border-collapse: collapse;
+		margin: 1.5em 0;
+		font-size: 0.9em;
+	}
+
+	.prose :global(th) {
+		background: #f9fafb;
+		padding: 0.75em 1em;
+		font-weight: 700;
+		border-bottom: 2px solid #e5e7eb;
+		text-align: left;
+	}
+
+	.prose :global(td) {
+		padding: 0.75em 1em;
+		border-bottom: 1px solid #f3f4f6;
+	}
+
+	/* Tags footer */
+	.article-tags-footer {
+		display: flex;
+		align-items: center;
+		gap: 0.5em;
+		flex-wrap: wrap;
+		margin-top: 2.5em;
+		padding-top: 1.5em;
+		border-top: 1px solid #f3f4f6;
+		font-size: 0.875em;
+		color: #6b7280;
+	}
+
+	/* Related posts */
+	.related-posts {
+		margin-top: 4em;
+		padding-top: 3em;
+		border-top: 2px solid #f3f4f6;
+	}
+
+	.related-title {
+		font-size: 1.25em;
+		color: #111827;
+		margin: 0 0 1.5em;
+	}
+
+	.related-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1em;
+	}
+
+	.related-card {
+		display: block;
+		padding: 1.25em;
+		border: 1px solid #e5e7eb;
+		border-radius: 10px;
+		text-decoration: none;
+		color: inherit;
+		transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+	}
+
+	.related-card:hover {
+		border-color: #FF2D20;
+		box-shadow: 0 4px 16px rgba(255,45,32,0.08);
+		transform: translateY(-2px);
+		text-decoration: none;
+	}
+
+	.related-meta {
+		font-size: 0.75em;
+		color: #9ca3af;
+		margin-bottom: 0.5em;
+	}
+
+	.related-post-title {
+		font-size: 0.9em;
+		color: #111827;
+		margin: 0 0 0.5em;
+		line-height: 1.35;
+		font-weight: 700;
+	}
+
+	.related-desc {
+		font-size: 0.8em;
+		color: #6b7280;
+		margin: 0;
+		line-height: 1.5;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	/* Back link */
+	.back-link {
+		margin-top: 3em;
+		padding-top: 1.5em;
+		border-top: 1px solid #f3f4f6;
+	}
+
+	.back-link a {
+		color: #6b7280;
+		font-size: 0.9em;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+
+	.back-link a:hover {
+		color: #FF2D20;
+	}
+
+	@media (max-width: 720px) {
+		.related-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.article-title {
+			font-size: 1.75em;
+		}
+	}
+</style>
