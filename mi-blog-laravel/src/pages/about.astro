@@ -1,63 +1,662 @@
 ---
-import AboutHeroImage from '../assets/blog-placeholder-about.jpg';
-import Layout from '../layouts/BlogPost.astro';
+import BaseHead from '../components/BaseHead.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { SITE_TITLE } from '../consts';
+
+const title       = 'Sobre Laravel en Español — El blog de Laravel para desarrolladores PHP hispanos';
+const description = 'Somos el blog de referencia sobre Laravel en español: tutoriales, errores comunes, guías de conceptos y buenas prácticas para desarrolladores PHP de habla hispana.';
+
+const categories = [
+	{
+		icon: '⚙️',
+		title: 'Instalación y configuración',
+		desc: 'Guías paso a paso para instalar Laravel en Windows, Mac y Linux. Configuración de entornos con Docker, Herd y VPS con Nginx.',
+		count: 10,
+	},
+	{
+		icon: '🐛',
+		title: 'Errores comunes',
+		desc: 'Soluciones claras a los errores que todo desarrollador Laravel ha sufrido: 419 CSRF, CORS, Class not found, permission denied y más.',
+		count: 20,
+	},
+	{
+		icon: '📚',
+		title: 'Conceptos y guías',
+		desc: 'Explicaciones profundas de los pilares de Laravel: Eloquent, Middlewares, Service Container, Jobs, Events y arquitectura de proyectos.',
+		count: 10,
+	},
+	{
+		icon: '⚔️',
+		title: 'Comparativas',
+		desc: 'Livewire vs Inertia, Sanctum vs Passport, Eloquent vs Doctrine, Laravel vs Symfony. Te ayudamos a elegir la herramienta correcta.',
+		count: 5,
+	},
+	{
+		icon: '🚀',
+		title: 'Optimización',
+		desc: 'Queries N+1, caché con Redis, Laravel Telescope, testing con PHPUnit y buenas prácticas de seguridad para producción.',
+		count: 5,
+	},
+];
+
+const faqs = [
+	{
+		q: '¿Es este blog para principiantes o para desarrolladores avanzados?',
+		a: 'Para ambos. Los artículos de instalación y errores están pensados para quien empieza o está atascado con un problema concreto. Los artículos de conceptos, arquitectura y optimización apuntan a developers que ya trabajan con Laravel y quieren mejorar su código.',
+	},
+	{
+		q: '¿Por qué en español y no en inglés?',
+		a: 'Porque la documentación oficial de Laravel está en inglés y hay miles de recursos en inglés, pero el contenido técnico de calidad en español es escaso. Hay millones de desarrolladores PHP hispanohablantes en México, España, Argentina, Colombia, Chile... que merecen recursos igual de buenos, en su idioma.',
+	},
+	{
+		q: '¿Con qué versión de Laravel trabajan los artículos?',
+		a: 'Los artículos están escritos pensando en Laravel 11, la versión estable actual. Cuando hay diferencias importantes con Laravel 10 se indica explícitamente en el artículo.',
+	},
+	{
+		q: '¿Puedo sugerir un tema o un error que no encuentro resuelto?',
+		a: 'Sí. El objetivo del blog es resolver los problemas reales que encuentran los desarrolladores hispanos usando Laravel. Si tienes un error que no encuentras resuelto en español, es exactamente el tipo de contenido que queremos publicar aquí.',
+	},
+];
 ---
 
-<Layout
-	title="About Me"
-	description="Lorem ipsum dolor sit amet"
-	pubDate={new Date('August 08 2021')}
-	heroImage={AboutHeroImage}
->
-	<p>
-		Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut
-		labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo
-		viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam
-		adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus
-		et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus
-		vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque
-		sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
-	</p>
+<!doctype html>
+<html lang="es">
+	<head>
+		<BaseHead title={title} description={description} />
+	</head>
+	<body>
+		<Header />
 
-	<p>
-		Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non
-		tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non
-		blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna
-		porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis
-		massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc.
-		Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis
-		bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra
-		massa massa ultricies mi.
-	</p>
+		<main>
 
-	<p>
-		Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl
-		suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet
-		nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae
-		turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem
-		dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat
-		semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus
-		vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum
-		facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam
-		vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla
-		urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
-	</p>
+			<!-- Hero -->
+			<section class="about-hero">
+				<div class="hero-label">Sobre el blog</div>
+				<h1>El blog de <span class="accent">Laravel</span> que faltaba en español</h1>
+				<p class="hero-lead">
+					Somos el recurso de referencia para desarrolladores PHP de habla hispana que trabajan con Laravel.
+					Tutoriales prácticos, soluciones a errores reales y guías completas — todo en español,
+					sin traducciones automáticas, escrito por developers para developers.
+				</p>
+				<a href="/blog" class="cta-btn">Ver todos los artículos →</a>
+			</section>
 
-	<p>
-		Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper
-		viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc
-		scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur
-		gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus
-		pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim
-		blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id
-		cursus metus aliquam eleifend mi.
-	</p>
+			<!-- Misión -->
+			<section class="section">
+				<h2>¿Qué es Laravel en Español?</h2>
+				<div class="two-col">
+					<div>
+						<p>
+							<strong>Laravel en Español</strong> es un blog técnico dedicado exclusivamente al
+							framework <a href="https://laravel.com" rel="noopener noreferrer" target="_blank">Laravel</a>
+							y el ecosistema PHP moderno, escrito íntegramente en español.
+						</p>
+						<p>
+							La documentación oficial de Laravel está en inglés. Los mejores tutoriales, los Stack Overflow
+							más útiles, los cursos de referencia — casi todo está en inglés. Para millones de
+							desarrolladores PHP en México, España, Argentina, Colombia, Chile, Perú y el resto de
+							Latinoamérica y España, esa barrera ralentiza el aprendizaje y complica el trabajo del día a día.
+						</p>
+						<p>
+							Nuestra misión es simple: <strong>que ningún desarrollador hispanohablante
+							pierda horas buscando en inglés algo que debería poder leer en su propio idioma.</strong>
+						</p>
+					</div>
+					<div class="stats-box">
+						<div class="stat-item">
+							<span class="stat-num">50+</span>
+							<span class="stat-label">Artículos publicados</span>
+						</div>
+						<div class="stat-item">
+							<span class="stat-num">5</span>
+							<span class="stat-label">Categorías de contenido</span>
+						</div>
+						<div class="stat-item">
+							<span class="stat-num">100%</span>
+							<span class="stat-label">Contenido en español</span>
+						</div>
+						<div class="stat-item">
+							<span class="stat-num">Laravel 11</span>
+							<span class="stat-label">Versión de referencia</span>
+						</div>
+					</div>
+				</div>
+			</section>
 
-	<p>
-		Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta
-		nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam
-		tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci
-		ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar
-		proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
-	</p>
-</Layout>
+			<!-- Para quién -->
+			<section class="section section--tinted">
+				<h2>¿Para quién es este blog?</h2>
+				<p class="section-lead">
+					Si encajas en alguno de estos perfiles, estás en el lugar correcto:
+				</p>
+				<div class="profiles-grid">
+					<div class="profile-card">
+						<div class="profile-icon">👨‍💻</div>
+						<h3>El developer que empieza con Laravel</h3>
+						<p>Necesitas instalar Laravel, configurar el <code>.env</code>, conectar la base de datos y hacer funcionar tu primer proyecto. Tenemos guías paso a paso para cada sistema operativo.</p>
+					</div>
+					<div class="profile-card">
+						<div class="profile-icon">🔥</div>
+						<h3>El developer atascado con un error</h3>
+						<p>Llevas una hora con un <code>419 Page Expired</code>, un <code>Class not found</code> o un <code>SQLSTATE</code> que no entiendes. Aquí están las soluciones, explicadas sin rodeos.</p>
+					</div>
+					<div class="profile-card">
+						<div class="profile-icon">📈</div>
+						<h3>El developer que quiere mejorar</h3>
+						<p>Ya sabes hacer CRUD con Laravel, pero quieres entender Eloquent en profundidad, aprender a estructurar proyectos grandes, escribir tests o mejorar el rendimiento de tus queries.</p>
+					</div>
+					<div class="profile-card">
+						<div class="profile-icon">⚡</div>
+						<h3>El developer que tiene que elegir</h3>
+						<p>¿Livewire o Inertia? ¿Sanctum o Passport? ¿Laravel o Symfony? Nuestras comparativas te dan el contexto real para tomar la decisión correcta para tu proyecto concreto.</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- Categorías -->
+			<section class="section">
+				<h2>Qué encontrarás en el blog</h2>
+				<p class="section-lead">
+					Todo el contenido está organizado en cinco categorías que cubren el ciclo completo
+					de trabajo con Laravel, desde la instalación hasta la optimización en producción.
+				</p>
+				<div class="categories-list">
+					{categories.map(cat => (
+						<div class="cat-row">
+							<div class="cat-icon">{cat.icon}</div>
+							<div class="cat-content">
+								<div class="cat-header">
+									<h3>{cat.title}</h3>
+									<span class="cat-count">{cat.count} artículos</span>
+								</div>
+								<p>{cat.desc}</p>
+							</div>
+						</div>
+					))}
+				</div>
+				<div class="cat-cta">
+					<a href="/blog" class="cta-btn">Explorar todos los artículos →</a>
+				</div>
+			</section>
+
+			<!-- Cómo escribimos -->
+			<section class="section section--tinted">
+				<h2>Cómo escribimos los artículos</h2>
+				<div class="principles-grid">
+					<div class="principle">
+						<div class="principle-num">01</div>
+						<h3>Contenido real, no relleno</h3>
+						<p>Cada artículo resuelve un problema concreto o explica un concepto específico. No escribimos para cumplir un número de palabras; escribimos para que salgas del artículo sabiendo hacer algo que antes no sabías.</p>
+					</div>
+					<div class="principle">
+						<div class="principle-num">02</div>
+						<h3>Código que funciona</h3>
+						<p>Todos los ejemplos de código están probados y son funcionales en Laravel 11. Cuando hay una diferencia importante con versiones anteriores, lo indicamos claramente con el contexto necesario.</p>
+					</div>
+					<div class="principle">
+						<div class="principle-num">03</div>
+						<h3>Tono dev a dev</h3>
+						<p>Escribimos como un compañero de trabajo experimentado que te explica algo directamente: sin condescendencia, sin simplificar en exceso, con los detalles que importan y sin los que no.</p>
+					</div>
+					<div class="principle">
+						<div class="principle-num">04</div>
+						<h3>SEO sin sacrificar calidad</h3>
+						<p>Los artículos están optimizados para posicionarse en Google con las keywords que los desarrolladores realmente buscan cuando tienen un problema con Laravel — pero nunca a costa de la calidad del contenido.</p>
+					</div>
+				</div>
+			</section>
+
+			<!-- FAQ -->
+			<section class="section">
+				<h2>Preguntas frecuentes</h2>
+				<div class="faq-list">
+					{faqs.map(faq => (
+						<details class="faq-item">
+							<summary class="faq-q">{faq.q}</summary>
+							<p class="faq-a">{faq.a}</p>
+						</details>
+					))}
+				</div>
+			</section>
+
+			<!-- CTA final -->
+			<section class="section-cta">
+				<h2>¿Listo para mejorar con Laravel?</h2>
+				<p>Empieza por el artículo que resuelve tu problema de hoy, o explora las guías completas de conceptos.</p>
+				<div class="cta-group">
+					<a href="/blog" class="cta-btn">Ver todos los artículos</a>
+					<a href="/blog?q=errores" class="cta-btn cta-btn--outline">Errores comunes</a>
+				</div>
+			</section>
+
+		</main>
+		<Footer />
+	</body>
+</html>
+
+<style>
+	main {
+		max-width: 860px;
+		margin: 0 auto;
+		padding: 0 1.25rem 5rem;
+	}
+
+	/* ── Hero ─────────────────────────────────────────── */
+	.about-hero {
+		text-align: center;
+		padding: 4rem 1rem 3.5rem;
+		max-width: 680px;
+		margin: 0 auto;
+	}
+
+	.hero-label {
+		display: inline-block;
+		background: rgba(255, 45, 32, 0.1);
+		color: #FF2D20;
+		padding: 0.25em 1em;
+		border-radius: 99px;
+		font-size: 0.78rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.08em;
+		margin-bottom: 1.25rem;
+		border: 1px solid rgba(255, 45, 32, 0.2);
+	}
+
+	.about-hero h1 {
+		font-size: clamp(1.75rem, 4vw, 2.5rem);
+		line-height: 1.15;
+		color: #111827;
+		margin-bottom: 1rem;
+		letter-spacing: -0.025em;
+	}
+
+	.accent { color: #FF2D20; }
+
+	.hero-lead {
+		font-size: 1.05rem;
+		color: #4b5563;
+		line-height: 1.75;
+		margin-bottom: 2rem;
+	}
+
+	/* ── Sections ─────────────────────────────────────── */
+	.section {
+		padding: 3.5rem 0;
+		border-top: 1px solid #f3f4f6;
+	}
+
+	.section--tinted {
+		background: #f9fafb;
+		border-radius: 16px;
+		padding: 3rem 2.5rem;
+		border: 1px solid #f3f4f6;
+		margin: 0 -0.5rem;
+	}
+
+	.section h2 {
+		font-size: 1.5rem;
+		color: #111827;
+		margin: 0 0 1.25rem;
+		letter-spacing: -0.02em;
+	}
+
+	.section-lead {
+		color: #4b5563;
+		font-size: 1rem;
+		margin: -0.5rem 0 2rem;
+		line-height: 1.7;
+	}
+
+	/* ── Two column ───────────────────────────────────── */
+	.two-col {
+		display: grid;
+		grid-template-columns: 1fr 280px;
+		gap: 2.5rem;
+		align-items: start;
+	}
+
+	.two-col p {
+		color: #374151;
+		line-height: 1.75;
+		margin-bottom: 1.1rem;
+	}
+
+	.two-col p:last-child { margin-bottom: 0; }
+
+	/* ── Stats box ────────────────────────────────────── */
+	.stats-box {
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 14px;
+		padding: 1.5rem;
+		display: grid;
+		grid-template-columns: 1fr 1fr;
+		gap: 1.25rem;
+	}
+
+	.stat-item {
+		display: flex;
+		flex-direction: column;
+		gap: 0.2rem;
+	}
+
+	.stat-num {
+		font-size: 1.5rem;
+		font-weight: 800;
+		color: #FF2D20;
+		letter-spacing: -0.03em;
+		line-height: 1;
+	}
+
+	.stat-label {
+		font-size: 0.78rem;
+		color: #6b7280;
+		line-height: 1.3;
+	}
+
+	/* ── Profiles grid ────────────────────────────────── */
+	.profiles-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1rem;
+	}
+
+	.profile-card {
+		background: white;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		padding: 1.5rem;
+		transition: border-color 0.2s, box-shadow 0.2s;
+	}
+
+	.profile-card:hover {
+		border-color: #FF2D20;
+		box-shadow: 0 4px 16px rgba(255,45,32,0.07);
+	}
+
+	.profile-icon {
+		font-size: 1.75rem;
+		margin-bottom: 0.75rem;
+	}
+
+	.profile-card h3 {
+		font-size: 0.975rem;
+		color: #111827;
+		margin: 0 0 0.5rem;
+		line-height: 1.3;
+	}
+
+	.profile-card p {
+		font-size: 0.875rem;
+		color: #4b5563;
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	/* ── Categories list ──────────────────────────────── */
+	.categories-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		overflow: hidden;
+		margin-bottom: 2rem;
+	}
+
+	.cat-row {
+		display: flex;
+		gap: 1.25rem;
+		align-items: flex-start;
+		padding: 1.375rem 1.5rem;
+		border-bottom: 1px solid #f3f4f6;
+		background: white;
+		transition: background 0.15s;
+	}
+
+	.cat-row:last-child { border-bottom: none; }
+
+	.cat-row:hover { background: #fafafa; }
+
+	.cat-icon {
+		font-size: 1.5rem;
+		flex-shrink: 0;
+		margin-top: 0.1rem;
+	}
+
+	.cat-content { flex: 1; }
+
+	.cat-header {
+		display: flex;
+		align-items: baseline;
+		gap: 0.75rem;
+		margin-bottom: 0.3rem;
+	}
+
+	.cat-header h3 {
+		font-size: 0.975rem;
+		color: #111827;
+		margin: 0;
+	}
+
+	.cat-count {
+		font-size: 0.72rem;
+		background: rgba(255, 45, 32, 0.08);
+		color: #CC2419;
+		padding: 2px 8px;
+		border-radius: 99px;
+		font-weight: 700;
+		border: 1px solid rgba(255, 45, 32, 0.15);
+	}
+
+	.cat-content p {
+		font-size: 0.875rem;
+		color: #4b5563;
+		margin: 0;
+		line-height: 1.55;
+	}
+
+	.cat-cta { text-align: center; }
+
+	/* ── Principles ───────────────────────────────────── */
+	.principles-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 1.5rem;
+	}
+
+	.principle {
+		padding: 1.5rem;
+		background: white;
+		border-radius: 12px;
+		border: 1px solid #e5e7eb;
+	}
+
+	.principle-num {
+		font-size: 0.72rem;
+		font-weight: 800;
+		color: #FF2D20;
+		letter-spacing: 0.08em;
+		margin-bottom: 0.5rem;
+	}
+
+	.principle h3 {
+		font-size: 0.975rem;
+		color: #111827;
+		margin: 0 0 0.5rem;
+	}
+
+	.principle p {
+		font-size: 0.875rem;
+		color: #4b5563;
+		margin: 0;
+		line-height: 1.6;
+	}
+
+	/* ── FAQ ──────────────────────────────────────────── */
+	.faq-list {
+		display: flex;
+		flex-direction: column;
+		gap: 0;
+		border: 1px solid #e5e7eb;
+		border-radius: 12px;
+		overflow: hidden;
+	}
+
+	.faq-item {
+		border-bottom: 1px solid #f3f4f6;
+		background: white;
+	}
+
+	.faq-item:last-child { border-bottom: none; }
+
+	.faq-q {
+		padding: 1.25rem 1.5rem;
+		font-size: 0.975rem;
+		font-weight: 600;
+		color: #111827;
+		cursor: pointer;
+		list-style: none;
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		gap: 1rem;
+		transition: background 0.15s, color 0.15s;
+		user-select: none;
+	}
+
+	.faq-q::-webkit-details-marker { display: none; }
+
+	.faq-q::after {
+		content: '+';
+		font-size: 1.25rem;
+		font-weight: 300;
+		color: #9ca3af;
+		flex-shrink: 0;
+		transition: transform 0.2s;
+	}
+
+	.faq-item[open] .faq-q {
+		color: #FF2D20;
+		background: #fff8f8;
+	}
+
+	.faq-item[open] .faq-q::after {
+		transform: rotate(45deg);
+		color: #FF2D20;
+	}
+
+	.faq-a {
+		padding: 0 1.5rem 1.25rem;
+		font-size: 0.9rem;
+		color: #4b5563;
+		line-height: 1.7;
+		margin: 0;
+		border-top: 1px solid #f9fafb;
+	}
+
+	/* ── CTA final ────────────────────────────────────── */
+	.section-cta {
+		margin-top: 3.5rem;
+		padding: 3rem 2.5rem;
+		background: #111827;
+		border-radius: 16px;
+		text-align: center;
+		color: white;
+	}
+
+	.section-cta h2 {
+		color: white;
+		font-size: 1.5rem;
+		margin-bottom: 0.625rem;
+		letter-spacing: -0.02em;
+	}
+
+	.section-cta p {
+		color: #9ca3af;
+		font-size: 0.95rem;
+		margin-bottom: 1.75rem;
+	}
+
+	.cta-group {
+		display: flex;
+		gap: 0.875rem;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
+	/* ── CTA buttons ──────────────────────────────────── */
+	.cta-btn {
+		display: inline-block;
+		background: #FF2D20;
+		color: white;
+		padding: 0.7em 1.6em;
+		border-radius: 8px;
+		font-weight: 700;
+		font-size: 0.9rem;
+		text-decoration: none;
+		transition: background 0.15s, transform 0.15s;
+	}
+
+	.cta-btn:hover {
+		background: #D92014;
+		transform: translateY(-1px);
+		text-decoration: none;
+		color: white;
+	}
+
+	.cta-btn--outline {
+		background: transparent;
+		border: 1.5px solid rgba(255,255,255,0.25);
+		color: white;
+	}
+
+	.cta-btn--outline:hover {
+		background: rgba(255,255,255,0.08);
+		border-color: rgba(255,255,255,0.4);
+		color: white;
+	}
+
+	/* ── Links in prose ───────────────────────────────── */
+	.section a:not(.cta-btn) {
+		color: #FF2D20;
+		text-decoration: underline;
+		text-underline-offset: 2px;
+	}
+
+	/* ── Responsive ───────────────────────────────────── */
+	@media (max-width: 720px) {
+		main { padding: 0 1rem 4rem; }
+
+		.about-hero { padding: 3rem 0.5rem 2.5rem; }
+
+		.two-col {
+			grid-template-columns: 1fr;
+			gap: 1.75rem;
+		}
+
+		.stats-box {
+			grid-template-columns: repeat(2, 1fr);
+		}
+
+		.profiles-grid,
+		.principles-grid {
+			grid-template-columns: 1fr;
+		}
+
+		.section--tinted {
+			padding: 2rem 1.25rem;
+			margin: 0;
+		}
+
+		.section-cta {
+			padding: 2rem 1.25rem;
+		}
+	}
+
+	@media (max-width: 480px) {
+		.cta-group { flex-direction: column; align-items: center; }
+	}
+</style>
