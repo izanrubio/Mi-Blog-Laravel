@@ -6,12 +6,7 @@ import HeaderLink from './HeaderLink.astro';
 <header>
 	<div class="header-inner">
 		<a href="/" class="site-title" aria-label={SITE_TITLE}>
-			<span class="logo-icon">
-				<svg viewBox="0 0 24 24" fill="currentColor" width="28" height="28" aria-hidden="true">
-					<path d="M23.642 5.43a.364.364 0 0 1 .014.1v5.149c0 .135-.073.26-.189.326l-4.323 2.49v4.934a.378.378 0 0 1-.188.326L9.93 23.949a.316.316 0 0 1-.066.027c-.008.002-.016.008-.024.01a.348.348 0 0 1-.192 0c-.011-.002-.02-.008-.03-.012-.02-.008-.042-.014-.062-.025L.533 18.755a.377.377 0 0 1-.189-.326V4.807a.359.359 0 0 1 .014-.1c.003-.012.01-.02.014-.032a.367.367 0 0 1 .08-.124c.014-.013.027-.026.045-.035L9.62.062a.376.376 0 0 1 .378 0l9.059 5.23h.002c.017.01.03.023.045.034a.362.362 0 0 1 .08.125c.006.012.012.02.015.032zm-.74 4.926V6.333l-1.81 1.044-2.513 1.446v4.024zm-4.322 7.403V13.73l-2.477 1.42-7.062 4.035v4.024zM1.093 5.403v13.32l9.541 5.504v-4.024l-4.322-2.445-.003-.002-.004-.002c-.014-.010-.027-.021-.04-.033l-.003-.004c-.012-.012-.023-.025-.033-.04l-.003-.004a.293.293 0 0 1-.025-.05l-.001-.005a.27.27 0 0 1-.016-.063c0-.004-.001-.007-.002-.01a.277.277 0 0 1-.004-.055V6.447zm8.449-3.396L5.818 4.049l-3.08 1.776 3.799 2.193 3.802-2.192zm4.392 2.498L9.935 2.011 6.561 3.956l3.802 2.192zm4.392 2.498l-3.803-2.192-3.802 2.192 3.803 2.192zM8.951 17.616l-6.289-3.598V6.994l6.29 3.598zm.377-8.24L5.527 7.184 1.725 9.377l3.802 2.192zm4.392 2.498L9.92 9.682l-3.802 2.192 3.803 2.192zm4.392 2.498l-3.803-2.192-3.802 2.192 3.803 2.192zm-4.392-7.247-3.802-2.192-3.803 2.192 3.803 2.192zM9.92 2.566v3.981l-.376.217-.376-.217V2.566zM5.152 4.807V8.79l-.376.216-.376-.216V4.807z"/>
-				</svg>
-			</span>
-			<span class="site-name">{SITE_TITLE}</span>
+			<img src="/logo-laravel-v2.svg" alt={SITE_TITLE} class="site-logo" width="200" height="50" />
 		</a>
 		<nav>
 			<HeaderLink href="/">Inicio</HeaderLink>
@@ -44,12 +39,7 @@ import HeaderLink from './HeaderLink.astro';
 	.site-title {
 		display: flex;
 		align-items: center;
-		gap: 0.5em;
 		text-decoration: none;
-		color: #FF2D20;
-		font-weight: 800;
-		font-size: 1.15em;
-		letter-spacing: -0.01em;
 		transition: opacity 0.2s;
 	}
 
@@ -58,14 +48,10 @@ import HeaderLink from './HeaderLink.astro';
 		text-decoration: none;
 	}
 
-	.logo-icon {
-		display: flex;
-		align-items: center;
-		color: #FF2D20;
-	}
-
-	.site-name {
-		font-size: 1em;
+	.site-logo {
+		height: 44px;
+		width: auto;
+		display: block;
 	}
 
 	nav {
@@ -97,8 +83,8 @@ import HeaderLink from './HeaderLink.astro';
 	}
 
 	@media (max-width: 600px) {
-		.site-name {
-			display: none;
+		.site-logo {
+			height: 36px;
 		}
 
 		.header-inner {
