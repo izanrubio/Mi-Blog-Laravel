@@ -11,11 +11,11 @@ const posts = (await getCollection('blog'))
 	.slice(0, 9);
 
 const categories = [
-	{ name: 'Instalación', desc: 'Guías paso a paso para instalar y configurar Laravel en cualquier entorno.' },
-	{ name: 'Errores', desc: 'Soluciones a los errores más comunes que encuentras al desarrollar con Laravel.' },
-	{ name: 'Conceptos', desc: 'Explicaciones claras de los conceptos clave del framework Laravel.' },
-	{ name: 'Comparativas', desc: 'Comparamos herramientas y enfoques para que elijas el mejor para tu proyecto.' },
-	{ name: 'Optimización', desc: 'Técnicas y buenas prácticas para que tu app Laravel vuele.' },
+	{ name: 'Instalación',  slug: 'instalacion',  desc: 'Guías paso a paso para instalar y configurar Laravel en cualquier entorno.' },
+	{ name: 'Errores',      slug: 'errores',       desc: 'Soluciones a los errores más comunes que encuentras al desarrollar con Laravel.' },
+	{ name: 'Conceptos',    slug: 'conceptos',     desc: 'Explicaciones claras de los conceptos clave del framework Laravel.' },
+	{ name: 'Comparativas', slug: 'comparativa',   desc: 'Comparamos herramientas y enfoques para que elijas el mejor para tu proyecto.' },
+	{ name: 'Optimización', slug: 'optimizacion',  desc: 'Técnicas y buenas prácticas para que tu app Laravel vuele.' },
 ];
 ---
 
@@ -56,10 +56,10 @@ const categories = [
 				<h2 class="section-title">Categorías</h2>
 				<div class="categories-grid">
 					{categories.map(cat => (
-						<div class="category-card">
+						<a href={`/blog?cat=${cat.slug}`} class="category-card">
 							<h3>{cat.name}</h3>
 							<p>{cat.desc}</p>
-						</div>
+						</a>
 					))}
 				</div>
 			</div>
@@ -263,14 +263,18 @@ const categories = [
 		border: 1px solid #e5e7eb;
 		border-radius: 10px;
 		padding: 1.5em;
-		transition: border-color 0.2s, box-shadow 0.2s;
+		transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+		text-decoration: none;
+		display: block;
+		cursor: pointer;
 	}
 
 	.category-card:hover {
 		border-color: #FF2D20;
 		box-shadow: 0 4px 12px rgba(255,45,32,0.08);
+		transform: translateY(-2px);
+		text-decoration: none;
 	}
-
 
 	.category-card h3 {
 		font-size: 1em;
