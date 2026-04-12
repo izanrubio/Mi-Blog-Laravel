@@ -2,7 +2,6 @@
 title: 'Optimiza la validación en Laravel: Guía completa para evitar O(n²)'
 description: 'Descubre cómo optimizar la validación en Laravel, resuelve problemas de rendimiento O(n²) y mejora el desempeño de tus aplicaciones'
 pubDate: '2025-01-15'
-heroImage: '/blog-placeholder-1.jpg'
 tags: ['laravel', 'validacion', 'rendimiento', 'php']
 ---
 
