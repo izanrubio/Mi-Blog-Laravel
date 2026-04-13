@@ -460,60 +460,44 @@ const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, 
 
 	/* ── Print / PDF ─────────────────────────────────── */
 	@media print {
-		/* Ocultar todo lo que no es el artículo */
-		header, footer, .related-posts, .back-link,
-		.article-tags-footer, #cookie-banner, .print-hide {
+		/* Sin márgenes de página = sin título/URL del navegador */
+		@page {
+			margin: 1.4cm 1.6cm;
+			size: A4;
+		}
+
+		/* Ocultar elementos de navegación y UI */
+		:global(header),
+		:global(footer),
+		:global(#cookie-banner),
+		.related-posts,
+		.back-link,
+		.article-tags-footer,
+		.print-hide {
 			display: none !important;
 		}
 
-		body {
+		:global(body) {
 			font-size: 11pt;
 			color: #000;
 			background: #fff;
+			-webkit-print-color-adjust: exact;
+			print-color-adjust: exact;
 		}
 
 		main {
-			width: 100%;
-			max-width: 100%;
-			padding: 0;
-			margin: 0;
-		}
-
-		.article-wrapper {
-			max-width: 100%;
+			width: 100% !important;
+			max-width: 100% !important;
+			padding: 0 !important;
+			margin: 0 !important;
 		}
 
 		.article-title {
-			font-size: 22pt;
+			font-size: 20pt;
 			color: #000;
 		}
 
-		/* Mostrar URL de los enlaces */
-		.prose :global(a)::after {
-			content: " (" attr(href) ")";
-			font-size: 0.75em;
-			color: #555;
-		}
-
-		/* Evitar cortes en bloques de código */
-		.prose :global(pre) {
-			white-space: pre-wrap;
-			border: 1px solid #ddd;
-			background: #f5f5f5;
-			color: #000;
-			page-break-inside: avoid;
-		}
-
-		.prose :global(h2), .prose :global(h3) {
-			page-break-after: avoid;
-		}
-
-		.prose :global(p), .prose :global(li) {
-			orphans: 3;
-			widows: 3;
-		}
-
-		/* Cabecera del artículo compacta */
+		/* Cabecera del artículo */
 		.article-header {
 			margin-bottom: 1.5em;
 			padding-bottom: 1em;
@@ -524,8 +508,39 @@ const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, 
 			border: 1px solid #FF2D20;
 			color: #FF2D20;
 			background: none;
-			-webkit-print-color-adjust: exact;
-			print-color-adjust: exact;
+		}
+
+		/* Evitar cortes en bloques de código */
+		.prose :global(pre) {
+			white-space: pre-wrap;
+			border: 1px solid #ccc;
+			background: #f5f5f5 !important;
+			color: #000 !important;
+			page-break-inside: avoid;
+			border-left: 3pt solid #FF2D20;
+		}
+
+		.prose :global(pre code) {
+			color: #000 !important;
+		}
+
+		.prose :global(h2),
+		.prose :global(h3) {
+			page-break-after: avoid;
+		}
+
+		.prose :global(p),
+		.prose :global(li) {
+			orphans: 3;
+			widows: 3;
+		}
+
+		/* Mostrar URLs de los enlaces */
+		.prose :global(a)::after {
+			content: " (" attr(href) ")";
+			font-size: 0.75em;
+			color: #555;
+			word-break: break-all;
 		}
 	}
 </style>
