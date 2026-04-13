@@ -78,10 +78,11 @@ body {
 
 /* ── Layout ─────────────────────────────────────────────── */
 main {
-	width: var(--prose-width);
-	max-width: calc(100% - 2rem);
+	width: 100%;
+	max-width: var(--prose-width);
 	margin: 0 auto;
 	padding: 3rem 1rem;
+	box-sizing: border-box;
 }
 
 /* ── Typography scale ───────────────────────────────────── */
