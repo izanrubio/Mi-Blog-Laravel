@@ -1,11 +1,11 @@
 ---
-title: 'Cómo instalar Laravel 11 en Windows paso a paso'
-description: 'Guía completa para instalar Laravel 11 en Windows usando Composer y PHP. Cubre requisitos, configuración del PATH y primer proyecto.'
-pubDate: '2026-04-09'
+title: 'Cómo instalar Laravel 13 en Windows paso a paso'
+description: 'Guía completa para instalar Laravel 13 en Windows usando Composer y PHP. Cubre requisitos, configuración del PATH y primer proyecto.'
+pubDate: '2026-04-10'
 tags: ['laravel', 'instalacion', 'windows']
 ---
 
-# Cómo instalar Laravel 11 en Windows paso a paso
+# Cómo instalar Laravel 13 en Windows paso a paso
 
 Instalar Laravel en Windows puede parecer intimidante la primera vez, especialmente si no tienes experiencia configurando entornos de desarrollo. En esta guía vamos a recorrer cada paso con calma, desde instalar PHP hasta tener tu primera aplicación corriendo en el navegador. No vamos a omitir nada.
 
@@ -13,7 +13,7 @@ Instalar Laravel en Windows puede parecer intimidante la primera vez, especialme
 
 Antes de empezar necesitas tener claro qué vas a instalar y por qué:
 
-- **PHP 8.2 o superior**: Laravel 11 requiere PHP 8.2 como mínimo.
+- **PHP 8.3 o superior**: Laravel 13 requiere PHP 8.3 como mínimo.
 - **Composer**: el gestor de dependencias de PHP, es como npm pero para PHP.
 - **Una terminal**: PowerShell o CMD funcionan, aunque recomiendo usar Windows Terminal.
 
@@ -21,7 +21,7 @@ No necesitas XAMPP ni WAMP para desarrollar con Laravel moderno. De hecho, te re
 
 ## Paso 1: Instalar PHP en Windows
 
-Ve a [https://windows.php.net/download/](https://windows.php.net/download/) y descarga la versión **Thread Safe** de PHP 8.2 o superior en formato ZIP.
+Ve a [https://windows.php.net/download/](https://windows.php.net/download/) y descarga la versión **Thread Safe** de PHP 8.3 o superior en formato ZIP.
 
 Una vez descargado:
 
