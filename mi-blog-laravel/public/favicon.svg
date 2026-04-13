@@ -1,11 +1,6 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <rect width="64" height="64" rx="12" fill="#FF2D20"/>
-  <!-- Llave izquierda { -->
-  <path d="M20 10 Q13 10 13 17 L13 25 Q13 32 8 32 Q13 32 13 39 L13 47 Q13 54 20 54"
-        fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- Llave derecha } -->
-  <path d="M44 10 Q51 10 51 17 L51 25 Q51 32 56 32 Q51 32 51 39 L51 47 Q51 54 44 54"
-        fill="none" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
-  <!-- L central -->
-  <text x="26" y="42" font-family="'Courier New', monospace" font-size="26" font-weight="900" fill="white">L</text>
+<svg xmlns='http://www.w3.org/2000/svg' width='32' height='32' viewBox='0 0 32 32'>
+  <rect width='32' height='32' rx='6' fill='#FF2D20'/>
+  <path d='M9 5 Q5 5 5 9 L5 13 Q5 16 3 16 Q5 16 5 19 L5 23 Q5 27 9 27' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/>
+  <path d='M23 5 Q27 5 27 9 L27 13 Q27 16 29 16 Q27 16 27 19 L27 23 Q27 27 23 27' fill='none' stroke='white' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'/>
+  <text x='11.5' y='22' font-family='Georgia,serif' font-size='14' font-weight='900' fill='white'>L</text>
 </svg>
