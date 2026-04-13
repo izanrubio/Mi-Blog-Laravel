@@ -83,13 +83,16 @@ import HeaderLink from './HeaderLink.astro';
 	}
 
 	@media (max-width: 600px) {
-		.site-logo {
-			height: 44px;
+		.site-logo { height: 38px; }
+		.header-inner { padding: 0 0.875em; height: 54px; }
+		nav :global(a) {
+			padding: 0.45em 0.625em;
+			font-size: 0.875em;
 		}
+	}
 
-		.header-inner {
-			padding: 0 1em;
-			height: 56px;
-		}
+	@media (max-width: 360px) {
+		.site-logo { height: 32px; }
+		nav :global(a) { padding: 0.4em 0.5em; font-size: 0.82em; }
 	}
 </style>

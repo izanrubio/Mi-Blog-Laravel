@@ -342,13 +342,18 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 	/* ── Category pills ─────────────────────────────── */
 	.cat-filters {
 		display: flex;
-		flex-wrap: wrap;
 		gap: 0.5rem;
 		margin-top: 1.25rem;
+		overflow-x: auto;
+		-webkit-overflow-scrolling: touch;
+		scrollbar-width: none;
+		padding-bottom: 2px;
 	}
 
+	.cat-filters::-webkit-scrollbar { display: none; }
+
 	.cat-pill {
-		padding: 0.375rem 1rem;
+		padding: 0.45rem 1rem;
 		border-radius: 99px;
 		border: 1.5px solid #e5e7eb;
 		background: #f9fafb;
@@ -359,6 +364,9 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 		cursor: pointer;
 		transition: all 0.15s;
 		text-transform: capitalize;
+		white-space: nowrap;
+		flex-shrink: 0;
+		min-height: 36px;
 	}
 
 	.cat-pill:hover {
@@ -382,8 +390,24 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 	/* ── Grid ────────────────────────────────────────── */
 	.posts-grid {
 		display: grid;
-		grid-template-columns: repeat(3, 1fr);
-		gap: 1.125rem;
+		grid-template-columns: 1fr;
+		gap: 0.875rem;
+	}
+
+	@media (min-width: 560px) {
+		.posts-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1rem;
+		}
+		.post-card--featured { grid-column: span 2; }
+	}
+
+	@media (min-width: 900px) {
+		.posts-grid {
+			grid-template-columns: repeat(3, 1fr);
+			gap: 1.125rem;
+		}
+		.post-card--featured { grid-column: span 2; }
 	}
 
 	/* ── Card ────────────────────────────────────────── */
@@ -537,15 +561,9 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 	.no-results span { font-size: 0.85rem; }
 
 	/* ── Responsive ──────────────────────────────────── */
-	@media (max-width: 900px) {
-		.posts-grid { grid-template-columns: repeat(2, 1fr); }
-		.post-card--featured { grid-column: span 2; }
-	}
-
 	@media (max-width: 580px) {
-		main { padding: 1.75rem 1rem 4rem; }
-		.posts-grid { grid-template-columns: 1fr; gap: 0.875rem; }
-		.post-card--featured { grid-column: span 1; }
+		main { padding: 1.5rem 1rem 4rem; }
 		.search-wrapper { max-width: 100%; }
+		.page-header { margin-bottom: 1.5rem; }
 	}
 </style>
