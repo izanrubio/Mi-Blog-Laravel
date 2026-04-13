@@ -1,5 +1,6 @@
 ---
 import { SITE_TITLE } from '../consts';
+import CookieBanner from './CookieBanner.astro';
 
 const today = new Date();
 ---
@@ -29,6 +30,8 @@ const today = new Date();
 		<p>&copy; {today.getFullYear()} {SITE_TITLE} — Hecho para la comunidad Laravel hispanohablante</p>
 	</div>
 </footer>
+
+<CookieBanner />
 
 <style>
 	footer {
