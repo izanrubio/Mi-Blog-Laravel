@@ -76,6 +76,13 @@ const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, 
 								Actualizado: <FormattedDate date={updatedDate} />
 							</span>
 						)}
+						<span class="meta-sep print-hide">·</span>
+						<button onclick="window.print()" class="btn-pdf print-hide" aria-label="Descargar como PDF">
+							<svg viewBox="0 0 20 20" fill="currentColor" width="15" height="15" aria-hidden="true">
+								<path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd"/>
+							</svg>
+							Descargar PDF
+						</button>
 					</div>
 				</header>
 
@@ -423,13 +430,102 @@ const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, 
 		color: #FF2D20;
 	}
 
+	/* PDF button */
+	.btn-pdf {
+		display: inline-flex;
+		align-items: center;
+		gap: 0.4em;
+		padding: 0.35em 0.875em;
+		border-radius: 99px;
+		border: 1.5px solid #e5e7eb;
+		background: #f9fafb;
+		color: #6b7280;
+		font-size: 0.78em;
+		font-weight: 600;
+		font-family: inherit;
+		cursor: pointer;
+		transition: border-color 0.15s, color 0.15s, background 0.15s;
+	}
+
+	.btn-pdf:hover {
+		border-color: #FF2D20;
+		color: #FF2D20;
+		background: #fff5f5;
+	}
+
 	@media (max-width: 720px) {
-		.related-grid {
-			grid-template-columns: 1fr;
+		.related-grid { grid-template-columns: 1fr; }
+		.article-title { font-size: 1.75em; }
+	}
+
+	/* ── Print / PDF ─────────────────────────────────── */
+	@media print {
+		/* Ocultar todo lo que no es el artículo */
+		header, footer, .related-posts, .back-link,
+		.article-tags-footer, #cookie-banner, .print-hide {
+			display: none !important;
+		}
+
+		body {
+			font-size: 11pt;
+			color: #000;
+			background: #fff;
+		}
+
+		main {
+			width: 100%;
+			max-width: 100%;
+			padding: 0;
+			margin: 0;
+		}
+
+		.article-wrapper {
+			max-width: 100%;
 		}
 
 		.article-title {
-			font-size: 1.75em;
+			font-size: 22pt;
+			color: #000;
+		}
+
+		/* Mostrar URL de los enlaces */
+		.prose :global(a)::after {
+			content: " (" attr(href) ")";
+			font-size: 0.75em;
+			color: #555;
+		}
+
+		/* Evitar cortes en bloques de código */
+		.prose :global(pre) {
+			white-space: pre-wrap;
+			border: 1px solid #ddd;
+			background: #f5f5f5;
+			color: #000;
+			page-break-inside: avoid;
+		}
+
+		.prose :global(h2), .prose :global(h3) {
+			page-break-after: avoid;
+		}
+
+		.prose :global(p), .prose :global(li) {
+			orphans: 3;
+			widows: 3;
+		}
+
+		/* Cabecera del artículo compacta */
+		.article-header {
+			margin-bottom: 1.5em;
+			padding-bottom: 1em;
+			border-bottom: 2pt solid #FF2D20;
+		}
+
+		.tag {
+			border: 1px solid #FF2D20;
+			color: #FF2D20;
+			background: none;
+			-webkit-print-color-adjust: exact;
+			print-color-adjust: exact;
 		}
 	}
 </style>
