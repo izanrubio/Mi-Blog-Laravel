@@ -511,14 +511,15 @@ const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, 
 			background: none;
 		}
 
-		/* Evitar cortes en bloques de código */
+		/* Bloques de código en PDF */
 		.prose :global(pre) {
 			white-space: pre-wrap;
 			border: 1px solid #ccc;
 			background: #f5f5f5 !important;
 			color: #000 !important;
-			page-break-inside: avoid;
 			border-left: 3pt solid #FF2D20;
+			page-break-inside: auto;
+			break-inside: auto;
 		}
 
 		.prose :global(pre code) {
