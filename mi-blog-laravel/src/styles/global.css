@@ -68,6 +68,7 @@ body {
 	-moz-osx-font-smoothing: grayscale;
 	word-wrap: break-word;
 	overflow-wrap: break-word;
+	overflow-x: hidden;
 }
 
 ::selection {
