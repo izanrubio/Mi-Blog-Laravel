@@ -3,4 +3,4 @@
 
 export const SITE_TITLE = 'Laravel en Español';
 export const SITE_DESCRIPTION = 'El blog de referencia para desarrolladores PHP hispanohablantes. Tutoriales, guías, errores comunes y buenas prácticas de Laravel en español.';
-export const SITE_URL = 'https://izanrubio.es';
+export const SITE_URL = 'https://laraveles.es';
