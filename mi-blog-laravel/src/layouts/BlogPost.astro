@@ -460,9 +460,9 @@ const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, 
 
 	/* ── Print / PDF ─────────────────────────────────── */
 	@media print {
-		/* Sin márgenes de página = sin título/URL del navegador */
+		/* margin:0 elimina el área donde el navegador imprime título y URL */
 		@page {
-			margin: 1.4cm 1.6cm;
+			margin: 0;
 			size: A4;
 		}
 
@@ -481,6 +481,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, 
 			font-size: 11pt;
 			color: #000;
 			background: #fff;
+			margin: 1.5cm 1.8cm;
 			-webkit-print-color-adjust: exact;
 			print-color-adjust: exact;
 		}
