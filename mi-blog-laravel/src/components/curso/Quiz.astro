@@ -1,0 +1,313 @@
+---
+type QuizQuestion = {
+  pregunta: string;
+  opciones: string[];
+  correcta: number;
+  explicacion: string;
+};
+
+type Props = {
+  quiz: QuizQuestion[];
+};
+
+const { quiz } = Astro.props;
+if (!quiz || quiz.length === 0) return;
+---
+
+<section class="quiz-wrap">
+  <div class="quiz-header">
+    <span class="quiz-badge">Quiz</span>
+    <h2 class="quiz-title">Pon a prueba lo aprendido</h2>
+    <p class="quiz-sub">Responde las preguntas para comprobar que has entendido los conceptos clave.</p>
+  </div>
+
+  <div id="quiz-questions">
+    {quiz.map((q, qi) => (
+      <div
+        class="quiz-q"
+        data-index={qi}
+        data-correcta={q.correcta}
+        data-explicacion={q.explicacion}
+      >
+        <p class="quiz-q-text">
+          <span class="q-num">{qi + 1}.</span> {q.pregunta}
+        </p>
+        <div class="quiz-options">
+          {q.opciones.map((op, oi) => (
+            <button class="quiz-opt" data-oi={oi}>
+              <span class="opt-letter">{String.fromCharCode(65 + oi)}</span>
+              <span class="opt-text">{op}</span>
+            </button>
+          ))}
+        </div>
+        <div class="quiz-exp" hidden>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14" aria-hidden="true">
+            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+          </svg>
+          <span id={`exp-text-${qi}`}></span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <div id="quiz-result" hidden>
+    <div class="result-box">
+      <div class="result-icon" id="result-icon">🎉</div>
+      <p class="result-score" id="result-score"></p>
+      <button class="quiz-retry" id="quiz-retry">
+        <svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
+          <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 010 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd"/>
+        </svg>
+        Repetir quiz
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  const questions = Array.from(document.querySelectorAll<HTMLElement>('.quiz-q'));
+  let answers: (number | null)[] = new Array(questions.length).fill(null);
+
+  questions.forEach((qEl, qi) => {
+    const correcta = parseInt(qEl.dataset.correcta ?? '0');
+    const explicacion = qEl.dataset.explicacion ?? '';
+    const opts = qEl.querySelectorAll<HTMLButtonElement>('.quiz-opt');
+    const exp = qEl.querySelector<HTMLElement>('.quiz-exp');
+    const expText = document.getElementById(`exp-text-${qi}`);
+
+    opts.forEach((opt, oi) => {
+      opt.addEventListener('click', () => {
+        if (answers[qi] !== null) return;
+
+        answers[qi] = oi;
+        const isCorrect = oi === correcta;
+
+        opt.classList.add(isCorrect ? 'quiz-opt--correct' : 'quiz-opt--wrong');
+        if (!isCorrect) opts[correcta].classList.add('quiz-opt--correct');
+
+        if (exp) exp.hidden = false;
+        if (expText) expText.textContent = explicacion;
+
+        opts.forEach(o => { o.disabled = true; });
+
+        if (answers.every(a => a !== null)) showResult();
+      });
+    });
+  });
+
+  function showResult() {
+    const correct = answers.filter((a, i) => {
+      return a === parseInt((questions[i] as HTMLElement).dataset.correcta ?? '0');
+    }).length;
+    const total = questions.length;
+
+    const resultEl = document.getElementById('quiz-result');
+    const scoreEl = document.getElementById('result-score');
+    const iconEl = document.getElementById('result-icon');
+
+    if (scoreEl) scoreEl.textContent = `Has acertado ${correct} de ${total} preguntas`;
+    if (iconEl) iconEl.textContent = correct === total ? '🏆' : correct >= total / 2 ? '🎉' : '📚';
+    if (resultEl) resultEl.hidden = false;
+
+    resultEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  document.getElementById('quiz-retry')?.addEventListener('click', () => {
+    answers = new Array(questions.length).fill(null);
+
+    questions.forEach((qEl, qi) => {
+      const opts = qEl.querySelectorAll<HTMLButtonElement>('.quiz-opt');
+      const exp = qEl.querySelector<HTMLElement>('.quiz-exp');
+      const expText = document.getElementById(`exp-text-${qi}`);
+
+      opts.forEach(o => {
+        o.className = 'quiz-opt';
+        o.disabled = false;
+      });
+      if (exp) exp.hidden = true;
+      if (expText) expText.textContent = '';
+    });
+
+    const resultEl = document.getElementById('quiz-result');
+    if (resultEl) resultEl.hidden = true;
+
+    document.getElementById('quiz-questions')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  });
+</script>
+
+<style>
+  .quiz-wrap {
+    margin-top: 3rem;
+    border-top: 2px solid #f3f4f6;
+    padding-top: 2.5rem;
+  }
+
+  .quiz-header {
+    margin-bottom: 2rem;
+  }
+
+  .quiz-badge {
+    display: inline-block;
+    background: rgba(255, 45, 32, 0.1);
+    color: #FF2D20;
+    padding: 0.25em 0.875em;
+    border-radius: 99px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    border: 1px solid rgba(255, 45, 32, 0.2);
+    margin-bottom: 0.75rem;
+  }
+
+  .quiz-title {
+    font-size: 1.25rem;
+    color: #111827;
+    margin: 0 0 0.375rem;
+  }
+
+  .quiz-sub {
+    color: #6b7280;
+    font-size: 0.875rem;
+    margin: 0;
+  }
+
+  /* Question */
+  .quiz-q {
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1.5px solid #e5e7eb;
+  }
+
+  .quiz-q-text {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #111827;
+    margin: 0 0 1rem;
+    line-height: 1.5;
+  }
+
+  .q-num {
+    color: #FF2D20;
+    font-weight: 800;
+    margin-right: 0.25em;
+  }
+
+  /* Options */
+  .quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .quiz-opt {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    padding: 0.7rem 1rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 8px;
+    background: #fff;
+    color: #374151;
+    font-size: 0.875rem;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+  }
+
+  .quiz-opt:hover:not(:disabled) {
+    border-color: #FF2D20;
+    background: #fff5f5;
+    color: #FF2D20;
+  }
+
+  .quiz-opt:disabled { cursor: default; }
+
+  .opt-letter {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 22px;
+    height: 22px;
+    background: #f3f4f6;
+    border-radius: 4px;
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+
+  .opt-text { line-height: 1.4; }
+
+  .quiz-opt--correct {
+    border-color: #22c55e !important;
+    background: #f0fdf4 !important;
+    color: #15803d !important;
+  }
+
+  .quiz-opt--correct .opt-letter { background: #22c55e; color: white; }
+
+  .quiz-opt--wrong {
+    border-color: #ef4444 !important;
+    background: #fef2f2 !important;
+    color: #b91c1c !important;
+  }
+
+  .quiz-opt--wrong .opt-letter { background: #ef4444; color: white; }
+
+  /* Explanation */
+  .quiz-exp {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-top: 0.875rem;
+    padding: 0.75rem 1rem;
+    background: #eff6ff;
+    border-radius: 8px;
+    border: 1px solid #bfdbfe;
+    color: #1d4ed8;
+    font-size: 0.825rem;
+    line-height: 1.5;
+  }
+
+  .quiz-exp svg { flex-shrink: 0; margin-top: 1px; }
+
+  /* Result */
+  .result-box {
+    text-align: center;
+    padding: 2rem;
+    background: #f9fafb;
+    border-radius: 12px;
+    border: 1.5px solid #e5e7eb;
+  }
+
+  .result-icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+
+  .result-score {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 1.25rem;
+  }
+
+  .quiz-retry {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6em 1.25em;
+    background: #FF2D20;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s;
+  }
+
+  .quiz-retry:hover { background: #CC2419; }
+</style>

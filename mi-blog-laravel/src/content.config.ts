@@ -15,4 +15,23 @@ const blog = defineCollection({
 		}),
 });
 
-export const collections = { blog };
+const quizQuestion = z.object({
+	pregunta: z.string(),
+	opciones: z.array(z.string()),
+	correcta: z.number(),
+	explicacion: z.string(),
+});
+
+const curso = defineCollection({
+	loader: glob({ base: './src/content/curso', pattern: '**/*.{md,mdx}' }),
+	schema: z.object({
+		modulo: z.number(),
+		leccion: z.number(),
+		title: z.string(),
+		description: z.string(),
+		duracion: z.string(),
+		quiz: z.array(quizQuestion).optional().default([]),
+	}),
+});
+
+export const collections = { blog, curso };

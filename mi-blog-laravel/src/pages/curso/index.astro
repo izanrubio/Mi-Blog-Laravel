@@ -1,0 +1,398 @@
+---
+import BaseHead from '../../components/BaseHead.astro';
+import Header from '../../components/Header.astro';
+import Footer from '../../components/Footer.astro';
+import { cursoData, totalLecciones } from '../../data/curso';
+
+const title = 'Curso de Laravel en Español — De cero a profesional | Laravel en Español';
+const description = 'Aprende Laravel desde cero con este curso gratuito en español. 5 módulos, 29 lecciones con ejemplos reales, quiz y progreso guardado.';
+---
+
+<!doctype html>
+<html lang="es">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <Header />
+
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero-inner">
+        <div class="hero-badge">Curso gratuito</div>
+        <h1>Laravel <span class="accent">desde cero</span></h1>
+        <p class="hero-desc">
+          Aprende Laravel paso a paso con lecciones prácticas, ejemplos reales y quiz al final de cada tema.
+          Sin conocimientos previos de Laravel necesarios.
+        </p>
+        <div class="hero-stats">
+          <div class="stat">
+            <span class="stat-num">5</span>
+            <span class="stat-label">módulos</span>
+          </div>
+          <div class="stat-sep">·</div>
+          <div class="stat">
+            <span class="stat-num">{totalLecciones}</span>
+            <span class="stat-label">lecciones</span>
+          </div>
+          <div class="stat-sep">·</div>
+          <div class="stat">
+            <span class="stat-num">Gratis</span>
+            <span class="stat-label">para siempre</span>
+          </div>
+        </div>
+        <a href="/curso/modulo-1/leccion-1" class="btn-start">
+          Empezar el curso →
+        </a>
+      </div>
+    </section>
+
+    <!-- Skills section -->
+    <section class="skills-section">
+      <div class="section-inner">
+        <h2 class="section-title">¿Qué aprenderás?</h2>
+        <div class="skills-grid">
+          {[
+            { icon: '⚙️', text: 'Instalar y configurar Laravel' },
+            { icon: '🗡️', text: 'Crear vistas con Blade' },
+            { icon: '💎', text: 'Bases de datos con Eloquent ORM' },
+            { icon: '🎮', text: 'Controladores y rutas REST' },
+            { icon: '🔐', text: 'Autenticación completa' },
+            { icon: '✅', text: 'Validación de formularios' },
+            { icon: '⚡', text: 'Jobs y colas asíncronas' },
+            { icon: '🧪', text: 'Testing básico' },
+            { icon: '🚀', text: 'Despliegue en producción' },
+          ].map(skill => (
+            <div class="skill-item">
+              <span class="skill-icon">{skill.icon}</span>
+              <span class="skill-text">{skill.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Modules list -->
+    <section class="modules-section">
+      <div class="section-inner">
+        <h2 class="section-title">Contenido del curso</h2>
+        <div class="modules-list">
+          {cursoData.map(modulo => (
+            <div class="modulo-card">
+              <div class="modulo-header">
+                <div class="modulo-icon-wrap">
+                  <span class="modulo-icon">{modulo.icon}</span>
+                </div>
+                <div class="modulo-info">
+                  <div class="modulo-num">Módulo {modulo.number}</div>
+                  <h3 class="modulo-title">{modulo.title}</h3>
+                  <p class="modulo-desc">{modulo.description}</p>
+                </div>
+                <div class="modulo-count">{modulo.lecciones.length} lecciones</div>
+              </div>
+              <div class="modulo-lessons">
+                {modulo.lecciones.map((lec, i) => (
+                  <a href={`/curso/${modulo.slug}/${lec.slug}`} class="modulo-lec">
+                    <span class="lec-dot">{i + 1}</span>
+                    <span class="lec-title">{lec.title}</span>
+                    <span class="lec-dur">{lec.duracion}</span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+      <div class="cta-inner">
+        <h2>¿Listo para aprender Laravel?</h2>
+        <p>El curso es 100% gratuito. Empieza ahora y aprende a tu ritmo.</p>
+        <a href="/curso/modulo-1/leccion-1" class="btn-white">Empezar desde el principio →</a>
+      </div>
+    </section>
+
+    <Footer />
+  </body>
+</html>
+
+<style>
+  /* ── Hero ─────────────────────────────────────── */
+  .hero {
+    background: linear-gradient(135deg, #fff 0%, #fff5f5 100%);
+    border-bottom: 1px solid #ffe0de;
+    padding: 3.5em 1em 3em;
+    text-align: center;
+  }
+
+  .hero-inner {
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255, 45, 32, 0.1);
+    color: #FF2D20;
+    padding: 0.3em 1em;
+    border-radius: 99px;
+    font-size: 0.75em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    border: 1px solid rgba(255, 45, 32, 0.2);
+    margin-bottom: 1rem;
+  }
+
+  .hero h1 {
+    font-size: clamp(2rem, 6vw, 3.25rem);
+    line-height: 1.1;
+    color: #111827;
+    margin: 0 0 0.75rem;
+  }
+
+  .accent { color: #FF2D20; }
+
+  .hero-desc {
+    font-size: 1.05rem;
+    color: #6b7280;
+    line-height: 1.7;
+    max-width: 540px;
+    margin: 0 auto 1.75rem;
+  }
+
+  .hero-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .stat-num { font-size: 1.375rem; font-weight: 800; color: #111827; }
+  .stat-label { font-size: 0.75rem; color: #9ca3af; }
+  .stat-sep { color: #d1d5db; font-size: 1.5rem; }
+
+  .btn-start {
+    display: inline-block;
+    background: #FF2D20;
+    color: white;
+    padding: 0.875em 2em;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .btn-start:hover {
+    background: #CC2419;
+    transform: translateY(-2px);
+    text-decoration: none;
+    color: white;
+  }
+
+  /* ── Sections ─────────────────────────────────── */
+  .section-inner {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 1em;
+  }
+
+  .section-title {
+    font-size: 1.5rem;
+    color: #111827;
+    margin: 0 0 1.5rem;
+  }
+
+  /* ── Skills ───────────────────────────────────── */
+  .skills-section {
+    padding: 3em 0;
+    background: #f9fafb;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .skill-item {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.75rem 1rem;
+    background: white;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-size: 0.875rem;
+    color: #374151;
+  }
+
+  .skill-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+  /* ── Modules ──────────────────────────────────── */
+  .modules-section {
+    padding: 3em 0;
+  }
+
+  .modules-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+
+  .modulo-card {
+    border: 1.5px solid #e5e7eb;
+    border-radius: 14px;
+    background: white;
+    overflow: hidden;
+    transition: border-color 0.2s;
+  }
+
+  .modulo-card:hover { border-color: #FF2D20; }
+
+  .modulo-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.25rem;
+    border-bottom: 1px solid #f3f4f6;
+  }
+
+  .modulo-icon-wrap {
+    width: 48px;
+    height: 48px;
+    background: rgba(255, 45, 32, 0.08);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.375rem;
+    flex-shrink: 0;
+  }
+
+  .modulo-info { flex: 1; }
+
+  .modulo-num {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #FF2D20;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    margin-bottom: 0.25rem;
+  }
+
+  .modulo-title {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #111827;
+    margin: 0 0 0.25rem;
+  }
+
+  .modulo-desc {
+    font-size: 0.825rem;
+    color: #6b7280;
+    margin: 0;
+  }
+
+  .modulo-count {
+    font-size: 0.78rem;
+    color: #9ca3af;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .modulo-lessons {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .modulo-lec {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.7rem 1.25rem;
+    text-decoration: none;
+    color: #374151;
+    font-size: 0.85rem;
+    border-top: 1px solid #f9fafb;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  .modulo-lec:hover {
+    background: #fff5f5;
+    color: #FF2D20;
+    text-decoration: none;
+  }
+
+  .lec-dot {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 22px;
+    height: 22px;
+    background: #f3f4f6;
+    border-radius: 50%;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #6b7280;
+    flex-shrink: 0;
+  }
+
+  .lec-title { flex: 1; }
+
+  .lec-dur {
+    font-size: 0.75rem;
+    color: #9ca3af;
+    white-space: nowrap;
+  }
+
+  /* ── CTA ──────────────────────────────────────── */
+  .cta-section {
+    background: #FF2D20;
+    padding: 3.5em 1em;
+    text-align: center;
+  }
+
+  .cta-inner { max-width: 600px; margin: 0 auto; }
+
+  .cta-inner h2 { color: white; font-size: 1.5rem; margin: 0 0 0.5rem; }
+  .cta-inner p { color: rgba(255,255,255,0.85); margin: 0 0 1.5rem; }
+
+  .btn-white {
+    display: inline-block;
+    background: white;
+    color: #FF2D20;
+    padding: 0.8em 2em;
+    border-radius: 8px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.15s;
+  }
+
+  .btn-white:hover { transform: translateY(-2px); text-decoration: none; color: #FF2D20; }
+
+  /* ── Responsive ───────────────────────────────── */
+  @media (min-width: 600px) {
+    .skills-grid { grid-template-columns: repeat(3, 1fr); }
+    .hero { padding: 5em 1.5em 4em; }
+    .section-inner { padding: 0 1.5em; }
+  }
+
+  @media (min-width: 900px) {
+    .skills-grid { grid-template-columns: repeat(3, 1fr); }
+    .modulo-header { padding: 1.5rem; }
+    .modulo-lec { padding: 0.7rem 1.5rem; }
+  }
+</style>
