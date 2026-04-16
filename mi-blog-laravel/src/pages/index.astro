@@ -71,7 +71,6 @@ const categories = [
 				<h2 class="section-title">Aprende Laravel paso a paso</h2>
 				<div class="resources-grid">
 					<a href="/curso" class="resource-card resource-card--curso">
-						<div class="resource-icon">🎓</div>
 						<div class="resource-body">
 							<div class="resource-tag">Nuevo</div>
 							<h3>Curso gratuito</h3>
@@ -80,7 +79,6 @@ const categories = [
 						<span class="resource-cta">Empezar →</span>
 					</a>
 					<a href="/roadmap" class="resource-card resource-card--roadmap">
-						<div class="resource-icon">🗺️</div>
 						<div class="resource-body">
 							<h3>Roadmap interactivo</h3>
 							<p>34 nodos · De cero a experto · Marca tu avance</p>
@@ -353,21 +351,6 @@ const categories = [
 
 	.resource-card--curso:hover { border-color: #FF2D20; }
 	.resource-card--roadmap:hover { border-color: #3b82f6; }
-
-	.resource-icon {
-		font-size: 2rem;
-		flex-shrink: 0;
-		width: 52px;
-		height: 52px;
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		background: #f3f4f6;
-		border-radius: 10px;
-	}
-
-	.resource-card--curso .resource-icon { background: rgba(255,45,32,0.08); }
-	.resource-card--roadmap .resource-icon { background: rgba(59,130,246,0.08); }
 
 	.resource-body { flex: 1; min-width: 0; }
 

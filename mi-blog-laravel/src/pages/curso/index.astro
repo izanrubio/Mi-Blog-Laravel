@@ -64,7 +64,6 @@ const description = 'Aprende Laravel desde cero con este curso gratuito en espa�
             { icon: '🚀', text: 'Despliegue en producción' },
           ].map(skill => (
             <div class="skill-item">
-              <span class="skill-icon">{skill.icon}</span>
               <span class="skill-text">{skill.text}</span>
             </div>
           ))}
@@ -80,9 +79,6 @@ const description = 'Aprende Laravel desde cero con este curso gratuito en espa�
           {cursoData.map(modulo => (
             <div class="modulo-card">
               <div class="modulo-header">
-                <div class="modulo-icon-wrap">
-                  <span class="modulo-icon">{modulo.icon}</span>
-                </div>
                 <div class="modulo-info">
                   <div class="modulo-num">Módulo {modulo.number}</div>
                   <h3 class="modulo-title">{modulo.title}</h3>
@@ -239,8 +235,6 @@ const description = 'Aprende Laravel desde cero con este curso gratuito en espa�
     color: #374151;
   }
 
-  .skill-icon { font-size: 1.1rem; flex-shrink: 0; }
-
   /* ── Modules ──────────────────────────────────── */
   .modules-section {
     padding: 3em 0;
@@ -268,18 +262,6 @@ const description = 'Aprende Laravel desde cero con este curso gratuito en espa�
     gap: 1rem;
     padding: 1.25rem;
     border-bottom: 1px solid #f3f4f6;
-  }
-
-  .modulo-icon-wrap {
-    width: 48px;
-    height: 48px;
-    background: rgba(255, 45, 32, 0.08);
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1.375rem;
-    flex-shrink: 0;
   }
 
   .modulo-info { flex: 1; }

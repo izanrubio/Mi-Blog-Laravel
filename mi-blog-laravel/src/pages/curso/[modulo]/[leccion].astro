@@ -65,7 +65,6 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
     <!-- Locked overlay (shown via JS if lesson is locked) -->
     <div id="locked-overlay" class="locked-overlay" style="display:none">
       <div class="locked-box">
-        <div class="locked-icon">🔒</div>
         <h2 class="locked-title">Lección bloqueada</h2>
         <p class="locked-desc">
           Debes completar la lección anterior antes de acceder a esta.
@@ -91,9 +90,7 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
       <div class="leccion-meta">
         <span class="leccion-badge">Módulo {moduloData?.number} · Lección {leccionNum + 1}</span>
         <span class="leccion-dur">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="13" height="13" aria-hidden="true">
-            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/>
-          </svg>
+
           {duracion}
         </span>
       </div>
@@ -116,9 +113,7 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
         id="btn-complete"
         data-lesson-id={lessonId}
       >
-        <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
-          <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
-        </svg>
+
         <span id="btn-complete-text">Marcar lección como completada</span>
       </button>
     </div>
@@ -127,9 +122,7 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
     <nav class="lesson-nav" aria-label="Navegación entre lecciones">
       {prev ? (
         <a href={`/curso/${prev.modulo}/${prev.leccion}`} class="nav-btn nav-btn--prev">
-          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
-            <path fill-rule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clip-rule="evenodd"/>
-          </svg>
+
           <div class="nav-text">
             <span class="nav-label">Anterior</span>
             <span class="nav-title">{prev.title}</span>
@@ -143,9 +136,7 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
             <span class="nav-label">Siguiente</span>
             <span class="nav-title">{next.title}</span>
           </div>
-          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
-            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
-          </svg>
+
         </a>
       ) : (
         <a href="/curso" class="nav-btn nav-btn--next">
@@ -153,9 +144,7 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
             <span class="nav-label">Fin del curso</span>
             <span class="nav-title">Ver resumen del curso</span>
           </div>
-          <svg viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
-            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
-          </svg>
+
         </a>
       )}
     </nav>
@@ -585,12 +574,6 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
     max-width: 420px;
     width: 100%;
     box-shadow: 0 4px 24px rgba(0,0,0,0.06);
-  }
-
-  .locked-icon {
-    font-size: 2.75rem;
-    margin-bottom: 1rem;
-    line-height: 1;
   }
 
   .locked-title {

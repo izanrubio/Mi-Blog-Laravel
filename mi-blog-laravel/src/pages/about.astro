@@ -153,22 +153,18 @@ const faqs = [
 				</p>
 				<div class="profiles-grid">
 					<div class="profile-card">
-						<div class="profile-icon">👨‍💻</div>
 						<h3>El developer que empieza con Laravel</h3>
 						<p>Necesitas instalar Laravel, configurar el <code>.env</code>, conectar la base de datos y hacer funcionar tu primer proyecto. Tenemos guías paso a paso para cada sistema operativo.</p>
 					</div>
 					<div class="profile-card">
-						<div class="profile-icon">🔥</div>
 						<h3>El developer atascado con un error</h3>
 						<p>Llevas una hora con un <code>419 Page Expired</code>, un <code>Class not found</code> o un <code>SQLSTATE</code> que no entiendes. Aquí están las soluciones, explicadas sin rodeos.</p>
 					</div>
 					<div class="profile-card">
-						<div class="profile-icon">📈</div>
 						<h3>El developer que quiere mejorar</h3>
 						<p>Ya sabes hacer CRUD con Laravel, pero quieres entender Eloquent en profundidad, aprender a estructurar proyectos grandes, escribir tests o mejorar el rendimiento de tus queries.</p>
 					</div>
 					<div class="profile-card">
-						<div class="profile-icon">⚡</div>
 						<h3>El developer que tiene que elegir</h3>
 						<p>¿Livewire o Inertia? ¿Sanctum o Passport? ¿Laravel o Symfony? Nuestras comparativas te dan el contexto real para tomar la decisión correcta para tu proyecto concreto.</p>
 					</div>
@@ -185,7 +181,6 @@ const faqs = [
 				<div class="categories-list">
 					{categories.map(cat => (
 						<div class="cat-row">
-							<div class="cat-icon">{cat.icon}</div>
 							<div class="cat-content">
 								<div class="cat-header">
 									<h3>{cat.title}</h3>
@@ -402,11 +397,6 @@ const faqs = [
 		box-shadow: 0 4px 16px rgba(255,45,32,0.07);
 	}
 
-	.profile-icon {
-		font-size: 1.75rem;
-		margin-bottom: 0.75rem;
-	}
-
 	.profile-card h3 {
 		font-size: 0.975rem;
 		color: #111827;
@@ -445,12 +435,6 @@ const faqs = [
 	.cat-row:last-child { border-bottom: none; }
 
 	.cat-row:hover { background: #fafafa; }
-
-	.cat-icon {
-		font-size: 1.5rem;
-		flex-shrink: 0;
-		margin-top: 0.1rem;
-	}
 
 	.cat-content { flex: 1; }
 
