@@ -32,6 +32,7 @@ export const roadmap: Level[] = [
         description: 'PHP es el lenguaje en que está escrito Laravel. Necesitas dominar variables, tipos de datos, funciones, arrays, bucles y programación orientada a objetos (clases, herencia, interfaces). Sin esta base, Laravel resultará confuso.',
         estimatedTime: '~3 semanas',
         difficulty: 'Básico',
+        blogSlug: 'php-basico-para-laravel',
       },
       {
         id: 'composer',
@@ -40,7 +41,7 @@ export const roadmap: Level[] = [
         description: 'Composer es el gestor de dependencias de PHP. Con él instalas Laravel y sus paquetes. Necesitas saber ejecutar composer install, composer require y entender el archivo composer.json.',
         estimatedTime: '~2 días',
         difficulty: 'Básico',
-        blogSlug: 'instalar-laravel-windows',
+        blogSlug: 'composer-que-es-como-instalar',
       },
       {
         id: 'terminal',
@@ -49,7 +50,7 @@ export const roadmap: Level[] = [
         description: 'Laravel se maneja mucho desde la terminal. Necesitas saber navegar directorios (cd, ls), ejecutar comandos, manejar permisos básicos y entender la diferencia entre rutas absolutas y relativas.',
         estimatedTime: '~3 días',
         difficulty: 'Básico',
-        blogSlug: 'instalar-laravel-ubuntu',
+        blogSlug: 'terminal-cli-para-desarrolladores',
       },
       {
         id: 'html-css',
@@ -58,6 +59,7 @@ export const roadmap: Level[] = [
         description: 'Las vistas de Laravel (Blade) generan HTML. Necesitas conocer la estructura HTML básica, formularios, y CSS suficiente para dar estilo a tus páginas. No necesitas ser diseñador, solo entender la estructura.',
         estimatedTime: '~1 semana',
         difficulty: 'Básico',
+        blogSlug: 'html-css-basico-para-laravel',
       },
       {
         id: 'git',
@@ -66,6 +68,7 @@ export const roadmap: Level[] = [
         description: 'Control de versiones imprescindible. Necesitas saber hacer git init, add, commit, push, pull y manejar ramas básicas. Laravel y todos los proyectos profesionales usan Git.',
         estimatedTime: '~3 días',
         difficulty: 'Básico',
+        blogSlug: 'git-basico-para-proyectos-laravel',
       },
     ],
   },
@@ -92,7 +95,7 @@ export const roadmap: Level[] = [
         description: 'Laravel tiene una estructura de carpetas bien definida: app/ (tu código), routes/ (rutas), resources/views (vistas Blade), database/ (migraciones), public/ (archivos públicos), config/ (configuración). Entenderla es fundamental.',
         estimatedTime: '~2 días',
         difficulty: 'Básico',
-        blogSlug: 'laravel-ciclo-vida-request',
+        blogSlug: 'laravel-estructura-carpetas',
       },
       {
         id: 'env-config',
@@ -110,7 +113,7 @@ export const roadmap: Level[] = [
         description: 'Artisan es la herramienta de línea de comandos de Laravel. Con php artisan puedes crear controladores, modelos, migraciones, ejecutar seeds, limpiar caché y cientos de cosas más. Es el centro de operaciones de tu app.',
         estimatedTime: '~2 días',
         difficulty: 'Básico',
-        blogSlug: 'laravel-leer-log',
+        blogSlug: 'laravel-artisan-cli-comandos',
       },
       {
         id: 'rutas',
@@ -119,7 +122,7 @@ export const roadmap: Level[] = [
         description: 'Las rutas definen qué URL hace qué. En routes/web.php defines GET, POST, PUT, DELETE. Puedes agrupar rutas, darles nombre, protegerlas con middlewares. Es el punto de entrada de cada petición HTTP.',
         estimatedTime: '~2 días',
         difficulty: 'Básico',
-        blogSlug: 'laravel-route-not-found-404',
+        blogSlug: 'laravel-rutas-basicas-web-php',
       },
       {
         id: 'controladores',
@@ -128,7 +131,7 @@ export const roadmap: Level[] = [
         description: 'Los controladores reciben la petición HTTP, procesan la lógica y devuelven una respuesta. Viven en app/Http/Controllers. Los controladores resource siguen convenciones REST y reducen código repetitivo.',
         estimatedTime: '~3 días',
         difficulty: 'Básico',
-        blogSlug: 'laravel-controller-does-not-exist',
+        blogSlug: 'laravel-controladores-guia',
       },
       {
         id: 'blade',
@@ -137,6 +140,7 @@ export const roadmap: Level[] = [
         description: 'Blade es el motor de plantillas de Laravel. Permite usar @if, @foreach, @extends, @section, @component y variables {{ $variable }} en archivos .blade.php. Genera HTML limpio sin overhead de rendimiento.',
         estimatedTime: '~1 semana',
         difficulty: 'Básico',
+        blogSlug: 'laravel-blade-vistas-guia',
       },
     ],
   },
@@ -154,7 +158,7 @@ export const roadmap: Level[] = [
         description: 'Las migraciones son "control de versiones para tu base de datos". Defines la estructura de tus tablas en PHP, y Laravel las ejecuta en cualquier entorno. Nunca más tocar la base de datos a mano.',
         estimatedTime: '~3 días',
         difficulty: 'Básico',
-        blogSlug: 'laravel-conectar-base-de-datos',
+        blogSlug: 'laravel-migraciones-guia',
       },
       {
         id: 'seeders-factories',
@@ -163,6 +167,7 @@ export const roadmap: Level[] = [
         description: 'Los Seeders rellenan tu base de datos con datos iniciales. Las Factories generan datos falsos realistas usando Faker. Imprescindibles para desarrollo y testing: puedes tener 1000 usuarios de prueba en segundos.',
         estimatedTime: '~2 días',
         difficulty: 'Básico',
+        blogSlug: 'laravel-seeders-factories',
       },
       {
         id: 'eloquent',
@@ -180,7 +185,7 @@ export const roadmap: Level[] = [
         description: 'Laravel permite definir relaciones entre modelos: hasOne, hasMany, belongsTo, belongsToMany, hasManyThrough. Con eager loading (with()) evitas el problema N+1 que mata el rendimiento de las apps.',
         estimatedTime: '~1 semana',
         difficulty: 'Intermedio',
-        blogSlug: 'laravel-optimizar-queries-lentas',
+        blogSlug: 'laravel-relaciones-eloquent',
       },
       {
         id: 'query-builder',
@@ -198,6 +203,7 @@ export const roadmap: Level[] = [
         description: 'Tinker es una REPL interactiva para Laravel. Con php artisan tinker puedes ejecutar código PHP y consultas Eloquent en tiempo real sin crear rutas ni controladores. Ideal para probar y debuggear.',
         estimatedTime: '~1 día',
         difficulty: 'Básico',
+        blogSlug: 'laravel-tinker-guia',
       },
     ],
   },
@@ -224,7 +230,7 @@ export const roadmap: Level[] = [
         description: 'Laravel Breeze ofrece autenticación completa (registro, login, reset de contraseña) en minutos. Para APIs usa Sanctum (tokens). Para apps SPA o móvil usa Passport (OAuth2). Elige según tu caso de uso.',
         estimatedTime: '~1 semana',
         difficulty: 'Intermedio',
-        blogSlug: 'laravel-sanctum-vs-passport',
+        blogSlug: 'laravel-autenticacion-breeze-sanctum',
       },
       {
         id: 'validacion',
@@ -233,6 +239,7 @@ export const roadmap: Level[] = [
         description: 'Laravel tiene un sistema de validación potente: $request->validate(["email" => "required|email"]). Puedes usar Form Requests para limpiar los controladores. Los mensajes de error son automáticos y personalizables.',
         estimatedTime: '~3 días',
         difficulty: 'Intermedio',
+        blogSlug: 'laravel-validacion-formularios',
       },
       {
         id: 'queues',
@@ -259,7 +266,7 @@ export const roadmap: Level[] = [
         description: 'Storage::put(), Storage::disk("s3")->upload(). Laravel abstrae el sistema de archivos: puedes guardar en local, S3, DigitalOcean Spaces sin cambiar el código. Imprescindible para apps con uploads.',
         estimatedTime: '~3 días',
         difficulty: 'Intermedio',
-        blogSlug: 'laravel-permission-denied-storage',
+        blogSlug: 'laravel-almacenamiento-ficheros',
       },
       {
         id: 'cache',
@@ -331,7 +338,7 @@ export const roadmap: Level[] = [
         description: 'Dashboard para gestionar colas Redis en producción. Monitoriza workers, métricas de throughput, jobs fallidos y tiempos de procesamiento. Imprescindible si usas colas Redis en producción.',
         estimatedTime: '~3 días',
         difficulty: 'Avanzado',
-        blogSlug: 'laravel-jobs-queues-workers',
+        blogSlug: 'laravel-horizon-guia',
       },
       {
         id: 'telescope',
