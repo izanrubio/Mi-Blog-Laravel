@@ -1,0 +1,619 @@
+---
+import { getCollection, render } from 'astro:content';
+import CursoLayout from '../../../layouts/CursoLayout.astro';
+import Quiz from '../../../components/curso/Quiz.astro';
+import { cursoData } from '../../../data/curso';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('curso');
+  return entries.map(entry => {
+    const parts = entry.id.split('/');
+    const modulo = parts[0];
+    const leccion = parts[1];
+    return {
+      params: { modulo, leccion },
+      props: { entry },
+    };
+  });
+}
+
+const { entry } = Astro.props;
+const { modulo, leccion } = Astro.params;
+const { Content } = await render(entry);
+
+const { title, description, duracion, quiz } = entry.data;
+
+// Breadcrumb data
+const moduloData = cursoData.find(m => m.slug === modulo);
+const leccionData = moduloData?.lecciones.find(l => l.slug === leccion);
+
+// Prev/Next navigation
+const allLessons = cursoData.flatMap(m =>
+  m.lecciones.map(l => ({ modulo: m.slug, leccion: l.slug, title: l.title }))
+);
+const currentIdx = allLessons.findIndex(l => l.modulo === modulo && l.leccion === leccion);
+const prev = currentIdx > 0 ? allLessons[currentIdx - 1] : null;
+const next = currentIdx < allLessons.length - 1 ? allLessons[currentIdx + 1] : null;
+
+const lessonId = `${modulo}/${leccion}`;
+const leccionNum = moduloData?.lecciones.findIndex(l => l.slug === leccion) ?? 0;
+
+const allLessonsOrdered = cursoData.flatMap(m => m.lecciones.map(l => `${m.slug}/${l.slug}`));
+const prevLessonId = prev ? `${prev.modulo}/${prev.leccion}` : null;
+const hasQuiz = quiz && quiz.length > 0;
+
+const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
+---
+
+<CursoLayout
+  title={pageTitle}
+  description={description}
+  moduloActual={modulo}
+  leccionActual={leccion}
+>
+  <article class="leccion-wrap">
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Ruta de navegación">
+      <a href="/curso">Curso</a>
+      <span class="bc-sep">›</span>
+      <a href={`/curso/${modulo}/leccion-1`}>{moduloData?.title}</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">Lección {leccionNum + 1}</span>
+    </nav>
+
+    <!-- Locked overlay (shown via JS if lesson is locked) -->
+    <div id="locked-overlay" class="locked-overlay" style="display:none">
+      <div class="locked-box">
+        <h2 class="locked-title">Lección bloqueada</h2>
+        <p class="locked-desc">
+          Debes completar la lección anterior antes de acceder a esta.
+        </p>
+        {prev && (
+          <a href={`/curso/${prev.modulo}/${prev.leccion}`} class="locked-btn">
+            ← Ir a la lección anterior
+          </a>
+        )}
+        {!prev && (
+          <a href="/curso/modulo-1/leccion-1" class="locked-btn">
+            ← Empezar desde el principio
+          </a>
+        )}
+      </div>
+    </div>
+
+    <!-- Lesson body (hidden when locked) -->
+    <div id="lesson-body">
+
+    <!-- Header -->
+    <header class="leccion-header">
+      <div class="leccion-meta">
+        <span class="leccion-badge">Módulo {moduloData?.number} · Lección {leccionNum + 1}</span>
+        <span class="leccion-dur">
+
+          {duracion}
+        </span>
+      </div>
+      <h1 class="leccion-title">{title}</h1>
+      <p class="leccion-desc">{description}</p>
+    </header>
+
+    <!-- Content (Markdown) -->
+    <div class="leccion-content prose">
+      <Content />
+    </div>
+
+    <!-- Quiz -->
+    {quiz && quiz.length > 0 && <Quiz quiz={quiz} />}
+
+    <!-- Mark as complete -->
+    <div class="complete-section">
+      <button
+        class="btn-complete"
+        id="btn-complete"
+        data-lesson-id={lessonId}
+      >
+
+        <span id="btn-complete-text">Marcar lección como completada</span>
+      </button>
+    </div>
+
+    <!-- Prev / Next navigation -->
+    <nav class="lesson-nav" aria-label="Navegación entre lecciones">
+      {prev ? (
+        <a href={`/curso/${prev.modulo}/${prev.leccion}`} class="nav-btn nav-btn--prev">
+
+          <div class="nav-text">
+            <span class="nav-label">Anterior</span>
+            <span class="nav-title">{prev.title}</span>
+          </div>
+        </a>
+      ) : <div />}
+
+      {next ? (
+        <a href={`/curso/${next.modulo}/${next.leccion}`} class="nav-btn nav-btn--next">
+          <div class="nav-text">
+            <span class="nav-label">Siguiente</span>
+            <span class="nav-title">{next.title}</span>
+          </div>
+
+        </a>
+      ) : (
+        <a href="/curso" class="nav-btn nav-btn--next">
+          <div class="nav-text">
+            <span class="nav-label">Fin del curso</span>
+            <span class="nav-title">Ver resumen del curso</span>
+          </div>
+
+        </a>
+      )}
+    </nav>
+
+    </div> <!-- /lesson-body -->
+
+  </article>
+</CursoLayout>
+
+<script is:inline define:vars={{ lessonId, allLessonsOrdered, hasQuiz }}>
+  const STORAGE_KEY = 'curso-completado';
+
+  function getCompleted() {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch { return []; }
+  }
+
+  function saveCompleted(arr) {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+  }
+
+  function isLocked(id) {
+    if (id === allLessonsOrdered[0]) return false;
+    const idx = allLessonsOrdered.indexOf(id);
+    if (idx <= 0) return false;
+    return !getCompleted().includes(allLessonsOrdered[idx - 1]);
+  }
+
+  // Show/hide locked overlay
+  const lockedOverlay = document.getElementById('locked-overlay');
+  const lessonBody = document.getElementById('lesson-body');
+
+  function checkLock() {
+    const locked = isLocked(lessonId);
+    if (lockedOverlay) lockedOverlay.style.display = locked ? 'flex' : 'none';
+    if (lessonBody) lessonBody.hidden = locked;
+  }
+
+  checkLock();
+  window.addEventListener('curso:progress-updated', checkLock);
+
+  const btn = document.getElementById('btn-complete');
+  const btnText = document.getElementById('btn-complete-text');
+
+  // Quiz gate: if lesson has a quiz, require passing it before marking complete.
+  // Once already completed (from localStorage), allow un-completing freely.
+  let quizPassed = !hasQuiz;
+
+  function canComplete() {
+    return quizPassed || getCompleted().includes(lessonId);
+  }
+
+  function updateBtn() {
+    const completed = getCompleted();
+    const isDone = completed.includes(lessonId);
+    const allowed = canComplete();
+
+    btn.classList.toggle('btn-complete--done', isDone);
+    btn.disabled = !allowed;
+
+    if (isDone) {
+      btnText.textContent = 'Completada ✓';
+    } else if (!allowed) {
+      btnText.textContent = 'Responde el quiz correctamente para continuar';
+    } else {
+      btnText.textContent = 'Marcar lección como completada';
+    }
+  }
+
+  btn?.addEventListener('click', () => {
+    if (!canComplete()) return;
+    const completed = getCompleted();
+    const idx = completed.indexOf(lessonId);
+    if (idx === -1) completed.push(lessonId);
+    else completed.splice(idx, 1);
+    saveCompleted(completed);
+    updateBtn();
+    window.dispatchEvent(new Event('curso:progress-updated'));
+  });
+
+  window.addEventListener('quiz:result', (e) => {
+    if (e.detail && e.detail.passed) {
+      quizPassed = true;
+      updateBtn();
+    }
+  });
+
+  updateBtn();
+
+  // Copy code buttons
+  document.querySelectorAll('.leccion-content pre').forEach(pre => {
+    const wrap = document.createElement('div');
+    wrap.style.position = 'relative';
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+
+    const btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.textContent = 'Copiar';
+    btn.addEventListener('click', () => {
+      const code = pre.querySelector('code')?.innerText ?? pre.innerText;
+      navigator.clipboard.writeText(code).then(() => {
+        btn.textContent = '¡Copiado!';
+        btn.classList.add('copy-btn--done');
+        setTimeout(() => {
+          btn.textContent = 'Copiar';
+          btn.classList.remove('copy-btn--done');
+        }, 2000);
+      });
+    });
+    wrap.appendChild(btn);
+  });
+</script>
+
+<style>
+  .leccion-wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Breadcrumb */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.25rem;
+    font-size: 0.78rem;
+    color: #9ca3af;
+    margin-bottom: 1.5rem;
+  }
+
+  .breadcrumb a {
+    color: #6b7280;
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .breadcrumb a:hover { color: #FF2D20; }
+  .bc-sep { color: #d1d5db; }
+  .bc-current { color: #374151; font-weight: 500; }
+
+  /* Header */
+  .leccion-header { margin-bottom: 2.5rem; }
+
+  .leccion-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    flex-wrap: wrap;
+    margin-bottom: 0.875rem;
+  }
+
+  .leccion-badge {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #FF2D20;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    background: rgba(255, 45, 32, 0.08);
+    border: 1px solid rgba(255, 45, 32, 0.2);
+    padding: 0.25em 0.75em;
+    border-radius: 99px;
+  }
+
+  .leccion-dur {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3em;
+    font-size: 0.78rem;
+    color: #6b7280;
+  }
+
+  .leccion-title {
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    color: #111827;
+    margin: 0 0 0.625rem;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+  }
+
+  .leccion-desc {
+    font-size: 1rem;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* Prose (markdown content) */
+  .prose :global(h2) {
+    font-size: 1.375rem;
+    color: #111827;
+    margin: 2.5rem 0 0.875rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f3f4f6;
+  }
+
+  .prose :global(h3) {
+    font-size: 1.1rem;
+    color: #111827;
+    margin: 2rem 0 0.625rem;
+  }
+
+  .prose :global(p) {
+    font-size: 0.975rem;
+    color: #374151;
+    line-height: 1.75;
+    margin: 0 0 1.25rem;
+  }
+
+  .prose :global(ul), .prose :global(ol) {
+    padding-left: 1.5rem;
+    margin: 0 0 1.25rem;
+  }
+
+  .prose :global(li) {
+    font-size: 0.975rem;
+    color: #374151;
+    line-height: 1.7;
+    margin-bottom: 0.375rem;
+  }
+
+  .prose :global(code) {
+    font-size: 0.85em;
+    background: #f3f4f6;
+    color: #FF2D20;
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    font-family: 'Fira Code', 'Cascadia Code', monospace;
+  }
+
+  .prose :global(pre) {
+    background: #111827;
+    border-radius: 10px;
+    padding: 1.25rem;
+    overflow-x: auto;
+    margin: 1.25rem 0;
+    font-size: 0.875rem;
+    line-height: 1.6;
+  }
+
+  .prose :global(pre code) {
+    background: none;
+    color: inherit;
+    padding: 0;
+    border-radius: 0;
+    font-size: inherit;
+  }
+
+  .prose :global(blockquote) {
+    border-left: 4px solid #FF2D20;
+    padding: 0.75rem 1.25rem;
+    background: #fff5f5;
+    border-radius: 0 8px 8px 0;
+    margin: 1.25rem 0;
+    color: #374151;
+    font-style: italic;
+  }
+
+  .prose :global(a) {
+    color: #FF2D20;
+    text-decoration: underline;
+  }
+
+  .prose :global(strong) { color: #111827; }
+
+  .prose :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin: 1.5rem 0;
+  }
+
+  .prose :global(th), .prose :global(td) {
+    padding: 0.625rem 0.875rem;
+    border: 1px solid #e5e7eb;
+    text-align: left;
+  }
+
+  .prose :global(th) {
+    background: #f9fafb;
+    font-weight: 700;
+    color: #374151;
+  }
+
+  /* Copy button (injected via JS) */
+  :global(.copy-btn) {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    padding: 0.3em 0.75em;
+    background: #374151;
+    color: #d1d5db;
+    border: 1px solid #4b5563;
+    border-radius: 6px;
+    font-size: 0.72rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: background 0.15s, color 0.15s;
+  }
+
+  :global(.copy-btn:hover) { background: #4b5563; color: white; }
+  :global(.copy-btn--done) { background: #22c55e; color: white; border-color: #22c55e; }
+
+  /* Complete button */
+  .complete-section {
+    margin: 3rem 0 2rem;
+    display: flex;
+    justify-content: center;
+  }
+
+  .btn-complete {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.8em 1.75em;
+    border: 2px solid #e5e7eb;
+    border-radius: 10px;
+    background: white;
+    color: #374151;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .btn-complete:hover {
+    border-color: #22c55e;
+    color: #15803d;
+    background: #f0fdf4;
+  }
+
+  .btn-complete--done {
+    border-color: #22c55e;
+    background: #f0fdf4;
+    color: #15803d;
+  }
+
+  .btn-complete:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    border-color: #e5e7eb;
+    color: #9ca3af;
+    background: #f9fafb;
+  }
+
+  .btn-complete:disabled:hover {
+    border-color: #e5e7eb;
+    color: #9ca3af;
+    background: #f9fafb;
+  }
+
+  /* Lesson navigation */
+  .lesson-nav {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.875rem;
+    padding-top: 2rem;
+    border-top: 1px solid #f3f4f6;
+  }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.875rem 1.125rem;
+    border: 1.5px solid #e5e7eb;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #374151;
+    background: white;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .nav-btn:hover {
+    border-color: #FF2D20;
+    color: #FF2D20;
+    text-decoration: none;
+  }
+
+  .nav-btn--next { justify-content: flex-end; text-align: right; }
+  .nav-btn--prev { justify-content: flex-start; }
+
+  .nav-text {
+    display: flex;
+    flex-direction: column;
+    gap: 0.125rem;
+    min-width: 0;
+  }
+
+  .nav-label {
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #9ca3af;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .nav-title {
+    font-size: 0.825rem;
+    font-weight: 600;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  /* Locked overlay */
+  .locked-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 2rem 1rem;
+  }
+
+  .locked-box {
+    text-align: center;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-top: 4px solid #FF2D20;
+    border-radius: 12px;
+    padding: 3rem 2.5rem;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .locked-title {
+    font-size: 1.375rem;
+    color: #111827;
+    margin: 0 0 0.75rem;
+    font-weight: 700;
+  }
+
+  .locked-desc {
+    font-size: 0.925rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0 0 1.75rem;
+  }
+
+  .locked-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75em 1.5em;
+    background: #FF2D20;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .locked-btn:hover {
+    background: #CC2419;
+    text-decoration: none;
+    color: white;
+  }
+
+  /* Responsive */
+  @media (max-width: 560px) {
+    .leccion-wrap { padding: 1.5rem 1rem 3rem; }
+    .lesson-nav { grid-template-columns: 1fr; }
+    .nav-btn--next { justify-content: flex-start; text-align: left; }
+  }
+</style>

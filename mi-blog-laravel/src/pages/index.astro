@@ -34,16 +34,16 @@ const categories = [
 				<h1>Aprende <span class="accent">Laravel</span> en tu idioma</h1>
 				<p class="hero-desc">
 					Tutoriales prácticos, soluciones a errores frecuentes y guías completas
-					sobre Laravel, escritas en español para desarrolladores PHP de habla hispana.
+					sobre Laravel 13, escritas en español para desarrolladores PHP de habla hispana.
 				</p>
 				<div class="hero-cta">
-					<a href="/blog" class="btn-primary">Ver todos los artículos</a>
-					<a href="/about" class="btn-secondary">Sobre este blog</a>
+					<a href="/curso" class="btn-primary">Empezar el curso gratis</a>
+					<a href="/blog" class="btn-secondary">Ver artículos</a>
 				</div>
 				<div class="hero-stats">
-					<div class="stat"><strong>50+</strong> artículos</div>
+					<div class="stat"><strong>75+</strong> artículos</div>
 					<div class="stat-sep">·</div>
-					<div class="stat"><strong>100%</strong> en español</div>
+					<div class="stat"><strong>29</strong> lecciones</div>
 					<div class="stat-sep">·</div>
 					<div class="stat"><strong>Laravel 13</strong> actualizado</div>
 				</div>
@@ -61,6 +61,30 @@ const categories = [
 							<p>{cat.desc}</p>
 						</a>
 					))}
+				</div>
+			</div>
+		</section>
+
+		<!-- Resources (Roadmap + Curso) -->
+		<section class="resources-section">
+			<div class="section-inner">
+				<h2 class="section-title">Aprende Laravel paso a paso</h2>
+				<div class="resources-grid">
+					<a href="/curso" class="resource-card resource-card--curso">
+						<div class="resource-body">
+							<div class="resource-tag">Nuevo</div>
+							<h3>Curso gratuito</h3>
+							<p>5 módulos · 29 lecciones · Quiz interactivo · Progreso guardado</p>
+						</div>
+						<span class="resource-cta">Empezar →</span>
+					</a>
+					<a href="/roadmap" class="resource-card resource-card--roadmap">
+						<div class="resource-body">
+							<h3>Roadmap interactivo</h3>
+							<p>34 nodos · De cero a experto · Marca tu avance</p>
+						</div>
+						<span class="resource-cta">Ver roadmap →</span>
+					</a>
 				</div>
 			</div>
 		</section>
@@ -97,9 +121,12 @@ const categories = [
 		<!-- CTA Banner -->
 		<section class="cta-section">
 			<div class="cta-inner">
-				<h2>¿Estás atascado con un error de Laravel?</h2>
-				<p>Tenemos guías detalladas para los errores más comunes. Encuentra tu solución rápido.</p>
-				<a href="/blog" class="btn-white">Buscar solución →</a>
+				<h2>¿Atascado con un error de Laravel?</h2>
+				<p>Guías detalladas para los errores más comunes, actualizadas para Laravel 13.</p>
+				<div class="cta-btns">
+					<a href="/blog" class="btn-white">Buscar solución →</a>
+					<a href="/curso" class="btn-white-outline">Curso gratis →</a>
+				</div>
 			</div>
 		</section>
 
@@ -290,6 +317,81 @@ const categories = [
 		line-height: 1.5;
 	}
 
+	/* ── Resources ───────────────────────────────────── */
+	.resources-section {
+		padding: 2em 0;
+		background: #f9fafb;
+		border-bottom: 1px solid #f3f4f6;
+	}
+
+	.resources-grid {
+		display: grid;
+		grid-template-columns: 1fr;
+		gap: 0.75em;
+	}
+
+	.resource-card {
+		display: flex;
+		align-items: center;
+		gap: 1rem;
+		padding: 1.25rem;
+		background: white;
+		border: 1.5px solid #e5e7eb;
+		border-radius: 12px;
+		text-decoration: none;
+		color: inherit;
+		transition: border-color 0.2s, box-shadow 0.2s, transform 0.15s;
+	}
+
+	.resource-card:hover {
+		box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+		transform: translateY(-2px);
+		text-decoration: none;
+	}
+
+	.resource-card--curso:hover { border-color: #FF2D20; }
+	.resource-card--roadmap:hover { border-color: #3b82f6; }
+
+	.resource-body { flex: 1; min-width: 0; }
+
+	.resource-tag {
+		display: inline-block;
+		font-size: 0.65rem;
+		font-weight: 700;
+		text-transform: uppercase;
+		letter-spacing: 0.06em;
+		color: #FF2D20;
+		background: rgba(255,45,32,0.1);
+		border: 1px solid rgba(255,45,32,0.2);
+		padding: 1px 6px;
+		border-radius: 99px;
+		margin-bottom: 0.25rem;
+	}
+
+	.resource-body h3 {
+		font-size: 0.95rem;
+		color: #111827;
+		margin: 0 0 0.2rem;
+		font-weight: 700;
+	}
+
+	.resource-body p {
+		font-size: 0.75rem;
+		color: #6b7280;
+		margin: 0;
+	}
+
+	.resource-cta {
+		font-size: 0.8rem;
+		font-weight: 700;
+		color: #9ca3af;
+		white-space: nowrap;
+		flex-shrink: 0;
+	}
+
+	.resource-card--curso:hover .resource-cta { color: #FF2D20; }
+	.resource-card--roadmap:hover .resource-cta { color: #3b82f6; }
+
 	/* ── Posts grid ──────────────────────────────────── */
 	.posts-section {
 		padding: 2.5em 0;
@@ -400,6 +502,13 @@ const categories = [
 		margin-bottom: 1.5em;
 	}
 
+	.cta-btns {
+		display: flex;
+		gap: 0.75em;
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+
 	.btn-white {
 		display: inline-block;
 		background: white;
@@ -418,6 +527,25 @@ const categories = [
 		color: #FF2D20;
 	}
 
+	.btn-white-outline {
+		display: inline-block;
+		background: transparent;
+		color: white;
+		border: 1.5px solid rgba(255,255,255,0.5);
+		padding: 0.8em 2em;
+		border-radius: 8px;
+		font-weight: 700;
+		text-decoration: none;
+		transition: transform 0.15s, border-color 0.15s;
+	}
+
+	.btn-white-outline:hover {
+		transform: translateY(-2px);
+		border-color: white;
+		text-decoration: none;
+		color: white;
+	}
+
 	/* ── Tablet (600px+) ─────────────────────────────── */
 	@media (min-width: 600px) {
 		.hero { padding: 4em 1.5em 3em; }
@@ -427,6 +555,7 @@ const categories = [
 		.section-inner { padding: 0 1.5em; }
 		.section-title { font-size: 1.4em; }
 		.categories-grid { grid-template-columns: repeat(3, 1fr); gap: 1em; }
+		.resources-grid { grid-template-columns: repeat(2, 1fr); gap: 1em; }
 		.posts-grid { grid-template-columns: repeat(2, 1fr); gap: 1em; }
 		.post-card--featured { grid-column: span 2; }
 		.post-card--featured .post-title { font-size: 1.3em; }
