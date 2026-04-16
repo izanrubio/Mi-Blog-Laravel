@@ -49,6 +49,7 @@ export const roadmap: Level[] = [
         description: 'Laravel se maneja mucho desde la terminal. Necesitas saber navegar directorios (cd, ls), ejecutar comandos, manejar permisos básicos y entender la diferencia entre rutas absolutas y relativas.',
         estimatedTime: '~3 días',
         difficulty: 'Básico',
+        blogSlug: 'instalar-laravel-ubuntu',
       },
       {
         id: 'html-css',
@@ -109,6 +110,7 @@ export const roadmap: Level[] = [
         description: 'Artisan es la herramienta de línea de comandos de Laravel. Con php artisan puedes crear controladores, modelos, migraciones, ejecutar seeds, limpiar caché y cientos de cosas más. Es el centro de operaciones de tu app.',
         estimatedTime: '~2 días',
         difficulty: 'Básico',
+        blogSlug: 'laravel-leer-log',
       },
       {
         id: 'rutas',
@@ -257,6 +259,7 @@ export const roadmap: Level[] = [
         description: 'Storage::put(), Storage::disk("s3")->upload(). Laravel abstrae el sistema de archivos: puedes guardar en local, S3, DigitalOcean Spaces sin cambiar el código. Imprescindible para apps con uploads.',
         estimatedTime: '~3 días',
         difficulty: 'Intermedio',
+        blogSlug: 'laravel-permission-denied-storage',
       },
       {
         id: 'cache',
