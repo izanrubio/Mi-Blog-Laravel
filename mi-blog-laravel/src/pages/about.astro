@@ -24,7 +24,7 @@ const categories = [
 		icon: '📚',
 		title: 'Conceptos y guías',
 		desc: 'Explicaciones profundas de los pilares de Laravel: Eloquent, Middlewares, Service Container, Jobs, Events y arquitectura de proyectos.',
-		count: 10,
+		count: 15,
 	},
 	{
 		icon: '⚔️',
@@ -38,12 +38,24 @@ const categories = [
 		desc: 'Queries N+1, caché con Redis, Laravel Telescope, testing con PHPUnit y buenas prácticas de seguridad para producción.',
 		count: 5,
 	},
+	{
+		icon: '🗺️',
+		title: 'Roadmap interactivo',
+		desc: 'Hoja de ruta visual con 34 nodos para aprender Laravel de cero a avanzado. Marca tu progreso y sigue el camino más eficiente.',
+		count: null,
+	},
+	{
+		icon: '🎓',
+		title: 'Curso gratuito',
+		desc: 'Curso estructurado con 5 módulos y 29 lecciones: desde instalación hasta despliegue en producción, con quiz al final de cada lección.',
+		count: null,
+	},
 ];
 
 const faqs = [
 	{
 		q: '¿Es este blog para principiantes o para desarrolladores avanzados?',
-		a: 'Para ambos. Los artículos de instalación y errores están pensados para quien empieza o está atascado con un problema concreto. Los artículos de conceptos, arquitectura y optimización apuntan a developers que ya trabajan con Laravel y quieren mejorar su código.',
+		a: 'Para ambos. Los artículos de instalación y errores están pensados para quien empieza o está atascado con un problema concreto. Los artículos de conceptos, arquitectura y optimización apuntan a developers que ya trabajan con Laravel y quieren mejorar su código. El curso gratuito está pensado especialmente para quienes empiezan desde cero.',
 	},
 	{
 		q: '¿Por qué en español y no en inglés?',
@@ -51,7 +63,11 @@ const faqs = [
 	},
 	{
 		q: '¿Con qué versión de Laravel trabajan los artículos?',
-		a: 'Los artículos están escritos pensando en Laravel 11, la versión estable actual. Cuando hay diferencias importantes con Laravel 10 se indica explícitamente en el artículo.',
+		a: 'El contenido está actualizado para Laravel 13, lanzado en febrero de 2026 y la versión estable actual. Cuando hay diferencias importantes con Laravel 12 o versiones anteriores, se indica explícitamente en el artículo.',
+	},
+	{
+		q: '¿Qué diferencia hay entre el blog, el roadmap y el curso?',
+		a: 'El blog son artículos independientes: cada uno resuelve un problema o explica un concepto concreto. El roadmap es una hoja de ruta visual para saber en qué orden aprender Laravel. El curso es contenido estructurado en módulos con lecciones y quiz, pensado para aprender de cero de forma progresiva.',
 	},
 	{
 		q: '¿Puedo sugerir un tema o un error que no encuentro resuelto?',
@@ -102,22 +118,27 @@ const faqs = [
 							Nuestra misión es simple: <strong>que ningún desarrollador hispanohablante
 							pierda horas buscando en inglés algo que debería poder leer en su propio idioma.</strong>
 						</p>
+						<p>
+							Además del blog, ofrecemos un <a href="/roadmap">roadmap interactivo</a> para saber
+							en qué orden aprender Laravel, y un <a href="/curso">curso gratuito</a> con 5 módulos
+							y 29 lecciones estructuradas — todo actualizado para <strong>Laravel 13</strong>.
+						</p>
 					</div>
 					<div class="stats-box">
 						<div class="stat-item">
-							<span class="stat-num">50+</span>
+							<span class="stat-num">75+</span>
 							<span class="stat-label">Artículos publicados</span>
 						</div>
 						<div class="stat-item">
-							<span class="stat-num">5</span>
-							<span class="stat-label">Categorías de contenido</span>
+							<span class="stat-num">29</span>
+							<span class="stat-label">Lecciones del curso</span>
 						</div>
 						<div class="stat-item">
 							<span class="stat-num">100%</span>
 							<span class="stat-label">Contenido en español</span>
 						</div>
 						<div class="stat-item">
-							<span class="stat-num">Laravel 11</span>
+							<span class="stat-num">Laravel 13</span>
 							<span class="stat-label">Versión de referencia</span>
 						</div>
 					</div>
@@ -168,7 +189,9 @@ const faqs = [
 							<div class="cat-content">
 								<div class="cat-header">
 									<h3>{cat.title}</h3>
-									<span class="cat-count">{cat.count} artículos</span>
+									{cat.count !== null && (
+										<span class="cat-count">{cat.count} artículos</span>
+									)}
 								</div>
 								<p>{cat.desc}</p>
 							</div>
@@ -192,7 +215,7 @@ const faqs = [
 					<div class="principle">
 						<div class="principle-num">02</div>
 						<h3>Código que funciona</h3>
-						<p>Todos los ejemplos de código están probados y son funcionales en Laravel 11. Cuando hay una diferencia importante con versiones anteriores, lo indicamos claramente con el contexto necesario.</p>
+						<p>Todos los ejemplos de código están probados y son funcionales en Laravel 13. Cuando hay una diferencia importante con versiones anteriores (12, 11), lo indicamos claramente con el contexto necesario.</p>
 					</div>
 					<div class="principle">
 						<div class="principle-num">03</div>
@@ -222,11 +245,12 @@ const faqs = [
 
 			<!-- CTA final -->
 			<section class="section-cta">
-				<h2>¿Listo para mejorar con Laravel?</h2>
-				<p>Empieza por el artículo que resuelve tu problema de hoy, o explora las guías completas de conceptos.</p>
+				<h2>¿Listo para aprender Laravel 13?</h2>
+				<p>Empieza el curso gratuito desde cero, sigue el roadmap, o busca el artículo que resuelve tu problema de hoy.</p>
 				<div class="cta-group">
-					<a href="/blog" class="cta-btn">Ver todos los artículos</a>
-					<a href="/blog?q=errores" class="cta-btn cta-btn--outline">Errores comunes</a>
+					<a href="/curso" class="cta-btn">Empezar el curso gratis</a>
+					<a href="/roadmap" class="cta-btn cta-btn--outline">Ver roadmap</a>
+					<a href="/blog" class="cta-btn cta-btn--outline">Explorar el blog</a>
 				</div>
 			</section>
 
