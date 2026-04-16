@@ -36,15 +36,6 @@ function getTagStyle(tags: string[]) {
 	return tagColor['default'];
 }
 
-const categories = [
-	{ name: 'Todos',        slug: '' },
-	{ name: 'Instalación',  slug: 'instalacion' },
-	{ name: 'Errores',      slug: 'errores' },
-	{ name: 'Conceptos',    slug: 'conceptos' },
-	{ name: 'Comparativas', slug: 'comparativa' },
-	{ name: 'Optimización', slug: 'optimizacion' },
-];
-
 const searchData = posts.map(p => ({
 	id:    p.id,
 	title: p.data.title,
@@ -90,17 +81,6 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 					</button>
 				</div>
 
-				<!-- Filtros de categoría -->
-				<div class="cat-filters" id="cat-filters">
-					{categories.map(cat => (
-						<button
-							class="cat-pill"
-							data-cat={cat.slug}
-						>
-							{cat.name}
-						</button>
-					))}
-				</div>
 			</div>
 
 			<!-- Grid de cards -->
@@ -167,10 +147,7 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 			const noResQ   = document.getElementById('no-results-query');
 			const count    = document.getElementById('result-count');
 			const items    = grid.querySelectorAll('.post-card');
-			const pills    = document.querySelectorAll('.cat-pill');
 			const total    = items.length;
-
-			let activeCategory = '';
 
 			function normalize(s) {
 				return s.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
@@ -185,12 +162,7 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 					const post = searchData.find(p => p.id === el.dataset.id);
 					if (!post) { el.hidden = true; return; }
 
-					// Filtro de categoría
-					const catOk = !activeCategory || post.tags.includes(activeCategory);
-					if (!catOk) { el.hidden = true; return; }
-
-					// Filtro de texto
-					const hay  = normalize(`${post.title} ${post.desc} ${post.tags.join(' ')}`);
+					const hay    = normalize(`${post.title} ${post.desc} ${post.tags.join(' ')}`);
 					const textOk = tokens.length === 0 || tokens.every(t => hay.includes(t));
 
 					el.hidden = !textOk;
@@ -201,50 +173,23 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 
 				if (visible === 0) {
 					noRes.hidden = false;
-					noResQ.textContent = q || activeCategory;
+					noResQ.textContent = q;
 					count.innerHTML = `<strong>0</strong> resultados`;
 				} else {
 					noRes.hidden = true;
 					if (q) {
 						count.innerHTML = `<strong>${visible}</strong> resultado${visible !== 1 ? 's' : ''} para "<em>${input.value.trim()}</em>"`;
-					} else if (activeCategory) {
-						count.innerHTML = `<strong>${visible}</strong> artículo${visible !== 1 ? 's' : ''} en esta categoría`;
 					} else {
 						count.innerHTML = `<strong>${total}</strong> artículos sobre Laravel`;
 					}
 				}
 			}
 
-			function setCategory(slug) {
-				activeCategory = slug;
-				pills.forEach(p => {
-					p.classList.toggle('cat-pill--active', p.dataset.cat === slug);
-				});
-				// Actualizar URL sin recargar
-				const url = new URL(location.href);
-				if (slug) url.searchParams.set('cat', slug);
-				else url.searchParams.delete('cat');
-				history.replaceState({}, '', url);
-				applyFilters();
-			}
-
-			pills.forEach(pill => {
-				pill.addEventListener('click', () => setCategory(pill.dataset.cat));
-			});
-
 			input.addEventListener('input', applyFilters);
 			clearBtn.addEventListener('click', () => { input.value = ''; input.focus(); applyFilters(); });
 
-			// Leer params iniciales de la URL
-			const params = new URLSearchParams(location.search);
-			const q0   = params.get('q');
-			const cat0 = params.get('cat');
-
-			if (q0)   { input.value = q0; }
-			if (cat0) { activeCategory = cat0; pills.forEach(p => p.classList.toggle('cat-pill--active', p.dataset.cat === cat0)); }
-			else      { pills[0]?.classList.add('cat-pill--active'); }
-
-			if (q0 || cat0) applyFilters();
+			const q0 = new URLSearchParams(location.search).get('q');
+			if (q0) { input.value = q0; applyFilters(); }
 		</script>
 	</body>
 </html>
@@ -340,54 +285,6 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 	}
 
 	.clear-btn:hover { background: #FF2D20; color: white; }
-
-	/* ── Category pills ─────────────────────────────── */
-	.cat-filters {
-		display: flex;
-		gap: 0.5rem;
-		margin-top: 1.25rem;
-		overflow-x: auto;
-		-webkit-overflow-scrolling: touch;
-		scrollbar-width: none;
-		padding-bottom: 2px;
-	}
-
-	.cat-filters::-webkit-scrollbar { display: none; }
-
-	.cat-pill {
-		padding: 0.45rem 1rem;
-		border-radius: 99px;
-		border: 1.5px solid #e5e7eb;
-		background: #f9fafb;
-		color: #6b7280;
-		font-size: 0.8rem;
-		font-weight: 600;
-		font-family: inherit;
-		cursor: pointer;
-		transition: all 0.15s;
-		text-transform: capitalize;
-		white-space: nowrap;
-		flex-shrink: 0;
-		min-height: 36px;
-	}
-
-	.cat-pill:hover {
-		border-color: #FF2D20;
-		color: #FF2D20;
-		background: #fff5f5;
-	}
-
-	.cat-pill--active {
-		background: #FF2D20;
-		border-color: #FF2D20;
-		color: white;
-	}
-
-	.cat-pill--active:hover {
-		background: #CC2419;
-		border-color: #CC2419;
-		color: white;
-	}
 
 	/* ── Grid ────────────────────────────────────────── */
 	.posts-grid {
