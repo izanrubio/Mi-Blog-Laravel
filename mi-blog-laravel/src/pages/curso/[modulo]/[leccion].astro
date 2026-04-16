@@ -40,6 +40,7 @@ const leccionNum = moduloData?.lecciones.findIndex(l => l.slug === leccion) ?? 0
 
 const allLessonsOrdered = cursoData.flatMap(m => m.lecciones.map(l => `${m.slug}/${l.slug}`));
 const prevLessonId = prev ? `${prev.modulo}/${prev.leccion}` : null;
+const hasQuiz = quiz && quiz.length > 0;
 
 const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
 ---
@@ -164,7 +165,7 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
   </article>
 </CursoLayout>
 
-<script is:inline define:vars={{ lessonId, allLessonsOrdered }}>
+<script is:inline define:vars={{ lessonId, allLessonsOrdered, hasQuiz }}>
   const STORAGE_KEY = 'curso-completado';
 
   function getCompleted() {
@@ -199,14 +200,33 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
   const btn = document.getElementById('btn-complete');
   const btnText = document.getElementById('btn-complete-text');
 
+  // Quiz gate: if lesson has a quiz, require passing it before marking complete.
+  // Once already completed (from localStorage), allow un-completing freely.
+  let quizPassed = !hasQuiz;
+
+  function canComplete() {
+    return quizPassed || getCompleted().includes(lessonId);
+  }
+
   function updateBtn() {
     const completed = getCompleted();
     const isDone = completed.includes(lessonId);
+    const allowed = canComplete();
+
     btn.classList.toggle('btn-complete--done', isDone);
-    btnText.textContent = isDone ? 'Completada ✓' : 'Marcar lección como completada';
+    btn.disabled = !allowed;
+
+    if (isDone) {
+      btnText.textContent = 'Completada ✓';
+    } else if (!allowed) {
+      btnText.textContent = 'Responde el quiz correctamente para continuar';
+    } else {
+      btnText.textContent = 'Marcar lección como completada';
+    }
   }
 
   btn?.addEventListener('click', () => {
+    if (!canComplete()) return;
     const completed = getCompleted();
     const idx = completed.indexOf(lessonId);
     if (idx === -1) completed.push(lessonId);
@@ -214,6 +234,13 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
     saveCompleted(completed);
     updateBtn();
     window.dispatchEvent(new Event('curso:progress-updated'));
+  });
+
+  window.addEventListener('quiz:result', (e) => {
+    if (e.detail && e.detail.passed) {
+      quizPassed = true;
+      updateBtn();
+    }
   });
 
   updateBtn();
@@ -469,6 +496,20 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
     border-color: #22c55e;
     background: #f0fdf4;
     color: #15803d;
+  }
+
+  .btn-complete:disabled {
+    opacity: 0.55;
+    cursor: not-allowed;
+    border-color: #e5e7eb;
+    color: #9ca3af;
+    background: #f9fafb;
+  }
+
+  .btn-complete:disabled:hover {
+    border-color: #e5e7eb;
+    color: #9ca3af;
+    background: #f9fafb;
   }
 
   /* Lesson navigation */

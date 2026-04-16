@@ -110,6 +110,8 @@ if (!quiz || quiz.length === 0) return;
     if (resultEl) resultEl.hidden = false;
 
     resultEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+    window.dispatchEvent(new CustomEvent('quiz:result', { detail: { correct, total, passed: correct === total } }));
   }
 
   document.getElementById('quiz-retry')?.addEventListener('click', () => {
