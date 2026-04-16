@@ -114,6 +114,17 @@ const difficultyColor: Record<string, string> = {
       </div>
     </main>
 
+    <!-- Reset confirm modal -->
+    <div id="reset-modal" class="modal-overlay" aria-hidden="true">
+      <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+        <p id="modal-title" class="modal-text">¿Resetear todo el progreso?</p>
+        <div class="modal-actions">
+          <button id="modal-cancel" class="modal-btn modal-btn--cancel">Cancelar</button>
+          <button id="modal-confirm" class="modal-btn modal-btn--confirm">Aceptar</button>
+        </div>
+      </div>
+    </div>
+
     <Footer />
 
     <script is:inline define:vars={{ totalNodes }}>
@@ -181,11 +192,26 @@ const difficultyColor: Record<string, string> = {
         });
       });
 
-      // Reset
+      // Reset modal
+      const modal = document.getElementById('reset-modal');
       document.getElementById('reset-btn').addEventListener('click', () => {
-        if (confirm('¿Resetear todo el progreso?')) {
-          saveCompleted([]);
-          applyCompleted();
+        modal.setAttribute('aria-hidden', 'false');
+        modal.classList.add('modal-overlay--open');
+      });
+      document.getElementById('modal-cancel').addEventListener('click', () => {
+        modal.setAttribute('aria-hidden', 'true');
+        modal.classList.remove('modal-overlay--open');
+      });
+      document.getElementById('modal-confirm').addEventListener('click', () => {
+        modal.setAttribute('aria-hidden', 'true');
+        modal.classList.remove('modal-overlay--open');
+        saveCompleted([]);
+        applyCompleted();
+      });
+      modal.addEventListener('click', e => {
+        if (e.target === modal) {
+          modal.setAttribute('aria-hidden', 'true');
+          modal.classList.remove('modal-overlay--open');
         }
       });
 
@@ -527,5 +553,72 @@ const difficultyColor: Record<string, string> = {
     .nodes-grid {
       grid-template-columns: repeat(3, 1fr);
     }
+  }
+
+  /* ── Reset modal ─────────────────────────────────── */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.45);
+    z-index: 200;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .modal-overlay--open {
+    display: flex;
+  }
+
+  .modal-box {
+    background: #1f2937;
+    border-radius: 14px;
+    padding: 1.75rem 1.5rem 1.5rem;
+    width: min(340px, 90vw);
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    animation: modal-in 0.18s ease;
+  }
+
+  @keyframes modal-in {
+    from { opacity: 0; transform: scale(0.95); }
+    to   { opacity: 1; transform: scale(1); }
+  }
+
+  .modal-text {
+    color: #f9fafb;
+    font-size: 1rem;
+    font-weight: 500;
+    text-align: center;
+    margin: 0 0 1.5rem;
+    line-height: 1.5;
+  }
+
+  .modal-actions {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: flex-end;
+  }
+
+  .modal-btn {
+    padding: 0.55em 1.25em;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    border: none;
+    transition: opacity 0.15s;
+  }
+
+  .modal-btn:hover { opacity: 0.85; }
+
+  .modal-btn--cancel {
+    background: #374151;
+    color: #f9fafb;
+  }
+
+  .modal-btn--confirm {
+    background: #06b6d4;
+    color: #fff;
   }
 </style>
