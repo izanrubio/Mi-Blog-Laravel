@@ -64,9 +64,6 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 				</div>
 
 				<div class="search-wrapper">
-					<svg class="search-icon" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-						<path fill-rule="evenodd" d="M9 3.5a5.5 5.5 0 100 11 5.5 5.5 0 000-11zM2 9a7 7 0 1112.452 4.391l3.328 3.329a.75.75 0 11-1.06 1.06l-3.329-3.328A7 7 0 012 9z" clip-rule="evenodd"/>
-					</svg>
 					<input
 						id="search-input"
 						type="search"
@@ -75,9 +72,6 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 						spellcheck="false"
 					/>
 					<button id="search-clear" class="clear-btn" aria-label="Limpiar" hidden>
-						<svg viewBox="0 0 20 20" fill="currentColor" width="14" height="14">
-							<path d="M6.28 5.22a.75.75 0 00-1.06 1.06L8.94 10l-3.72 3.72a.75.75 0 101.06 1.06L10 11.06l3.72 3.72a.75.75 0 101.06-1.06L11.06 10l3.72-3.72a.75.75 0 00-1.06-1.06L10 8.94 6.28 5.22z"/>
-						</svg>
 					</button>
 				</div>
 
@@ -129,9 +123,6 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 
 			<!-- Sin resultados -->
 			<div id="no-results" class="no-results" hidden>
-				<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-					<path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 15.803 7.5 7.5 0 0016.803 16.803z"/>
-				</svg>
 				<p>Sin resultados para "<strong id="no-results-query"></strong>"</p>
 				<span>Prueba: <em>eloquent, cors, migraciones, deploy…</em></span>
 			</div>
@@ -232,20 +223,10 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 		max-width: 480px;
 	}
 
-	.search-icon {
-		position: absolute;
-		left: 0.875rem;
-		top: 50%;
-		transform: translateY(-50%);
-		width: 17px;
-		height: 17px;
-		color: #9ca3af;
-		pointer-events: none;
-	}
 
 	#search-input {
 		width: 100%;
-		padding: 0.7rem 2.5rem 0.7rem 2.75rem;
+		padding: 0.7rem 2.5rem 0.7rem 0.875rem;
 		font-size: 0.9rem;
 		font-family: inherit;
 		border: 1.5px solid #e5e7eb;
@@ -439,12 +420,6 @@ const pageDesc  = 'Todos los artículos sobre Laravel: instalación, errores com
 		color: #9ca3af;
 	}
 
-	.no-results svg {
-		width: 44px;
-		height: 44px;
-		margin: 0 auto 1rem;
-		color: #d1d5db;
-	}
 
 	.no-results p {
 		font-size: 1rem;
