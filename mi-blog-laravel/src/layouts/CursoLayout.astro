@@ -10,6 +10,10 @@ type Props = {
 };
 
 const { title, description, moduloActual, leccionActual } = Astro.props;
+
+const allLessonsOrdered = cursoData.flatMap(m =>
+  m.lecciones.map(l => `${m.slug}/${l.slug}`)
+);
 ---
 
 <!doctype html>
@@ -69,6 +73,10 @@ const { title, description, moduloActual, leccionActual } = Astro.props;
                             <circle cx="8" cy="8" r="7" fill="#22c55e"/>
                             <path d="M4.5 8l2.5 2.5 4.5-4.5" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                           </svg>
+                          <svg class="icon-lock" viewBox="0 0 16 16" fill="none" width="13" height="13" style="display:none">
+                            <rect x="2.5" y="7" width="11" height="8" rx="1.5" stroke="currentColor" stroke-width="1.4"/>
+                            <path d="M5 7V5.5a3 3 0 016 0V7" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>
+                          </svg>
                         </span>
                       </a>
                     );
@@ -114,7 +122,7 @@ const { title, description, moduloActual, leccionActual } = Astro.props;
       </div>
     </div>
 
-    <script is:inline define:vars={{ totalLecciones }}>
+    <script is:inline define:vars={{ totalLecciones, allLessonsOrdered }}>
       const STORAGE_KEY = 'curso-completado';
 
       function getCompleted() {
@@ -122,7 +130,13 @@ const { title, description, moduloActual, leccionActual } = Astro.props;
         catch { return []; }
       }
 
-      // Update progress bar and check icons
+      function isLocked(lessonId) {
+        if (lessonId === allLessonsOrdered[0]) return false;
+        const idx = allLessonsOrdered.indexOf(lessonId);
+        if (idx <= 0) return false;
+        return !getCompleted().includes(allLessonsOrdered[idx - 1]);
+      }
+
       function updateProgress() {
         const completed = getCompleted();
         const count = completed.length;
@@ -135,10 +149,26 @@ const { title, description, moduloActual, leccionActual } = Astro.props;
         document.querySelectorAll('[data-check]').forEach(el => {
           const id = el.dataset.check;
           const done = completed.includes(id);
+          const locked = isLocked(id);
           const circle = el.querySelector('.icon-circle');
           const check = el.querySelector('.icon-done');
-          if (circle) circle.style.display = done ? 'none' : '';
-          if (check) check.style.display = done ? '' : 'none';
+          const lock = el.querySelector('.icon-lock');
+
+          if (lock)  lock.style.display  = locked ? '' : 'none';
+          if (circle) circle.style.display = (!locked && !done) ? '' : 'none';
+          if (check)  check.style.display  = done ? '' : 'none';
+
+          // Apply locked class to the link
+          const link = el.closest('.lec-link');
+          if (link) {
+            link.classList.toggle('lec-link--locked', locked);
+            if (locked) {
+              link.dataset.href = link.getAttribute('href') || '';
+              link.removeAttribute('href');
+            } else if (!link.getAttribute('href') && link.dataset.href) {
+              link.setAttribute('href', link.dataset.href);
+            }
+          }
         });
       }
 
@@ -177,7 +207,6 @@ const { title, description, moduloActual, leccionActual } = Astro.props;
         });
       });
 
-      // Fix: also set data-mod on mod-lessons for the selector above
       document.querySelectorAll('.mod-group').forEach(group => {
         const mod = group.dataset.mod;
         const lessons = group.querySelector('.mod-lessons');
@@ -353,6 +382,15 @@ const { title, description, moduloActual, leccionActual } = Astro.props;
     display: flex;
     align-items: center;
   }
+
+  .lec-link--locked {
+    opacity: 0.45;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .lec-link--locked .lec-num { color: #374151; }
+  .lec-link--locked .lec-check { color: #4b5563; }
 
   /* Footer */
   .sidebar-footer {

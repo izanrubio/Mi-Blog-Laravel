@@ -38,6 +38,9 @@ const next = currentIdx < allLessons.length - 1 ? allLessons[currentIdx + 1] : n
 const lessonId = `${modulo}/${leccion}`;
 const leccionNum = moduloData?.lecciones.findIndex(l => l.slug === leccion) ?? 0;
 
+const allLessonsOrdered = cursoData.flatMap(m => m.lecciones.map(l => `${m.slug}/${l.slug}`));
+const prevLessonId = prev ? `${prev.modulo}/${prev.leccion}` : null;
+
 const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
 ---
 
@@ -57,6 +60,30 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
       <span class="bc-sep">›</span>
       <span class="bc-current">Lección {leccionNum + 1}</span>
     </nav>
+
+    <!-- Locked overlay (shown via JS if lesson is locked) -->
+    <div id="locked-overlay" class="locked-overlay" hidden>
+      <div class="locked-box">
+        <div class="locked-icon">🔒</div>
+        <h2 class="locked-title">Lección bloqueada</h2>
+        <p class="locked-desc">
+          Debes completar la lección anterior antes de acceder a esta.
+        </p>
+        {prev && (
+          <a href={`/curso/${prev.modulo}/${prev.leccion}`} class="locked-btn">
+            ← Ir a la lección anterior
+          </a>
+        )}
+        {!prev && (
+          <a href="/curso/modulo-1/leccion-1" class="locked-btn">
+            ← Empezar desde el principio
+          </a>
+        )}
+      </div>
+    </div>
+
+    <!-- Lesson body (hidden when locked) -->
+    <div id="lesson-body">
 
     <!-- Header -->
     <header class="leccion-header">
@@ -132,10 +159,12 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
       )}
     </nav>
 
+    </div> <!-- /lesson-body -->
+
   </article>
 </CursoLayout>
 
-<script is:inline define:vars={{ lessonId }}>
+<script is:inline define:vars={{ lessonId, allLessonsOrdered }}>
   const STORAGE_KEY = 'curso-completado';
 
   function getCompleted() {
@@ -146,6 +175,26 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
   function saveCompleted(arr) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
   }
+
+  function isLocked(id) {
+    if (id === allLessonsOrdered[0]) return false;
+    const idx = allLessonsOrdered.indexOf(id);
+    if (idx <= 0) return false;
+    return !getCompleted().includes(allLessonsOrdered[idx - 1]);
+  }
+
+  // Show/hide locked overlay
+  const lockedOverlay = document.getElementById('locked-overlay');
+  const lessonBody = document.getElementById('lesson-body');
+
+  function checkLock() {
+    const locked = isLocked(lessonId);
+    if (lockedOverlay) lockedOverlay.hidden = !locked;
+    if (lessonBody) lessonBody.hidden = locked;
+  }
+
+  checkLock();
+  window.addEventListener('curso:progress-updated', checkLock);
 
   const btn = document.getElementById('btn-complete');
   const btnText = document.getElementById('btn-complete-text');
@@ -474,6 +523,67 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+  }
+
+  /* Locked overlay */
+  .locked-overlay {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 60vh;
+    padding: 2rem 1rem;
+  }
+
+  .locked-box {
+    text-align: center;
+    background: #fff;
+    border: 1.5px solid #e5e7eb;
+    border-top: 4px solid #FF2D20;
+    border-radius: 12px;
+    padding: 3rem 2.5rem;
+    max-width: 420px;
+    width: 100%;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.06);
+  }
+
+  .locked-icon {
+    font-size: 2.75rem;
+    margin-bottom: 1rem;
+    line-height: 1;
+  }
+
+  .locked-title {
+    font-size: 1.375rem;
+    color: #111827;
+    margin: 0 0 0.75rem;
+    font-weight: 700;
+  }
+
+  .locked-desc {
+    font-size: 0.925rem;
+    color: #6b7280;
+    line-height: 1.6;
+    margin: 0 0 1.75rem;
+  }
+
+  .locked-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.75em 1.5em;
+    background: #FF2D20;
+    color: white;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .locked-btn:hover {
+    background: #CC2419;
+    text-decoration: none;
+    color: white;
   }
 
   /* Responsive */
