@@ -62,7 +62,7 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
     </nav>
 
     <!-- Locked overlay (shown via JS if lesson is locked) -->
-    <div id="locked-overlay" class="locked-overlay" hidden>
+    <div id="locked-overlay" class="locked-overlay" style="display:none">
       <div class="locked-box">
         <div class="locked-icon">🔒</div>
         <h2 class="locked-title">Lección bloqueada</h2>
@@ -189,7 +189,7 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
 
   function checkLock() {
     const locked = isLocked(lessonId);
-    if (lockedOverlay) lockedOverlay.hidden = !locked;
+    if (lockedOverlay) lockedOverlay.style.display = locked ? 'flex' : 'none';
     if (lessonBody) lessonBody.hidden = locked;
   }
 
