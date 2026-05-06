@@ -21,7 +21,7 @@ type Props = CollectionEntry<'blog'>['data'] & {
 	relatedPosts?: RelatedPost[];
 };
 
-const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, relatedPosts } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags, referencias, readingTime, relatedPosts } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
 const imageURL = heroImage
@@ -149,6 +149,20 @@ const jsonLd = {
 						{tags.map(tag => (
 							<span class="tag">{tag}</span>
 						))}
+					</div>
+				)}
+
+				<!-- Referencias externas -->
+				{referencias && referencias.length > 0 && (
+					<div class="article-refs">
+						<h2 class="refs-title">Referencias</h2>
+						<ul class="refs-list">
+							{referencias.map(ref => (
+								<li>
+									<a href={ref.url} target="_blank" rel="noopener noreferrer nofollow">{ref.texto}</a>
+								</li>
+							))}
+						</ul>
 					</div>
 				)}
 			</article>
@@ -413,6 +427,42 @@ const jsonLd = {
 		border-top: 1px solid #f3f4f6;
 		font-size: 0.875em;
 		color: #6b7280;
+	}
+
+	/* Referencias externas */
+	.article-refs {
+		margin-top: 2.5em;
+		padding-top: 1.5em;
+		border-top: 1px solid #f3f4f6;
+	}
+
+	.refs-title {
+		font-size: 1em;
+		font-weight: 700;
+		color: #374151;
+		margin: 0 0 0.75em;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.refs-list {
+		list-style: none;
+		padding: 0;
+		margin: 0;
+		display: flex;
+		flex-direction: column;
+		gap: 0.4em;
+	}
+
+	.refs-list a {
+		font-size: 0.875em;
+		color: #FF2D20;
+		text-decoration: none;
+	}
+
+	.refs-list a:hover {
+		text-decoration: underline;
+		color: #CC2419;
 	}
 
 	/* Related posts */
