@@ -23,6 +23,23 @@ const categories = [
 <html lang="es">
 	<head>
 		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "WebSite",
+			"name": "Laravel en Español",
+			"url": "https://www.laraveles.es",
+			"description": "Aprende Laravel en español con guías prácticas, tutoriales y un curso gratuito.",
+			"inLanguage": "es",
+			"publisher": {
+				"@type": "Organization",
+				"name": "Laravel en Español",
+				"url": "https://www.laraveles.es",
+				"logo": {
+					"@type": "ImageObject",
+					"url": "https://www.laraveles.es/logo-laravel-v2.svg"
+				}
+			}
+		})} />
 	</head>
 	<body>
 		<Header />
