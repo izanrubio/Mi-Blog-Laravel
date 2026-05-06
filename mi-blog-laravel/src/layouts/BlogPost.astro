@@ -22,11 +22,43 @@ type Props = CollectionEntry<'blog'>['data'] & {
 };
 
 const { title, description, pubDate, updatedDate, heroImage, tags, readingTime, relatedPosts } = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const imageURL = heroImage
+	? new URL(heroImage.src, Astro.url).toString()
+	: new URL('/og-image.png', Astro.site).toString();
+
+const jsonLd = {
+	"@context": "https://schema.org",
+	"@type": "BlogPosting",
+	"headline": title,
+	"description": description,
+	"url": canonicalURL,
+	"datePublished": pubDate.toISOString(),
+	...(updatedDate ? { "dateModified": updatedDate.toISOString() } : {}),
+	"image": imageURL,
+	"inLanguage": "es",
+	"author": {
+		"@type": "Organization",
+		"name": "Laravel en Español",
+		"url": "https://www.laraveles.es"
+	},
+	"publisher": {
+		"@type": "Organization",
+		"name": "Laravel en Español",
+		"url": "https://www.laraveles.es",
+		"logo": {
+			"@type": "ImageObject",
+			"url": "https://www.laraveles.es/logo-laravel-v2.svg"
+		}
+	}
+};
 ---
 
 <html lang="es">
 	<head>
 		<BaseHead title={title} description={description} />
+		<script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
 		<!-- Google Analytics -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-PPZ2LFYS2N"></script>
 		<script>
