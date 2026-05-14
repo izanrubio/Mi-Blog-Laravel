@@ -43,6 +43,18 @@ const prevLessonId = prev ? `${prev.modulo}/${prev.leccion}` : null;
 const hasQuiz = quiz && quiz.length > 0;
 
 const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site).toString();
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Inicio",           "item": "https://www.laraveles.es/" },
+    { "@type": "ListItem", "position": 2, "name": "Curso",            "item": "https://www.laraveles.es/curso/" },
+    { "@type": "ListItem", "position": 3, "name": moduloData?.title,  "item": `https://www.laraveles.es/curso/${modulo}/` },
+    { "@type": "ListItem", "position": 4, "name": title,              "item": canonicalURL },
+  ],
+};
 ---
 
 <CursoLayout
@@ -50,16 +62,19 @@ const pageTitle = `${title} — Curso Laravel | Laravel en Español`;
   description={description}
   moduloActual={modulo}
   leccionActual={leccion}
+  jsonLd={jsonLd}
 >
   <article class="leccion-wrap">
 
     <!-- Breadcrumb -->
     <nav class="breadcrumb" aria-label="Ruta de navegación">
-      <a href="/curso">Curso</a>
+      <a href="/">Inicio</a>
       <span class="bc-sep">›</span>
-      <a href={`/curso/${modulo}/leccion-1`}>{moduloData?.title}</a>
+      <a href="/curso/">Curso</a>
       <span class="bc-sep">›</span>
-      <span class="bc-current">Lección {leccionNum + 1}</span>
+      <a href={`/curso/${modulo}/`}>{moduloData?.title}</a>
+      <span class="bc-sep">›</span>
+      <span class="bc-current">{title}</span>
     </nav>
 
     <!-- Locked overlay (shown via JS if lesson is locked) -->
