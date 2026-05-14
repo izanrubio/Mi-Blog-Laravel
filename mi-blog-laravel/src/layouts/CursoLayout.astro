@@ -7,9 +7,10 @@ type Props = {
   description: string;
   moduloActual: string;
   leccionActual: string;
+  jsonLd?: object;
 };
 
-const { title, description, moduloActual, leccionActual } = Astro.props;
+const { title, description, moduloActual, leccionActual, jsonLd } = Astro.props;
 
 const allLessonsOrdered = cursoData.flatMap(m =>
   m.lecciones.map(l => `${m.slug}/${l.slug}`)
@@ -20,6 +21,7 @@ const allLessonsOrdered = cursoData.flatMap(m =>
 <html lang="es">
   <head>
     <BaseHead title={title} description={description} />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
     <div class="curso-wrapper">
