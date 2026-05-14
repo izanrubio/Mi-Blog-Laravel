@@ -8,9 +8,11 @@ type QuizQuestion = {
 
 type Props = {
   quiz: QuizQuestion[];
+  lessonId?: string;
+  nextHref?: string;
 };
 
-const { quiz } = Astro.props;
+const { quiz, lessonId, nextHref = '/curso/' } = Astro.props;
 if (!quiz || quiz.length === 0) return;
 ---
 
@@ -41,27 +43,59 @@ if (!quiz || quiz.length === 0) return;
           ))}
         </div>
         <div class="quiz-exp" hidden>
-
           <span id={`exp-text-${qi}`}></span>
         </div>
       </div>
     ))}
   </div>
 
-  <div id="quiz-result" hidden>
+  <div
+    id="quiz-result"
+    hidden
+    data-lesson-id={lessonId}
+    data-next-href={nextHref}
+  >
     <div class="result-box">
       <p class="result-score" id="result-score"></p>
-      <button class="quiz-retry" id="quiz-retry">
 
-        Repetir quiz
-      </button>
+      <!-- Estado: fallado (no todas correctas) -->
+      <div id="result-failed" class="result-state">
+        <button class="btn-retry-main" id="quiz-retry">Repetir quiz</button>
+      </div>
+
+      <!-- Estado: superado, pendiente de marcar como completada -->
+      <div id="result-passed" class="result-state" hidden>
+        <button id="btn-mark-complete" class="btn-cta-primary">
+          Marcar lección como completada
+        </button>
+        <button class="btn-retry-link" id="quiz-retry-passed">repetir quiz</button>
+      </div>
+
+      <!-- Estado: lección marcada como completada -->
+      <div id="result-done" class="result-state" hidden>
+        <p class="done-text">✓ Lección completada</p>
+        <a id="btn-next-lesson" href={nextHref} class="btn-cta-primary">
+          Siguiente lección →
+        </a>
+        <button class="btn-retry-link" id="quiz-retry-done">repetir quiz</button>
+      </div>
     </div>
   </div>
 </section>
 
 <script>
+  const STORAGE_KEY = 'curso-completado';
+
+  function getCompleted(): string[] {
+    try { return JSON.parse(localStorage.getItem(STORAGE_KEY) || '[]'); }
+    catch { return []; }
+  }
+
   const questions = Array.from(document.querySelectorAll<HTMLElement>('.quiz-q'));
   let answers: (number | null)[] = new Array(questions.length).fill(null);
+
+  const resultEl = document.getElementById('quiz-result');
+  const lessonId = resultEl?.dataset.lessonId ?? '';
 
   questions.forEach((qEl, qi) => {
     const correcta = parseInt(qEl.dataset.correcta ?? '0');
@@ -91,45 +125,74 @@ if (!quiz || quiz.length === 0) return;
   });
 
   function showResult() {
-    const correct = answers.filter((a, i) => {
-      return a === parseInt((questions[i] as HTMLElement).dataset.correcta ?? '0');
-    }).length;
+    const correct = answers.filter((a, i) =>
+      a === parseInt((questions[i] as HTMLElement).dataset.correcta ?? '0')
+    ).length;
     const total = questions.length;
+    const passed = correct === total;
 
-    const resultEl = document.getElementById('quiz-result');
     const scoreEl = document.getElementById('result-score');
-    const iconEl = document.getElementById('result-icon');
+    if (scoreEl) {
+      scoreEl.textContent = passed
+        ? `🏆 ¡Quiz superado! Has acertado ${correct} de ${total}`
+        : `Has acertado ${correct} de ${total} preguntas`;
+    }
 
-    if (scoreEl) scoreEl.textContent = `Has acertado ${correct} de ${total} preguntas`;
-    if (iconEl) iconEl.textContent = correct === total ? '🏆' : correct >= total / 2 ? '🎉' : '📚';
     if (resultEl) resultEl.hidden = false;
+
+    const alreadyDone = lessonId && getCompleted().includes(lessonId);
+    if (passed && lessonId) {
+      setResultState(alreadyDone ? 'done' : 'passed');
+    } else {
+      setResultState('failed');
+    }
 
     resultEl?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 
-    window.dispatchEvent(new CustomEvent('quiz:result', { detail: { correct, total, passed: correct === total } }));
+    window.dispatchEvent(new CustomEvent('quiz:result', {
+      detail: { correct, total, passed }
+    }));
   }
 
-  document.getElementById('quiz-retry')?.addEventListener('click', () => {
-    answers = new Array(questions.length).fill(null);
+  function setResultState(state: 'failed' | 'passed' | 'done') {
+    const failedEl  = document.getElementById('result-failed');
+    const passedEl  = document.getElementById('result-passed');
+    const doneEl    = document.getElementById('result-done');
+    if (failedEl) failedEl.hidden = state !== 'failed';
+    if (passedEl) passedEl.hidden = state !== 'passed';
+    if (doneEl)   doneEl.hidden   = state !== 'done';
+  }
 
+  function markComplete() {
+    if (!lessonId) return;
+    const completed = getCompleted();
+    if (!completed.includes(lessonId)) {
+      completed.push(lessonId);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(completed));
+    }
+    window.dispatchEvent(new Event('curso:progress-updated'));
+    setResultState('done');
+  }
+
+  function retryQuiz() {
+    answers = new Array(questions.length).fill(null);
     questions.forEach((qEl, qi) => {
       const opts = qEl.querySelectorAll<HTMLButtonElement>('.quiz-opt');
       const exp = qEl.querySelector<HTMLElement>('.quiz-exp');
       const expText = document.getElementById(`exp-text-${qi}`);
-
-      opts.forEach(o => {
-        o.className = 'quiz-opt';
-        o.disabled = false;
-      });
+      opts.forEach(o => { o.className = 'quiz-opt'; o.disabled = false; });
       if (exp) exp.hidden = true;
       if (expText) expText.textContent = '';
     });
-
-    const resultEl = document.getElementById('quiz-result');
     if (resultEl) resultEl.hidden = true;
-
+    setResultState('failed');
     document.getElementById('quiz-questions')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  });
+  }
+
+  document.getElementById('btn-mark-complete')?.addEventListener('click', markComplete);
+  document.getElementById('quiz-retry')?.addEventListener('click', retryQuiz);
+  document.getElementById('quiz-retry-passed')?.addEventListener('click', retryQuiz);
+  document.getElementById('quiz-retry-done')?.addEventListener('click', retryQuiz);
 </script>
 
 <style>
@@ -270,9 +333,8 @@ if (!quiz || quiz.length === 0) return;
     line-height: 1.5;
   }
 
-  /* Result */
+  /* Result box */
   .result-box {
-    text-align: center;
     padding: 2rem;
     background: #f9fafb;
     border-radius: 12px;
@@ -280,27 +342,79 @@ if (!quiz || quiz.length === 0) return;
   }
 
   .result-score {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #111827;
-    margin: 0 0 1.25rem;
+    margin: 0 0 1.5rem;
+    text-align: center;
   }
 
-  .quiz-retry {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.4rem;
-    padding: 0.6em 1.25em;
+  .result-state { display: flex; flex-direction: column; align-items: center; gap: 0.75rem; }
+
+  /* Primary CTA — used for "Marcar completada" and "Siguiente lección" */
+  .btn-cta-primary {
+    display: block;
+    width: 100%;
+    padding: 0.9em 1.5em;
     background: #FF2D20;
     color: white;
     border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    font-family: inherit;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .btn-cta-primary:hover {
+    background: #CC2419;
+    color: white;
+    text-decoration: none;
+    transform: translateY(-1px);
+  }
+
+  /* Retry main — shown when quiz failed */
+  .btn-retry-main {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.6em 1.5em;
+    background: none;
+    color: #374151;
+    border: 1.5px solid #d1d5db;
     border-radius: 8px;
     font-size: 0.875rem;
     font-weight: 600;
     font-family: inherit;
     cursor: pointer;
-    transition: background 0.15s;
+    transition: border-color 0.15s, color 0.15s;
   }
 
-  .quiz-retry:hover { background: #CC2419; }
+  .btn-retry-main:hover { border-color: #FF2D20; color: #FF2D20; }
+
+  /* Retry link — discrete, shown after passing/completing */
+  .btn-retry-link {
+    background: none;
+    border: none;
+    color: #9ca3af;
+    font-size: 0.78rem;
+    font-family: inherit;
+    cursor: pointer;
+    text-decoration: underline;
+    padding: 0;
+  }
+
+  .btn-retry-link:hover { color: #6b7280; }
+
+  /* Done state text */
+  .done-text {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #15803d;
+    margin: 0;
+    text-align: center;
+  }
 </style>

@@ -118,20 +118,27 @@ const jsonLd = {
       <Content />
     </div>
 
-    <!-- Quiz -->
-    {quiz && quiz.length > 0 && <Quiz quiz={quiz} />}
+    <!-- Quiz (handles complete + next CTA when present) -->
+    {quiz && quiz.length > 0 && (
+      <Quiz
+        quiz={quiz}
+        lessonId={lessonId}
+        nextHref={next ? `/curso/${next.modulo}/${next.leccion}/` : '/curso/'}
+      />
+    )}
 
-    <!-- Mark as complete -->
-    <div class="complete-section">
-      <button
-        class="btn-complete"
-        id="btn-complete"
-        data-lesson-id={lessonId}
-      >
-
-        <span id="btn-complete-text">Marcar lección como completada</span>
-      </button>
-    </div>
+    <!-- Mark as complete (only for lessons without quiz) -->
+    {!hasQuiz && (
+      <div class="complete-section">
+        <button
+          class="btn-complete"
+          id="btn-complete"
+          data-lesson-id={lessonId}
+        >
+          <span id="btn-complete-text">Marcar lección como completada</span>
+        </button>
+      </div>
+    )}
 
     <!-- Prev / Next navigation -->
     <nav class="lesson-nav" aria-label="Navegación entre lecciones">
@@ -201,36 +208,20 @@ const jsonLd = {
   checkLock();
   window.addEventListener('curso:progress-updated', checkLock);
 
+  // btn-complete only exists for lessons without quiz
   const btn = document.getElementById('btn-complete');
   const btnText = document.getElementById('btn-complete-text');
 
-  // Quiz gate: if lesson has a quiz, require passing it before marking complete.
-  // Once already completed (from localStorage), allow un-completing freely.
-  let quizPassed = !hasQuiz;
-
-  function canComplete() {
-    return quizPassed || getCompleted().includes(lessonId);
-  }
-
   function updateBtn() {
+    if (!btn || !btnText) return;
     const completed = getCompleted();
     const isDone = completed.includes(lessonId);
-    const allowed = canComplete();
-
     btn.classList.toggle('btn-complete--done', isDone);
-    btn.disabled = !allowed;
-
-    if (isDone) {
-      btnText.textContent = 'Completada ✓';
-    } else if (!allowed) {
-      btnText.textContent = 'Responde el quiz correctamente para continuar';
-    } else {
-      btnText.textContent = 'Marcar lección como completada';
-    }
+    btn.disabled = false;
+    btnText.textContent = isDone ? 'Completada ✓' : 'Marcar lección como completada';
   }
 
   btn?.addEventListener('click', () => {
-    if (!canComplete()) return;
     const completed = getCompleted();
     const idx = completed.indexOf(lessonId);
     if (idx === -1) completed.push(lessonId);
@@ -238,13 +229,6 @@ const jsonLd = {
     saveCompleted(completed);
     updateBtn();
     window.dispatchEvent(new Event('curso:progress-updated'));
-  });
-
-  window.addEventListener('quiz:result', (e) => {
-    if (e.detail && e.detail.passed) {
-      quizPassed = true;
-      updateBtn();
-    }
   });
 
   updateBtn();
