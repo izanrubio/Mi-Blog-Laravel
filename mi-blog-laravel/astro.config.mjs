@@ -9,7 +9,21 @@ import tailwindcss from '@tailwindcss/vite';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://laraveles.es',
-  integrations: [mdx(), sitemap()],
+  integrations: [
+    mdx(),
+    sitemap({
+      lastmod: new Date(),
+      changefreq: 'daily',
+      priority: 0.7,
+      customPages: [
+        'https://www.laraveles.es/',
+        'https://www.laraveles.es/blog',
+        'https://www.laraveles.es/roadmap',
+        'https://www.laraveles.es/curso',
+        'https://www.laraveles.es/about',
+      ],
+    }),
+  ],
 
   fonts: [
       {
