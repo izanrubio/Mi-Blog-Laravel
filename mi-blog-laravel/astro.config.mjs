@@ -16,13 +16,6 @@ export default defineConfig({
       lastmod: new Date(),
       changefreq: 'daily',
       priority: 0.7,
-      customPages: [
-        'https://www.laraveles.es/',
-        'https://www.laraveles.es/blog',
-        'https://www.laraveles.es/roadmap',
-        'https://www.laraveles.es/curso',
-        'https://www.laraveles.es/about',
-      ],
     }),
   ],
 
