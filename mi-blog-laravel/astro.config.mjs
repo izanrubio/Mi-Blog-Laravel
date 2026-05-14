@@ -8,7 +8,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://laraveles.es',
+  site: 'https://www.laraveles.es',
   trailingSlash: 'always',
   integrations: [
     mdx(),
